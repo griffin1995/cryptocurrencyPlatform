@@ -26,7 +26,9 @@ mongoose
   .then(() => {
     // listen for requests
     app.listen(process.env.PORT, () => {
-      console.log("Success. Connected to the database.\nSuccess. Listening on port 4000.");
+      console.log(
+        "Success. Connected to the database.\nSuccess. Listening on port 4000."
+      );
     });
   })
   //else
