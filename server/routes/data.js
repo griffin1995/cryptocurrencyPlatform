@@ -1,53 +1,41 @@
-// Import the express module to use its functionalities for creating a server and defining routes.
+// Import Express for server and routing functionality.
 const express = require("express");
-// Import the Coin model, which we'll use to interact with the 'coins' collection in the database.
+// Import the Coin model for database interactions with the 'coins' collection.
 const Coin = require("../models/coinModel");
 
-// Create a new Express router to handle requests related to 'coins'.
+// Create an Express router to handle 'coins' related requests.
 const router = express.Router();
 
-// Define a GET route for fetching all coin data.
+// GET route for retrieving all coins. Actual implementation will query the database.
 router.get("/", (request, response) => {
-  // This is a placeholder response. In a real app, you would query the database here.
-  response.json({ mssg: "GET all data" });
+  response.json({ mssg: "GET all data" }); // Placeholder response.
 });
 
-// Define a GET route for fetching a single coin by its ID.
+// GET route for a single coin by ID. Implementation will find the coin in the database.
 router.get("/:id", (request, response) => {
-  // This is a placeholder response. You would typically find a coin by its ID here.
-  response.json({ mssg: "GET single data" });
+  response.json({ mssg: "GET single data" }); // Placeholder response.
 });
 
-// Route to create a new coin entry in the database.
+// POST route to add a new coin. Extracts data from request, creates and saves the coin.
 router.post("/", async (request, response) => {
-  // Extract 'title' and 'value' from the incoming request's body.
-  const { title, value } = request.body;
-
+  const { title, value } = request.body; // Extract 'title' and 'value' from request.
   try {
-    // Create a new coin using the Coin model. Pass in an object with 'title' and 'value'.
-    // The 'Coin.create' method automatically saves the new document to the database.
-    const coin = await Coin.create({ title, value });
-
-    // If the coin is successfully created and saved, send it back in the response with a 200 OK status.
-    response.status(200).json(coin);
+    const coin = await Coin.create({ title, value }); // Create and save new coin.
+    response.status(200).json(coin); // Send back the new coin with 200 OK.
   } catch (error) {
-    // If an error occurs (e.g., a required field is missing or a database error), catch it
-    // and send back an error message with a 400 Bad Request status.
-    response.status(400).json({ error: error.message });
+    response.status(400).json({ error: error.message }); // Handle errors, send 400 Bad Request.
   }
 });
 
-// Define a DELETE route for removing a coin by its ID.
+// DELETE route for removing a coin by ID. Actual implementation deletes the coin.
 router.delete("/:id", (request, response) => {
-  // Placeholder response. You'd typically delete a coin by its ID here.
-  response.json({ mssg: "DELETE data" });
+  response.json({ mssg: "DELETE data" }); // Placeholder response.
 });
 
-// Define a PATCH route for partially updating a coin's information by its ID.
+// PATCH route for updating a coin by ID. Implementation will apply partial updates.
 router.patch("/:id", (request, response) => {
-  // Placeholder response. Actual update logic would go here.
-  response.json({ mssg: "UPDATE data" });
+  response.json({ mssg: "UPDATE data" }); // Placeholder response.
 });
 
-// Export the router so it can be used in the main server file, linking these routes under a specific path.
+// Export the router for use in the main server file, associating these routes with a path.
 module.exports = router;
