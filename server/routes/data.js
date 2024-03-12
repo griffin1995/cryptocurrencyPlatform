@@ -18,9 +18,9 @@ router.get("/:id", (request, response) => {
 
 // POST route to add a new coin. Extracts data from request, creates and saves the coin.
 router.post("/", async (request, response) => {
-  const { title, value } = request.body; // Extract 'title' and 'value' from request.
+  const { name, value } = request.body; // Extract 'title' and 'value' from request.
   try {
-    const coin = await Coin.create({ title, value }); // Create and save new coin.
+    const coin = await Coin.create({ name, value }); // Create and save new coin.
     response.status(200).json(coin); // Send back the new coin with 200 OK.
   } catch (error) {
     response.status(400).json({ error: error.message }); // Handle errors, send 400 Bad Request.
