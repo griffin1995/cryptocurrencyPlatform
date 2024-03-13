@@ -18,7 +18,10 @@ const createCoin = async (request, response) => {
 };
 
 // Placeholder for a function to retrieve all coins from the database.
-// const getAllCoins = async (request, response) => {};
+const getAllCoins = async (request, response) => {
+  const coins = await Coin.find({}).sort({ createdAt: -1 });
+  response.status(200).json(coins)
+};
 
 // Placeholder for a function to retrieve a single coin by its ID.
 // const getCoin = async (request, response) => {};
@@ -32,4 +35,5 @@ const createCoin = async (request, response) => {
 // By exporting `createCoin`, we make it available for import using `require` in other parts of our application.
 module.exports = {
   createCoin,
+  getAllCoins,
 };
