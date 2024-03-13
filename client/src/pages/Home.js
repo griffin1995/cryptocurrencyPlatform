@@ -5,7 +5,7 @@ const Home = () => {
   useEffect(() => {
     //we dont want useEffect to be async so we create function inside that does it
     const fetchCoins = async () => {
-      const response = await fetch("http://localhost:4000/api/coins");
+      const response = await fetch("http://localhost:4000/api/coin");
       const json = await response.json();
 
       if (response.ok) {
@@ -15,10 +15,11 @@ const Home = () => {
     fetchCoins();
   }, []);
 
-  
   return (
     <div className="home">
-      <h2>Home</h2>
+      <div class="coins">
+        {coins && coins.map((coin) => <p key={coin._id}>{coin.name}</p>)}
+      </div>
     </div>
   );
 };

@@ -22,7 +22,7 @@ app.use((request, response, next) => {
 
 // API Routes
 // Serve data-related routes under the '/api/coin' base path.
-app.use("/api/coin", coinRoutes);
+app.use("/api/coins", coinRoutes);
 
 // Database Connection
 // Connect to MongoDB with the URI from .env, then start server if successful.
