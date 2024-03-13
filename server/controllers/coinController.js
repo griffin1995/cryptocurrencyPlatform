@@ -45,9 +45,39 @@ const getCoin = async (request, response) => {
   response.status(200).json(coin); // If a coin is found, respond with it.
 };
 
+const deleteCoin = async (request, response) => {
+  const { id } = request.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return response.status(404).json({ error: "Invalid ID for coin (Delete)" });
+  }
+  const coin = await Coin.findOneAndDelete({ _id: id });
+  if (!coin) {
+    return response.status(404).json({ error: "Couldn't find the coin" });
+  }
+
+  response.status(200).json({ coin });
+};
+
+const updateCoin = async (request, response) => {
+  const { id } = request.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return response.status(404).json({ error: "Invalid ID for coin (Delete)" });
+  }
+
+  const coin = await Coin.findOneAndUpdate({ _id: id }, { ...req.body });
+
+  if (!coin) {
+    return response.status(404).json({ error: "Couldn't find the coin" });
+  }
+
+  response.status(200).json(coin);
+};
 // Exports the functions for use in other parts of the application, making them accessible for routing.
 module.exports = {
   createCoin,
   getAllCoins,
   getCoin,
+  deleteCoin,
+  updateCoin,
 };
