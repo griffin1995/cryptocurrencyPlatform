@@ -6,7 +6,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 // Routes for handling data-related requests, organized by functionality.
-const coinRoutes = require("./routes/coin");
+const coinRoutes = require("./routes/coins");
 
 // Initialize Express app.
 const app = express();
