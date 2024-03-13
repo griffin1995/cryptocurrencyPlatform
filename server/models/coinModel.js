@@ -7,7 +7,9 @@ const Schema = mongoose.Schema; // Extract Schema constructor to define data str
 const coinSchema = new Schema(
   {
     name: { type: String, required: true }, // 'name': Required string, each coin document must have a name.
-    value: { type: Number, required: true }, // 'value': Required number, represents the coin's value.
+    address: { type: Number, required: true }, // 'value': Required number, represents the coin's value.
+    publicKey: { type: Number, required: true },
+    currentPrice: { type: Number, required: true },
   },
   {
     timestamps: true, // Enables automatic creation of 'createdAt' and 'updatedAt' fields.
