@@ -5,10 +5,10 @@ const mongoose = require("mongoose");
 
 // Creates a new coin entry in the database from request data.
 const createCoin = async (request, response) => {
-  const { name, value } = request.body; // Extracts 'name' and 'value' from the request.
+  const { name, currentPrice } = request.body; // Extracts 'name' and 'currentPrice' from the request.
 
   try {
-    const coin = await Coin.create({ name, value }); // Saves new coin to the database.
+    const coin = await Coin.create({ name, currentPrice }); // Saves new coin to the database.
     response.status(200).json(coin); // Responds with the created coin if successful.
   } catch (error) {
     response.status(400).json({ error: error.message }); // Handles and responds to errors.
