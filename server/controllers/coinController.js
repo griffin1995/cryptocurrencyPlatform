@@ -1,6 +1,6 @@
 // Import the Coin model to enable interactions with the 'coins' collection in the database.
 const Coin = require("../models/coinModel");
-
+const mongoose = require("mongoose");
 // Function to create a new coin entry in the database.
 const createCoin = async (request, response) => {
   // Extract 'name' and 'value' from the request body.
@@ -26,6 +26,10 @@ const getAllCoins = async (request, response) => {
 // Placeholder for a function to retrieve a single coin by its ID.
 const getCoin = async (request, response) => {
   const { id } = request.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return response.status(404).json({ error: "Can't find the coin" });
+  }
   const coin = await Coin.findById(id);
 
   if (!coin) {
@@ -45,5 +49,5 @@ const getCoin = async (request, response) => {
 module.exports = {
   createCoin,
   getAllCoins,
-  getCoin
+  getCoin,
 };
