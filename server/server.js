@@ -6,7 +6,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 // Routes for handling data-related requests, organized by functionality.
-const dataRoutes = require("./routes/data");
+const coinRoutes = require("./routes/coin");
 
 // Initialize Express app.
 const app = express();
@@ -21,8 +21,8 @@ app.use((request, response, next) => {
 });
 
 // API Routes
-// Serve data-related routes under the '/api/data' base path.
-app.use("/api/data", dataRoutes);
+// Serve data-related routes under the '/api/coin' base path.
+app.use("/api/coin", coinRoutes);
 
 // Database Connection
 // Connect to MongoDB with the URI from .env, then start server if successful.

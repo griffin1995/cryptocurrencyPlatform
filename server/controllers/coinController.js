@@ -20,11 +20,20 @@ const createCoin = async (request, response) => {
 // Placeholder for a function to retrieve all coins from the database.
 const getAllCoins = async (request, response) => {
   const coins = await Coin.find({}).sort({ createdAt: -1 });
-  response.status(200).json(coins)
+  response.status(200).json(coins);
 };
 
 // Placeholder for a function to retrieve a single coin by its ID.
-// const getCoin = async (request, response) => {};
+const getCoin = async (request, response) => {
+  const { id } = request.params;
+  const coin = await Coin.findById(id);
+
+  if (!coin) {
+    return response.status(404).json({ error: "Can't find the coin" });
+  }
+
+  response.status(200).json(coin);
+};
 
 // Placeholder for a function to delete a coin by its ID.
 // const deleteCoin = async (request, response) => {};
@@ -36,4 +45,5 @@ const getAllCoins = async (request, response) => {
 module.exports = {
   createCoin,
   getAllCoins,
+  getCoin
 };
