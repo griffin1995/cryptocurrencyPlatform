@@ -1,5 +1,7 @@
 // Define the CoinDetails component that receives a 'coin' object as a prop.
 const CoinDetails = ({ coin }) => {
+  const updatedAt = new Date(coin.updatedAt);
+  const dateString = `${updatedAt.toLocaleDateString()} ${updatedAt.toLocaleTimeString()}`;
   return (
     // Container div for the coin details. Each coin's details will be displayed in this structured format.
     <div className="coin-details">
@@ -11,7 +13,7 @@ const CoinDetails = ({ coin }) => {
       <p>
         <strong>Updated at: </strong>{" "}
         {/* Label for the coin's last updated timestamp. */}
-        {coin.updatedAt}{" "}
+        {dateString}
         {/* Display the timestamp of when the coin was last updated. */}
       </p>
     </div>
