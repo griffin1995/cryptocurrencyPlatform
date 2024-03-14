@@ -10,7 +10,7 @@ const Navbar = () => {
         {/* Link component used for navigation. Here, it navigates to the home page ("/"). */}
         <Link to="/">
           {/* The clickable title inside the Link. Clicking this text navigates users to the home page. */}
-          <h1>CryptoIQ or whatever it was</h1>
+          <h1>CryptIQ</h1>
         </Link>{" "}
       </div>
     </header>

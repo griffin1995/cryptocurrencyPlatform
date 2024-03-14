@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 // Import the CoinDetails component to display individual coin details.
 import CoinDetails from "../components/CoinDetails";
+import SignUpForm from "../components/signUpForm";
 
 const Home = () => {
   // Define state 'coins' to store fetched data, initially set to null.
@@ -25,10 +26,10 @@ const Home = () => {
     <div className="home">
       <div className="coins">
         {/* Conditionally render coins data if available. */}
-        {coins && coins.map((coin) => (
-          <CoinDetails key={coin._id} coin={coin} />
-        ))}
+        {coins &&
+          coins.map((coin) => <CoinDetails key={coin._id} coin={coin} />)}
       </div>
+      <SignUpForm />
     </div>
   );
 };
