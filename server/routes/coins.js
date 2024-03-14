@@ -1,7 +1,7 @@
-// Import Express for building the server and defining API routes.
+// Import the Express framework to utilize its routing capabilities.
 const express = require("express");
 
-// Import controller functions for handling CRUD operations on coins.
+// Import CRUD operation handlers for coins from the coinController module.
 const {
   createCoin,
   getAllCoins,
@@ -10,23 +10,23 @@ const {
   updateCoin,
 } = require("../controllers/coinController");
 
-// Initialize an Express router to define routes for handling requests related to 'coins'.
+// Initialize a new Express router to define and manage API routes under a common path (e.g., '/api/coins').
 const router = express.Router();
 
-// Route for retrieving all coins. Uses the 'getAllCoins' controller to handle the request.
+// Define a route for fetching all coins. When a GET request is made to '/api/coins', it triggers the getAllCoins function.
 router.get("/", getAllCoins);
 
-// Route for retrieving a single coin by ID. Uses the 'getCoin' controller to handle the request.
+// Define a route for fetching a single coin by ID. The getCoin function is triggered by a GET request to '/api/coins/:id'.
 router.get("/:id", getCoin);
 
-// Route for adding a new coin. Uses the 'createCoin' controller to handle the request.
+// Define a route for creating a new coin. The createCoin function handles POST requests to '/api/coins', using the request body to create a coin.
 router.post("/", createCoin);
 
-// Route for removing a coin by ID. Uses the 'deleteCoin' controller to handle the request.
+// Define a route for deleting a coin by ID. DELETE requests to '/api/coins/:id' trigger the deleteCoin function to remove the specified coin.
 router.delete("/:id", deleteCoin);
 
-// Route for updating a coin by ID. Uses the 'updateCoin' controller to handle the request.
+// Define a route for partially updating a coin's details. PATCH requests to '/api/coins/:id' are handled by the updateCoin function for partial updates.
 router.patch("/:id", updateCoin);
 
-// Export the router to integrate it into the Express application.
+// Export the router so it can be integrated into the main server setup, making the routes available as part of the application's API.
 module.exports = router;

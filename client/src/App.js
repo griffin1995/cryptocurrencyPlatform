@@ -1,21 +1,25 @@
-// Import necessary components from react-router-dom to handle routing.
+// Import necessary components from react-router-dom to manage routing within the application.
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// Import the Home page and Navbar components to be used in the routing setup.
+// Import the Home component to be used as the main page of the application.
 import Home from "./pages/Home";
+// Import the Navbar component to provide a consistent navigation bar across all views.
 import Navbar from "./components/Navbar";
 
+/**
+ * The App component acts as the root component of the application, wrapping all other components.
+ */
 function App() {
   return (
-    // Encapsulates the entire application within a BrowserRouter to enable client-side routing.
+    // Use BrowserRouter to enable client-side routing throughout the application.
     <div className="App">
       <BrowserRouter>
-        {/* Navbar component placed outside the Routes to ensure it's always visible, regardless of the route. */}
+        {/* Render the Navbar component to be displayed across all routes for consistent navigation. */}
         <Navbar />
-        {/* Container for the page content, allowing for easy styling and layout management. */}
+        {/* Wrap the routed pages in a div for consistent styling or layout. */}
         <div className="pages">
-          {/* Defines the routing structure for the application. */}
+          {/* Routes component manages the mapping between URL paths and the components that should be rendered. */}
           <Routes>
-            {/* Route definition for the root path. Renders the Home component when the URL matches '/'. */}
+            {/* Define a Route for the root path ('/'). It specifies that the Home component should be rendered when the path matches exactly '/'. */}
             <Route path="/" element={<Home />} />
           </Routes>
         </div>
@@ -24,5 +28,5 @@ function App() {
   );
 }
 
-// Makes the App component available for import in other files.
+// Export the App component so it can be used as the entry point for the React application.
 export default App;

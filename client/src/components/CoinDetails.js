@@ -1,24 +1,36 @@
-// Define the CoinDetails component that receives a 'coin' object as a prop.
+// Import React from the 'react' package to enable component creation and JSX support.
+import React from "react";
+
+/**
+ * The CoinDetails component displays detailed information about a cryptocurrency coin.
+ *
+ * Props:
+ *  - coin: An object containing details about the coin, including its name, value, and last update timestamp.
+ */
 const CoinDetails = ({ coin }) => {
+  // Convert the 'updatedAt' property of the coin object from a string to a Date object.
   const updatedAt = new Date(coin.updatedAt);
+  // Format the 'updatedAt' Date object into a more readable string format, combining date and time.
   const dateString = `${updatedAt.toLocaleDateString()} ${updatedAt.toLocaleTimeString()}`;
+
+  // Render the details of the coin in a structured layout.
   return (
-    // Container div for the coin details. Each coin's details will be displayed in this structured format.
     <div className="coin-details">
-      <h4>{coin.name}</h4> {/* Display the coin's name. */}
+      {/* The coin's name is displayed in a larger font size as a heading. */}
+      <h4>{coin.name}</h4>
+      {/* Display the coin's current value with a label. */}
       <p>
-        <strong>Value: </strong> {/* Label for the coin's value. */}
-        {coin.value} {/* Display the coin's value. */}
+        <strong>Value: </strong>
+        {coin.value}
       </p>
+      {/* Show the last updated date and time for the coin's information. */}
       <p>
-        <strong>Updated at: </strong>{" "}
-        {/* Label for the coin's last updated timestamp. */}
+        <strong>Updated at: </strong>
         {dateString}
-        {/* Display the timestamp of when the coin was last updated. */}
       </p>
     </div>
   );
 };
 
-// Export the CoinDetails component for use in other parts of the application, such as in the Home component.
+// Export the CoinDetails component to allow its use in other parts of the application.
 export default CoinDetails;

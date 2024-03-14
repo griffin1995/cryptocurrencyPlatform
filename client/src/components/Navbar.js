@@ -1,21 +1,25 @@
-// Import the Link component from react-router-dom for client-side navigation.
+// Import the Link component from react-router-dom to enable client-side navigation between routes.
 import { Link } from "react-router-dom";
 
+/**
+ * Navbar component for the application.
+ * Provides a top-level navigation element, allowing users to navigate through the app without full page reloads.
+ */
 const Navbar = () => {
   return (
-    // Defines the navigation bar area.
+    // Semantically marks the navigation area of the application.
     <header>
-      {/* Wraps navigation elements in a div for styling and layout purposes. */}
+      {/* Container div for styling purposes, often used to limit content width or center content horizontally. */}
       <div className="container">
-        {/* Link component used for navigation. Here, it navigates to the home page ("/"). */}
+        {/* The Link component is used here for client-side routing to the application's home page ("/"). */}
         <Link to="/">
-          {/* The clickable title inside the Link. Clicking this text navigates users to the home page. */}
+          {/* The site's title or logo inside the Link; clicking it navigates the user to the home page. */}
           <h1>CryptIQ</h1>
-        </Link>{" "}
+        </Link>
       </div>
     </header>
   );
 };
 
-// Exports the Navbar component for use in other parts of the application.
+// Export the Navbar component to make it available for use in other parts of the application.
 export default Navbar;

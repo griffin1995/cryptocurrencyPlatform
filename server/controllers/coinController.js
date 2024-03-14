@@ -1,79 +1,107 @@
-// Imports the Coin model for database interactions with the 'coins' collection.
+// Import the Coin model to interact with the 'coins' collection in the MongoDB database.
 const Coin = require("../models/coinModel");
-// Imports mongoose to work with MongoDB and utilize its utilities, such as ID validation.
+// Import Mongoose for MongoDB interaction, specifically to validate MongoDB ObjectIds.
 const mongoose = require("mongoose");
 
-// Creates a new coin entry in the database from request data.
+/**
+ * Asynchronously creates a new coin document in the database.
+ *
+ * @param {Object} request - The HTTP request object containing the coin data.
+ * @param {Object} response - The HTTP response object for sending back the created coin or an error message.
+ */
 const createCoin = async (request, response) => {
-  const { name, currentPrice } = request.body; // Extracts 'name' and 'currentPrice' from the request.
+  const { name, currentPrice } = request.body;
 
   try {
-    const coin = await Coin.create({ name, currentPrice }); // Saves new coin to the database.
-    response.status(200).json(coin); // Responds with the created coin if successful.
+    const coin = await Coin.create({ name, currentPrice });
+    response.status(200).json(coin);
   } catch (error) {
-    response.status(400).json({ error: error.message }); // Handles and responds to errors.
+    response.status(400).json({ error: error.message });
   }
 };
 
-// Retrieves all coins from the database, sorted by their creation date.
+/**
+ * Asynchronously retrieves all coins from the database, sorted by creation date in descending order.
+ *
+ * @param {Object} request - The HTTP request object.
+ * @param {Object} response - The HTTP response object for sending back the list of coins or an error message.
+ */
 const getAllCoins = async (request, response) => {
-  const coins = await Coin.find({}).sort({ createdAt: -1 }); // Fetches and sorts coins.
-  response.status(200).json(coins); // Responds with the list of all coins.
+  const coins = await Coin.find({}).sort({ createdAt: -1 });
+  response.status(200).json(coins);
 };
 
-// Retrieves a specific coin by its ID.
+/**
+ * Asynchronously retrieves a single coin by its unique ID.
+ *
+ * @param {Object} request - The HTTP request object, including the coin's ID in the URL parameters.
+ * @param {Object} response - The HTTP response object for sending back the found coin or an error message.
+ */
 const getCoin = async (request, response) => {
-  const { id } = request.params; // Extracts the coin's ID from the request.
+  const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(404).json({ error: "Invalid id check for coin" }); // Validates the ID.
+    return response.status(404).json({ error: "Invalid id check for coin" });
   }
-  const coin = await Coin.findById(id); // Finds the coin by ID.
+
+  const coin = await Coin.findById(id);
 
   if (!coin) {
-    return response.status(404).json({ error: "Can't find the coin" }); // Handles coin not found.
+    return response.status(404).json({ error: "Can't find the coin" });
   }
 
-  response.status(200).json(coin); // Responds with the found coin.
+  response.status(200).json(coin);
 };
 
-// Deletes a coin by its ID from the database.
+/**
+ * Asynchronously deletes a coin from the database using its unique ID.
+ *
+ * @param {Object} request - The HTTP request object, including the coin's ID.
+ * @param {Object} response - The HTTP response object for confirming deletion or reporting errors.
+ */
 const deleteCoin = async (request, response) => {
   const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(404).json({ error: "Invalid ID for coin (Delete)" }); // Validates the ID.
+    return response.status(404).json({ error: "Invalid ID for coin (Delete)" });
   }
-  const coin = await Coin.findOneAndDelete({ _id: id }); // Attempts to find and delete the coin.
+
+  const coin = await Coin.findOneAndDelete({ _id: id });
 
   if (!coin) {
-    return response.status(404).json({ error: "Couldn't find the coin" }); // Handles coin not found.
+    return response.status(404).json({ error: "Couldn't find the coin" });
   }
 
-  response.status(200).json({ coin }); // Responds with the deleted coin.
+  response.status(200).json(coin);
 };
 
-// Updates a coin's information by its ID.
+/**
+ * Asynchronously updates a coin's details in the database using its unique ID.
+ *
+ * @param {Object} request - The HTTP request object, including the coin's ID and the new data for update.
+ * @param {Object} response - The HTTP response object for sending back the updated coin or an error message.
+ */
 const updateCoin = async (request, response) => {
   const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(404).json({ error: "Invalid ID for coin (Update)" }); // Validates the ID.
+    return response.status(404).json({ error: "Invalid ID for coin (Update)" });
   }
+
   const coin = await Coin.findOneAndUpdate(
     { _id: id },
     { ...request.body },
-    { new: true }
-  ); // Finds and updates the coin.
+    { new: true } // Option to return the updated document.
+  );
 
   if (!coin) {
-    return response.status(404).json({ error: "Couldn't find the coin" }); // Handles coin not found.
+    return response.status(404).json({ error: "Couldn't find the coin" });
   }
 
-  response.status(200).json(coin); // Responds with the updated coin.
+  response.status(200).json(coin);
 };
 
-// Exports functions for routing use, enabling CRUD operations on coins.
+// Export the controller functions to make them accessible to the router for handling API requests.
 module.exports = {
   createCoin,
   getAllCoins,
