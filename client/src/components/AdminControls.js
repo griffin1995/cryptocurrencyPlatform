@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-const SignUpForm = () => {
+const AdminControls = () => {
   // State hooks for each variable
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,18 +28,27 @@ const SignUpForm = () => {
     });
 
     const json = await response.json();
-
     if (!response.ok) {
       setError(json.error);
-    }
-    if (response.ok) {
+      setSuccess(null); // Clear success message if there's an error
+    } else {
       setError(null);
-      console.log("New user signed up");
+      // Set the success message, including details of the signed-up user
+      setSuccess(
+        `Success! ${firstName} ${lastName} has been signed up with the email: ${email}.`
+      );
+      // Clear form fields after successful submission
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPhoneNumber("");
+      setPassword("");
+      setPaymentDetails(false);
     }
   };
   return (
     <form className="signUp" onSubmit={handleSubmit}>
-      <h3>Sign Up</h3>
+      <h3>Create a new user</h3>
 
       {/* First Name Input */}
       <label>First Name:</label>
@@ -82,8 +92,9 @@ const SignUpForm = () => {
 
       <button>Sign Up</button>
       {error && <div className="error">{error}</div>}
+      {success && <div className="success">{success}</div>}
     </form>
   );
 };
 
-export default SignUpForm;
+export default AdminControls;
