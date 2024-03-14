@@ -8,7 +8,7 @@ const {
   getUser,
   deleteUser,
   updateUser,
-} = require("../controllers/userController");
+} = require("../controllers/adminController");
 
 
 

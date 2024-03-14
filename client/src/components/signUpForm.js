@@ -20,7 +20,7 @@ const SignUpForm = () => {
       paymentDetails,
     };
 
-    const response = await fetch("/api/users", {
+    const response = await fetch("/api/adminRoutes", {
       method: "POST",
       body: JSON.stringify(user),
       headers: { "Content-Type": "application/json" },

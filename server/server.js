@@ -26,8 +26,8 @@ app.use((request, response, next) => {
 // API Routes
 // Serve data-related routes under the '/api/coin' base path.
 app.use("/api/coins", coinRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/admins",adminRoutes)
+app.use("/api/userRoutes", userRoutes);
+app.use("/api/adminRoutes",adminRoutes)
 
 // Database Connection
 // Connect to MongoDB with the URI from .env, then start server if successful.

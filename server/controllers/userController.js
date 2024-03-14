@@ -3,10 +3,9 @@ const User = require("../models/userModel");
 // Imports mongoose to work with MongoDB and utilize its utilities, such as ID validation.
 const mongoose = require("mongoose");
 
-// Creates a new user entry in the database from request data.
-const createUser = async (request, response) => {
-  const { firstName, lastName, email, phoneNumber, password, paymentDetails } =
-    request.body;
+// Registers a new user
+const register = async (request, response) => {
+  const { firstName, lastName, email, phoneNumber, password, paymentDetails } = request.body;
 
   try {
     const user = await User.create({
@@ -23,19 +22,19 @@ const createUser = async (request, response) => {
   }
 };
 
-// Retrieves all users from the database, sorted by their creation date.
-const getAllUsers = async (request, response) => {
-  const users = await User.find({}).sort({ createdAt: -1 });
-  response.status(200).json(users);
+// User login
+const login = async (request, response) => {
+  response.status(200).json({ message: "Login functionality." });
 };
 
-// Retrieves a specific user by their ID.
-const getUser = async (request, response) => {
-  const { id } = request.params;
+// Retrieves the currently authenticated user's profile.
+const getUserProfile = async (request, response) => {
+  const { id } = request.params; 
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(404).json({ error: "Invalid id check for user" });
+    return response.status(404).json({ error: "Invalid id for user profile retrieval" });
   }
+
   const user = await User.findById(id);
 
   if (!user) {
@@ -45,29 +44,14 @@ const getUser = async (request, response) => {
   response.status(200).json(user);
 };
 
-// Deletes a user by their ID from the database.
-const deleteUser = async (request, response) => {
+// Updates the currently authenticated user's profile.
+const updateUserProfile = async (request, response) => {
   const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(404).json({ error: "Invalid ID for user (Delete)" });
-  }
-  const user = await User.findOneAndDelete({ _id: id });
-
-  if (!user) {
-    return response.status(404).json({ error: "Couldn't find the user" });
+    return response.status(404).json({ error: "Invalid ID for user profile update" });
   }
 
-  response.status(200).json(user); // Responds with the deleted user (for privacy, consider just confirming deletion).
-};
-
-// Updates a user's information by their ID.
-const updateUser = async (request, response) => {
-  const { id } = request.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(404).json({ error: "Invalid ID for user (Update)" });
-  }
   const user = await User.findOneAndUpdate(
     { _id: id },
     { ...request.body },
@@ -75,17 +59,15 @@ const updateUser = async (request, response) => {
   );
 
   if (!user) {
-    return response.status(404).json({ error: "Couldn't find the user" });
+    return response.status(404).json({ error: "Couldn't find the user to update" });
   }
 
-  response.status(200).json(user); // Responds with the updated user.
+  response.status(200).json(user); // Responds with the updated user profile.
 };
 
-// Exports functions for routing use, enabling CRUD operations on users.
 module.exports = {
-  createUser,
-  getAllUsers,
-  getUser,
-  deleteUser,
-  updateUser,
+  register,
+  login,
+  getUserProfile,
+  updateUserProfile,
 };

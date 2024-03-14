@@ -19,11 +19,9 @@ router.post('/register', register);
 router.post('/login', login);
 
 // Route for retrieving the currently authenticated user's profile.
-// Consider using authentication middleware here to ensure the user is logged in.
 router.get('/profile', getUserProfile);
 
 // Route for updating the currently authenticated user's profile.
-// Consider using authentication middleware here to ensure the user is logged in.
 router.patch('/profile', updateUserProfile);
 
 // Export the router to integrate it into the Express application.
