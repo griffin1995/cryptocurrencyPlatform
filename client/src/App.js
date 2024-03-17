@@ -1,17 +1,20 @@
 // Import necessary components from react-router-dom to manage routing within the application.
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+// Imports React Components
+import Container from 'react-bootstrap/Container'
 // Import the Home component to be used as the main page of the application.
 import Home from "./pages/Home";
 // Import the Navbar component to provide a consistent navigation bar across all views.
-import Navbar from "./components/Navbar";
-
+// import Navbar from "./components/Navbar";
+import Navbar from "./components/NavigationBar";
+import "react-bootstrap"
 /**
  * The App component acts as the root component of the application, wrapping all other components.
  */
 function App() {
   return (
     // Use BrowserRouter to enable client-side routing throughout the application.
-    <div className="App">
+    <Container fluid className="App">
       <BrowserRouter>
         {/* Render the Navbar component to be displayed across all routes for consistent navigation. */}
         <Navbar />
@@ -24,7 +27,7 @@ function App() {
           </Routes>
         </div>
       </BrowserRouter>
-    </div>
+    </Container>
   );
 }
 

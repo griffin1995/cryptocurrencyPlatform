@@ -3,7 +3,10 @@ import React from "react";
 // Import ReactDOM for DOM-related rendering methods.
 import ReactDOM from "react-dom/client";
 // Import global CSS styles for the application.
-import "./index.css";
+import "./index.scss";
+
+import "./reactCustom.scss"
+
 // Import the main App component to be rendered.
 import App from "./App";
 

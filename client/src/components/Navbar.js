@@ -1,6 +1,6 @@
 // Import the Link component from react-router-dom to enable client-side navigation between routes.
 import { Link } from "react-router-dom";
-
+import Nav from 'react-bootstrap/Nav';
 /**
  * Navbar component for the application.
  * Provides a top-level navigation element, allowing users to navigate through the app without full page reloads.

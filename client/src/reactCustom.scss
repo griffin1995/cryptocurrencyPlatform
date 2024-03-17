@@ -1,0 +1,8 @@
+//Custom React SASS styling sheet for defining colours, importing Bootstrap SASS, styling React-Bootstrap Components
+$primary: #003459;
+$secondary: #007ea7;
+$success: #00a7e1;
+$dark: #00171f;
+$light: #ffffff;
+
+@import "~bootstrap/scss/bootstrap.scss";
