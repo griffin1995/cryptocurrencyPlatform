@@ -4,7 +4,10 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-
+/**
+ * Navbar component for the application.
+ * Provides a top-level navigation element, allowing users to navigate through the app without full page reloads.
+ */
 export default function NavigationBar() {
   return (
     <Row>

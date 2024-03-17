@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 // Import global CSS styles for the application.
 import "./index.scss";
-
+// Import custom Bootstrap Styling
 import "./reactCustom.scss"
 
 // Import the main App component to be rendered.
