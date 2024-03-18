@@ -8,6 +8,17 @@
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+hr {
+  margin-top: 0.2rem !important;
+  margin-bottom: 1rem !important;
+  border: none !important;
+  height: 4px; /* Adjust height as needed */
+  background-color: #00a7e1 !important;
+  &.active {
+    background-color: #FFFFFF !important; /* Change color to your desired color */
+  }
 }

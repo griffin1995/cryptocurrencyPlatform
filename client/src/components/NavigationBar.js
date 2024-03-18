@@ -13,19 +13,20 @@ import Logo from "../media/CryptiQ_White.png"
 export default function NavigationBar() {
   return (
     <Row>
-      <Navbar expand="lg" className="bg-primary">
+      <Navbar expand="lg" className="navbar-dark bg-primary">
         <Container>
-          <Navbar.Brand as={Link} to="/" className="text-white">
+          <Navbar.Brand as={Link} to="/">
             <Image fluid src={Logo} />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="justify-content-end flex-grow-1">
-              <Nav.Link as={Link} to="/" className="text-white">Home</Nav.Link>
-              <Nav.Link as={Link} to="/Markets" className="text-white">Markets</Nav.Link>
-              <Nav.Link as={Link} to="/Blog" className="text-white">Blog</Nav.Link>
-              <Nav.Link as={Link} to="/SignUp" className="text-white">Sign Up/Log In</Nav.Link>
-              <Nav.Link as={Link} to="/Support" className="text-white">Support</Nav.Link>
+              <Nav.Link as={Link} to="/">Home</Nav.Link>
+              <Nav.Link as={Link} to="/Markets">Markets</Nav.Link>
+              <Nav.Link as={Link} to="/Blog">Blog</Nav.Link>
+              <Nav.Link as={Link} to="/SignUp">Sign Up</Nav.Link>
+              <Nav.Link as={Link} to="/LogIn">Log In</Nav.Link>
+              <Nav.Link as={Link} to="/Support">Support</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

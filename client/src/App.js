@@ -4,8 +4,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Container from 'react-bootstrap/Container'
 // Import the Home component to be used as the main page of the application.
 import Home from "./pages/Home";
-// Import the Navbar component to provide a consistent navigation bar across all views.
-// import Navbar from "./components/Navbar";
+
+import SignUp from "./pages/SignUp"
+import LogIn from "./pages/LogIn"
+
+// import Navbar from "./components/NavigationBar";
 import Navbar from "./components/NavigationBar";
 import "react-bootstrap"
 /**
@@ -18,14 +21,13 @@ function App() {
       <BrowserRouter>
         {/* Render the Navbar component to be displayed across all routes for consistent navigation. */}
         <Navbar />
-        {/* Wrap the routed pages in a div for consistent styling or layout. */}
-        <div className="pages">
           {/* Routes component manages the mapping between URL paths and the components that should be rendered. */}
           <Routes>
             {/* Define a Route for the root path ('/'). It specifies that the Home component should be rendered when the path matches exactly '/'. */}
-            <Route path="/" element={<Home />} />
+            <Route exact path="/" element={<Home />} />
+            <Route path="/SignUp" element={<SignUp />} />
+            <Route path="/LogIn" element={<LogIn />} />
           </Routes>
-        </div>
       </BrowserRouter>
     </Container>
   );
