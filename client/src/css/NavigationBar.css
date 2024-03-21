@@ -1,29 +1,24 @@
 /* NavigationBar.css */
 
-/* Navbar container */
 .navbar {
-    padding: 10px 0; /* Adjust as needed */
+    padding: 10px 0;
   }
   
-  /* Navbar brand logo */
   .navbar-brand img {
-    height: auto; /* Ensure the logo adjusts its height */
-    max-height: 40px; /* Adjust as needed */
+    height: auto;
+    max-height: 40px;
   }
   
-  /* Navbar links */
   .nav-link {
-    color: white; /* Text color */
-    margin-right: 10px; /* Adjust spacing between links */
+    color: white;
+    margin-right: 10px;
   }
   
-  /* Navbar links on hover */
   .nav-link:hover {
-    color: lightgray; /* Text color on hover */
+    color: lightgray;
   }
-  
-  /* Navbar active link */
+
   .navbar-nav .active .nav-link {
-    color: lightblue; /* Text color of active link */
+    color: lightblue;
   }
   
