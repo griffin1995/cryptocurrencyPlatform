@@ -1,0 +1,29 @@
+/* NavigationBar.css */
+
+/* Navbar container */
+.navbar {
+    padding: 10px 0; /* Adjust as needed */
+  }
+  
+  /* Navbar brand logo */
+  .navbar-brand img {
+    height: auto; /* Ensure the logo adjusts its height */
+    max-height: 40px; /* Adjust as needed */
+  }
+  
+  /* Navbar links */
+  .nav-link {
+    color: white; /* Text color */
+    margin-right: 10px; /* Adjust spacing between links */
+  }
+  
+  /* Navbar links on hover */
+  .nav-link:hover {
+    color: lightgray; /* Text color on hover */
+  }
+  
+  /* Navbar active link */
+  .navbar-nav .active .nav-link {
+    color: lightblue; /* Text color of active link */
+  }
+  

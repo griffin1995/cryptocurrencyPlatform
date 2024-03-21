@@ -6,6 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 import Logo from "../media/CryptiQ_White.png";
+import "../css/NavigationBar.css";
 /**
  * Navbar component for the application.
  * Provides a top-level navigation element, allowing users to navigate through the app without full page reloads.
