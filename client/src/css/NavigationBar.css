@@ -1,24 +1,51 @@
 /* NavigationBar.css */
 
 .navbar {
-    padding: 10px 0;
-  }
-  
-  .navbar-brand img {
-    height: auto;
-    max-height: 40px;
-  }
-  
-  .nav-link {
-    color: white;
-    margin-right: 10px;
-  }
-  
-  .nav-link:hover {
-    color: lightgray;
-  }
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 40px;
+}
 
-  .navbar-nav .active .nav-link {
-    color: lightblue;
-  }
-  
+.navbar-left {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.navbar-logo {
+  flex: 1;
+}
+
+.navbar-links {
+  display: flex;
+  justify-content: space-between;
+  flex: 8;
+}
+
+.navbar-brand img {
+  height: auto;
+  max-height: 40px;
+}
+
+.navbar-link {
+  color: white;
+  margin-right: 10px;
+  position: relative;
+}
+
+.navbar-link:hover::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 0;
+  height: 2px;
+  background-color: #007EA7;
+}
+
+.navbar-right {
+  display: flex;
+  justify-content: space-between;
+  flex: 4;
+}

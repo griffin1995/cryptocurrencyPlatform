@@ -11,34 +11,40 @@ import "../css/NavigationBar.css";
  * Navbar component for the application.
  * Provides a top-level navigation element, allowing users to navigate through the app without full page reloads.
  */
+import "../css/NavigationBar.css";
+
 export default function NavigationBar() {
   return (
     <Row>
       <Navbar expand="lg" className="navbar-dark bg-primary">
         <Container>
-          <Navbar.Brand as={Link} to="/">
-            <Image fluid src={Logo} />
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="justify-content-end flex-grow-1">
-              <Nav.Link as={Link} to="/">
-                Home
-              </Nav.Link>
-              <Nav.Link as={Link} to="..pages/Markets.js">
-                Markets
-              </Nav.Link>
-              <Nav.Link as={Link} to="../pages/Blog.js">
-                Blog
-              </Nav.Link>
-              <Nav.Link as={Link} to="../pages/SignUp.js">
+          <div className="navbar-left">
+            <Navbar.Brand as={Link} to="/" className="navbar-logo">
+              <Image fluid src={Logo} />
+            </Navbar.Brand>
+            <div className="navbar-links">
+              <Nav.Link as={Link} to="../pages/SignUp.js" className="navbar-link">
                 Sign Up
               </Nav.Link>
-              <Nav.Link as={Link} to="../pages/LogIn.js">
+              <Nav.Link as={Link} to="../pages/LogIn.js" className="navbar-link">
                 Log In
               </Nav.Link>
-              <Nav.Link as={Link} to="/support">
-                Support
+            </div>
+          </div>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="justify-content-end flex-grow-1 navbar-right">
+              <Nav.Link as={Link} to="/" className="navbar-link">
+                Home
+              </Nav.Link>
+              <Nav.Link as={Link} to="..pages/Markets.js" className="navbar-link">
+                Markets
+              </Nav.Link>
+              <Nav.Link as={Link} to="/support" className="navbar-link">
+                Contact Us
+              </Nav.Link>
+              <Nav.Link as={Link} to="../pages/Blog.js" className="navbar-link">
+                Blog
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
