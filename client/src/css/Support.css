@@ -1,0 +1,73 @@
+/* Set the background color of the body */
+body {
+    background-color: #000; 
+}
+
+/* Create a grid container with two columns and a gap of 10px */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px; 
+}
+
+/* Style the FAQ section */
+.faq-section {
+    margin: 100px 0 0 50px;
+}
+
+/* Style the details element within the FAQ section */
+.faq-section details {
+    margin-bottom: 30px;
+    background: white; 
+    border-radius: 5px; 
+    padding: 10px; 
+    position: relative; 
+}
+
+/* Style the summary element within the FAQ section */
+.faq-section summary {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+    outline: none;
+    color: #007EA7;
+    list-style: none;
+    position: relative; 
+}
+
+/* Hide the default marker for the summary element */
+.faq-section summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Add an arrow icon after the summary element */
+.faq-section summary::after {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-image: url('../pages/svgs/arrow-down.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute; 
+    right: 10px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+}
+
+/* Style the summary element when the details element is open */
+.faq-section details[open] summary {
+    border-bottom: 1px solid lightgray; 
+}
+
+/* Change the arrow icon when the details element is open */
+.faq-section details[open] summary::after {
+    background-image: url('../pages/svgs/arrow-up.svg');
+}
+
+/* Style the paragraphs within the FAQ section */
+.faq-section p {
+    padding: 0 10px;
+    margin-top: 20px;
+}

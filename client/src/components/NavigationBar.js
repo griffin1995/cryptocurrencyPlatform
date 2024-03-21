@@ -37,7 +37,7 @@ export default function NavigationBar() {
               <Nav.Link as={Link} to="../pages/LogIn.js">
                 Log In
               </Nav.Link>
-              <Nav.Link as={Link} to="/Support">
+              <Nav.Link as={Link} to="/support">
                 Support
               </Nav.Link>
             </Nav>
