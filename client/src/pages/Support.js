@@ -27,10 +27,20 @@ const faqs = [
 
 const FAQ = () => {
     const [openIndex, setOpenIndex] = useState(null);
+    const [formData, setFormData] = useState({ name: '', surname: '', email: '', message: '' });
 
     const handleClick = (index, event) => {
         event.preventDefault();
         setOpenIndex(openIndex === index ? null : index);
+    };
+
+    const handleChange = (event) => {
+        setFormData({ ...formData, [event.target.name]: event.target.value });
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Handle form submission here
     };
 
     return (
@@ -42,6 +52,18 @@ const FAQ = () => {
                         <p>{faq.answer}</p>
                     </details>
                 ))}
+            </div>
+            <div className="contact-form">
+                <h1>Get In Touch.</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className="row">
+                        <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
+                        <input type="text" name="surname" placeholder="Surname" value={formData.surname} onChange={handleChange} required />
+                    </div>
+                    <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+                    <textarea name="message" placeholder="Message" value={formData.message} onChange={handleChange} required></textarea>
+                    <button type="submit">Send</button>
+                </form>
             </div>
         </div>
     );

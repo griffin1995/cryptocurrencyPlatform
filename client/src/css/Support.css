@@ -71,3 +71,60 @@ body {
     padding: 0 10px;
     margin-top: 20px;
 }
+
+
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 100px 0 0 0px;
+}
+
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+/* Support.css */
+
+.contact-form form input[type="text"],
+.contact-form form input[type="email"],
+.contact-form form textarea {
+    margin-bottom: 25px;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #000;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.contact-form form .row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%
+}
+
+.contact-form form .row input[type="text"] {
+    width: 49%; /* to account for the space-between */
+}
+
+.contact-form form textarea {
+    height: 200px; /* adjust as needed */
+}
+
+.contact-form form button {
+    padding: 10px;
+    background-color: #007EA7;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 400px;
+    overflow: hidden;
+    transition: all .2s ease-in-out;
+}
