@@ -25,16 +25,16 @@ export default function NavigationBar() {
               <Nav.Link as={Link} to="/">
                 Home
               </Nav.Link>
-              <Nav.Link as={Link} to="/Markets">
+              <Nav.Link as={Link} to="..pages/Markets.js">
                 Markets
               </Nav.Link>
-              <Nav.Link as={Link} to="/Blog">
+              <Nav.Link as={Link} to="../pages/Blog.js">
                 Blog
               </Nav.Link>
-              <Nav.Link as={Link} to="/SignUp">
+              <Nav.Link as={Link} to="../pages/SignUp.js">
                 Sign Up
               </Nav.Link>
-              <Nav.Link as={Link} to="/LogIn">
+              <Nav.Link as={Link} to="../pages/LogIn.js">
                 Log In
               </Nav.Link>
               <Nav.Link as={Link} to="/Support">
