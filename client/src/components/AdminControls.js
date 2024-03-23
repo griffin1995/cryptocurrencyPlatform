@@ -1,45 +1,42 @@
-// Import React to access component functionality.
-import React from "react";
-import { useEffect, useState } from "react";
-// Import the SignUpUser component to handle user registration.
+// Import React and its hooks to build the component functionality.
+import React, { useEffect, useState } from "react";
+// Import components related to user actions within the admin panel.
 import SignUpUser from "./SignUpUser";
 import UserDetails from "./UserDetails";
 
 /**
- * Defines the AdminControls component.
- * This component serves as a container for administrative functionalities, such as user registration.
+ * AdminControls component for managing user-related administrative functions.
+ * This component handles user registration and displays a list of users.
  */
 const AdminControls = () => {
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState(null); // State to store user data fetched from the API.
 
   useEffect(() => {
-    // Asynchronous function to fetch data for users from the API.
+    /**
+     * Fetches and updates the state with user data from the server.
+     * It asynchronously retrieves user data from the `/api/adminRoutes` endpoint and updates the `users` state.
+     */
     const fetchUsers = async () => {
       const response = await fetch("/api/adminRoutes");
       const json = await response.json();
-      // Update the 'users' state with the fetched data if the API call was successful.
       if (response.ok) {
-        setUsers(json);
+        setUsers(json); // Update state only if the API call was successful.
       }
     };
 
-    // Invoke the fetch operations for both coins and users when the component mounts.
-    fetchUsers();
+    fetchUsers(); // Execute the fetch operation when the component mounts.
   }, []);
-  // Render method returns the component's UI.
+
   return (
     <div className="admin-controls">
       <h2>Admin Controls</h2>
-      {/* The SignUpUser component is embedded within AdminControls to offer a sign-up interface.
-          This demonstrates the use of component composition in React, enabling modular and reusable UI construction. */}
-      <SignUpUser />
+      <SignUpUser /> {/* Component for registering new users. */}
       <div className="allUsers">
-        {users &&
-          users.map((user) => <UserDetails key={user._id} user={user} />)}
+        {/* Render UserDetails components for each user if the `users` state is not null. */}
+        {users && users.map((user) => <UserDetails key={user._id} user={user} />)}
       </div>
     </div>
   );
 };
 
-// Export the AdminControls component for use in other parts of the app.
-export default AdminControls;
+export default AdminControls; // Make AdminControls available for import in other components.
