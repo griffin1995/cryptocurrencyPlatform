@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 // Import child components to display details of coins, user details, and administrative functionalities.
 import CoinDetails from "../components/CoinDetails";
 import AdminControls from "../components/AdminControls";
-import UserDetails from "../components/UserDetails";
 
 /**
  * The Home component serves as the main view of the application.
@@ -13,7 +12,6 @@ import UserDetails from "../components/UserDetails";
 const Home = () => {
   // Initialize state variables for storing coins and users data, starting with null to indicate data is not yet loaded.
   const [coins, setCoins] = useState(null);
-  const [users, setUsers] = useState(null);
 
   useEffect(() => {
     // Asynchronous function to fetch data for coins from the API.
@@ -26,19 +24,8 @@ const Home = () => {
       }
     };
 
-    // Asynchronous function to fetch data for users from the API.
-    const fetchUsers = async () => {
-      const response = await fetch("/api/adminRoutes");
-      const json = await response.json();
-      // Update the 'users' state with the fetched data if the API call was successful.
-      if (response.ok) {
-        setUsers(json);
-      }
-    };
-
     // Invoke the fetch operations for both coins and users when the component mounts.
     fetchCoins();
-    fetchUsers();
   }, []); // An empty dependency array means this effect runs once on component mount.
 
   // Render the component UI, including lists of coins and users, and administrative controls.
@@ -52,10 +39,6 @@ const Home = () => {
       {/* Include the AdminControls component to provide additional functionalities for administrators. */}
       <AdminControls />
       {/* Display a list of users. Map through the users state to render a UserDetails component for each user, if data is available. */}
-      <div className="allUsers">
-        {users &&
-          users.map((user) => <UserDetails key={user._id} user={user} />)}
-      </div>
     </div>
   );
 };
