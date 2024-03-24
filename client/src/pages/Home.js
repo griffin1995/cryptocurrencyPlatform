@@ -1,47 +1,43 @@
-// Import useEffect and useState hooks from React for managing side effects and component state.
+// Import hooks from React for managing component lifecycle and state.
 import { useEffect, useState } from "react";
 
-// Import child components to display details of coins, user details, and administrative functionalities.
+// Import components for displaying coin details and administrative controls.
 import CoinDetails from "../components/CoinDetails";
 import AdminControls from "../components/AdminControls";
 
 /**
- * The Home component serves as the main view of the application.
- * It fetches and displays lists of coins and users, and includes administrative controls.
+ * Home component serving as the main view for the application.
+ * It handles fetching and displaying lists of coins, and provides administrative controls.
  */
 const Home = () => {
-  // Initialize state variables for storing coins and users data, starting with null to indicate data is not yet loaded.
+  // State to hold coins data; initially null to signify that data has not been loaded yet.
   const [coins, setCoins] = useState(null);
 
   useEffect(() => {
-    // Asynchronous function to fetch data for coins from the API.
+    /**
+     * Fetches coin data from the server asynchronously.
+     * Updates the coins state with the fetched data if the API call succeeds.
+     */
     const fetchCoins = async () => {
       const response = await fetch("/api/coins");
       const json = await response.json();
-      // Update the 'coins' state with the fetched data if the API call was successful.
       if (response.ok) {
-        setCoins(json);
+        setCoins(json); // Set the coins state to the fetched data.
       }
     };
 
-    // Invoke the fetch operations for both coins and users when the component mounts.
-    fetchCoins();
-  }, []); // An empty dependency array means this effect runs once on component mount.
+    fetchCoins(); // Executes the fetching of coin data on component mount.
+  }, []); // Empty dependency array ensures this effect runs only once after initial render.
 
-  // Render the component UI, including lists of coins and users, and administrative controls.
   return (
     <div className="home">
-      {/* Display a list of coins. Map through the coins state to render a CoinDetails component for each coin, if data is available. */}
       <div className="coins">
-        {coins &&
-          coins.map((coin) => <CoinDetails key={coin._id} coin={coin} />)}
+        {/* Conditionally render CoinDetails components for each coin if coins data is available. */}
+        {coins && coins.map((coin) => <CoinDetails key={coin._id} coin={coin} />)}
       </div>
-      {/* Include the AdminControls component to provide additional functionalities for administrators. */}
-      <AdminControls />
-      {/* Display a list of users. Map through the users state to render a UserDetails component for each user, if data is available. */}
+      <AdminControls /> {/* Administrative control panel for managing application data. */}
     </div>
   );
 };
 
-// Export the Home component for use throughout the application.
-export default Home;
+export default Home; // Make the Home component available for import elsewhere in the application.
