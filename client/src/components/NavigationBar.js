@@ -7,6 +7,7 @@ import Nav from "react-bootstrap/Nav";
 import Image from "react-bootstrap/Image";
 import {Link} from "react-router-dom";
 import Logo from "../media/CryptiQ.png";
+import "../css/NavigationBar.scss";
 
 export default function NavigationBar() {
  return (
@@ -22,19 +23,19 @@ export default function NavigationBar() {
              <Nav.Link as={Link} to="/">
                Home
              </Nav.Link>
-             <Nav.Link as={Link} to="..pages/Markets.js">
+             <Nav.Link as={Link} to="/Markets">
                Markets
              </Nav.Link>
-             <Nav.Link as={Link} to="../pages/Blog.js">
+             <Nav.Link as={Link} to="/Blog">
                Blog
              </Nav.Link>
-             <Nav.Link as={Link} to="../pages/SignUp.js">
+             <Nav.Link as={Link} to="/SignUp">
                Sign Up
              </Nav.Link>
-             <Nav.Link as={Link} to="../pages/LogIn.js">
+             <Nav.Link as={Link} to="/LogIn">
                Log In
              </Nav.Link>
-             <Nav.Link as={Link} to="/support">
+             <Nav.Link as={Link} to="/Support">
                Support
              </Nav.Link>
            </Nav>

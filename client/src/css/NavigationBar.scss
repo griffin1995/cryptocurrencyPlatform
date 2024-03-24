@@ -1,0 +1,21 @@
+.navbar {
+  padding: 10px 0;
+}
+
+.navbar-brand img {
+  height: auto;
+  max-height: 40px;
+}
+
+.nav-link {
+  color: white;
+  margin-right: 10px;
+}
+
+.nav-link:hover {
+  color: lightgray;
+}
+
+.navbar-nav .active .nav-link {
+  color: lightblue;
+}
