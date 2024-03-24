@@ -24,7 +24,12 @@ const createUser = async (request, response) => {
     });
     response.status(200).json(user);
   } catch (error) {
-    response.status(400).json({ error: error.message });
+    response
+      .status(400)
+      .json({
+        error:
+          "Failed to create user. Please check the provided data for accuracy and completeness.",
+      });
   }
 };
 
@@ -35,8 +40,14 @@ const createUser = async (request, response) => {
  * @param {Object} response - The HTTP response object for returning data or errors.
  */
 const getAllUsers = async (request, response) => {
-  const users = await User.find({}).sort({ createdAt: -1 });
-  response.status(200).json(users);
+  try {
+    const users = await User.find({}).sort({ createdAt: -1 });
+    response.status(200).json(users);
+  } catch (error) {
+    response
+      .status(500)
+      .json({ error: "Failed to retrieve users. Please try again later." });
+  }
 };
 
 /**
@@ -49,16 +60,31 @@ const getUser = async (request, response) => {
   const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(404).json({ error: "Invalid id check for user" });
+    return response
+      .status(404)
+      .json({
+        error:
+          "Invalid user ID format. Please verify the user ID and try again.",
+      });
   }
 
-  const user = await User.findById(id);
+  try {
+    const user = await User.findById(id);
 
-  if (!user) {
-    return response.status(404).json({ error: "Can't find the user" });
+    if (!user) {
+      return response
+        .status(404)
+        .json({
+          error:
+            "User not found. The ID provided does not match any existing users.",
+        });
+    }
+    response.status(200).json(user);
+  } catch (error) {
+    response
+      .status(500)
+      .json({ error: "Error retrieving the user. Please try again later." });
   }
-
-  response.status(200).json(user);
 };
 
 /**
@@ -71,16 +97,31 @@ const deleteUser = async (request, response) => {
   const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(404).json({ error: "Invalid ID for user (Delete)" });
+    return response
+      .status(404)
+      .json({
+        error:
+          "Invalid user ID format for deletion. Please verify the user ID and try again.",
+      });
   }
 
-  const user = await User.findOneAndDelete({ _id: id });
+  try {
+    const user = await User.findOneAndDelete({ _id: id });
 
-  if (!user) {
-    return response.status(404).json({ error: "Couldn't find the user" });
+    if (!user) {
+      return response
+        .status(404)
+        .json({
+          error:
+            "User for deletion not found. The ID provided does not match any existing users.",
+        });
+    }
+    response.status(200).json({ message: "User successfully deleted." });
+  } catch (error) {
+    response
+      .status(500)
+      .json({ error: "Error deleting the user. Please try again later." });
   }
-
-  response.status(200).json(user);
 };
 
 /**
@@ -93,20 +134,35 @@ const updateUser = async (request, response) => {
   const { id } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(404).json({ error: "Invalid ID for user (Update)" });
+    return response
+      .status(404)
+      .json({
+        error:
+          "Invalid user ID format for update. Please verify the user ID and try again.",
+      });
   }
 
-  const user = await User.findOneAndUpdate(
-    { _id: id },
-    { ...request.body },
-    { new: true } // Option to return the document after update.
-  );
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { ...request.body },
+      { new: true } // Option to return the document after update.
+    );
 
-  if (!user) {
-    return response.status(404).json({ error: "Couldn't find the user" });
+    if (!user) {
+      return response
+        .status(404)
+        .json({
+          error:
+            "User for update not found. The ID provided does not match any existing users.",
+        });
+    }
+    response.status(200).json(user);
+  } catch (error) {
+    response
+      .status(500)
+      .json({ error: "Error updating the user. Please try again later." });
   }
-
-  response.status(200).json(user);
 };
 
 // Export the controller functions to be used in Express route definitions.
