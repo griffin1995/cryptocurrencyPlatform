@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import SignUp from "./pages/SignUp"
 import LogIn from "./pages/LogIn"
 import Support from './pages/Support';
+import Test from './pages/testSignUp';
 
 // import Navbar from "./components/NavigationBar";
 import Navbar from "./components/NavigationBar";
@@ -18,7 +19,7 @@ import "react-bootstrap"
 function App() {
   return (
     // Use BrowserRouter to enable client-side routing throughout the application.
-    <Container fluid className="App">
+    <Container fluid className="App bg-dark">
       <BrowserRouter>
         {/* Render the Navbar component to be displayed across all routes for consistent navigation. */}
         <Navbar />
@@ -29,6 +30,7 @@ function App() {
             <Route path="/SignUp" element={<SignUp />} />
             <Route path="/LogIn" element={<LogIn />} />
             <Route path="/Support" element={<Support />} />
+            <Route path="/TestSignUp" element={<Test/>}></Route>
           </Routes>
       </BrowserRouter>
     </Container>

@@ -13,7 +13,7 @@ export default function LogIn() {
     <Row className="justify-content-center align-items-center form-container text-light">
       <Col
         md="2"
-        className="bg-dark form d-flex align-items-center justify-content-center"
+        className="bg-primary form d-flex align-items-center justify-content-center"
       >
         <Container fluid>
           <Row className="text-center">

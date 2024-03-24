@@ -12,11 +12,10 @@ import Form2 from "./sign_up_forms/Form2"
 
 export default function SignUp() {
   const [currentForm, setCurrentForm] = useState(0);
- 
+  const [submittedData, setSubmittedData] = useState(null);
+
   const handleFormSubmit = (isValid) => {
-    if (isValid) {
       setCurrentForm((prevForm) => prevForm + 1);
-    }
   };
 
   const renderForm = () => {
@@ -33,7 +32,7 @@ export default function SignUp() {
     <Row className="justify-content-center align-items-center form-container text-light">
       <Col
         md="2"
-        className="bg-dark form d-flex align-items-center justify-content-center"
+        className="bg-primary form d-flex align-items-center justify-content-center"
       >
         <Container fluid>
           <Row className="text-center">

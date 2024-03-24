@@ -3,40 +3,43 @@ import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-export default function SignUp({onSubmit}) {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: ""
-  });
+export default function Form0({onSubmit}) {
+  const [formData, setFormData] = useState({});
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Your form validation logic here
-    const isValid = formData.firstName && formData.lastName; // Example validation
-    onSubmit(isValid); // Pass the validation result to the callback
-  };
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
+
   return (
     <>
-    <Form>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>First Name</Form.Label>
-        <Form.Control type="text" placeholder="FORM 0" value={formData.firstName}
-          onChange={handleChange}/>
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Last Name</Form.Label>
-        <Form.Control type="text" placeholder="Smith" value={formData.firstName}
-          onChange={handleChange}/>
-      </Form.Group>
-      <Button variant="secondary" type="submit" className="w-100">
-        Next
-      </Button>
-    </Form>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>First Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="FORM 0"
+            value={formData.field1 || ""}
+          />
+        </Form.Group>
+        <Form.Group
+          className="mb-3"
+          controlId="formBasicPassword"
+          value={formData.field2 || ""}
+          onChange={handleChange}
+        >
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control type="text" placeholder="Smith" />
+        </Form.Group>
+        <Button variant="secondary" type="submit" className="w-100">
+          Next
+        </Button>
+      </Form>
     </>
   );
 }
