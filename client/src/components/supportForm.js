@@ -30,7 +30,7 @@ const SupportForm = () => {
     const ticket = { subject, body, Category, firstName, lastName, email };
 
     // Sending the ticket information to the server
-    const response = await fetch("api/ticketRoutes", {
+    const response = await fetch("api/supportRoutes", {
       method: "POST",
       body: JSON.stringify(ticket),
       headers: { "Content-Type": "application/json" },
