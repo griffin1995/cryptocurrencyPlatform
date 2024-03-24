@@ -6,8 +6,8 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Image from "react-bootstrap/Image";
 import {Link} from "react-router-dom";
-import Logo from "../media/CryptiQ.png";
-import "../css/NavigationBar.scss";
+import Logo from "../media/CryptiQ_White.png";
+import "./NavigationBar.scss";
 
 export default function NavigationBar() {
  return (

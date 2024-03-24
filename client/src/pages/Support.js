@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../css/Support.css";
+import "./Support.scss";
 import SupportForm from "../components/supportForm";
 
 const faqs = [
