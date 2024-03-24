@@ -82,25 +82,25 @@ const SupportForm = () => {
       <label>Department:</label>
       <input
         type="text"
-        onChange={(e) => setBody(e.target.value)}
+        onChange={(e) => setDepartment(e.target.value)}
         value={department}
       />
       <label>First Name:</label>
       <input
         type="text"
-        onChange={(e) => setBody(e.target.value)}
+        onChange={(e) => setFirstName(e.target.value)}
         value={firstName}
       />
       <label>Last Name:</label>
       <input
         type="text"
-        onChange={(e) => setBody(e.target.value)}
+        onChange={(e) => setLastName(e.target.value)}
         value={lastName}
       />
       <label>Email:</label>
       <input
         type="text"
-        onChange={(e) => setBody(e.target.value)}
+        onChange={(e) => setEmail(e.target.value)}
         value={email}
       />
       {/* Additional fields for department, user information, etc., can be added here. */}
