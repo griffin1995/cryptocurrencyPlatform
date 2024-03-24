@@ -19,12 +19,9 @@ const supportTicketSchema = new Schema(
     },
     // Identifier for the support staff assigned to the ticket, if any.
     assignedSupportStaffId: { type: String, required: false },
-    // Brief title or subject of the support issue.
-    subject: { type: String, required: true },
+
     // Detailed description of the issue or query.
     body: { type: String, required: true },
-    // Priority level of the ticket, can be used to sort or triage tickets.
-    priority: { type: String, required: false },
     // Category of the issue, helpful for routing or analysis.
     category: { type: String, required: false },
     // First name of the ticket submitter.
@@ -35,8 +32,6 @@ const supportTicketSchema = new Schema(
     email: { type: String, required: true },
     // Optional phone number for alternative contact.
     phoneNumber: { type: String, required: false },
-    // Preferred time for contact, if specified.
-    contactTime: { type: String, required: false },
   },
   {
     timestamps: true, // Automatically add createdAt and updatedAt timestamps.

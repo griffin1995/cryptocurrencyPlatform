@@ -1,5 +1,6 @@
 // Import required modules and models
 const SupportTicket = require("../models/supportTicketModel");
+
 const mongoose = require("mongoose");
 
 /**
@@ -25,8 +26,9 @@ const createTicket = async (request, response) => {
     lastName,
     email,
     phoneNumber,
-    contactTime,
-  } = request.body;
+  } = request.body; 
+  
+
   try {
     const ticket = await SupportTicket.create({
       userId,
@@ -40,7 +42,6 @@ const createTicket = async (request, response) => {
       lastName,
       email,
       phoneNumber,
-      contactTime,
     });
     response.status(200).json(ticket);
   } catch (error) {

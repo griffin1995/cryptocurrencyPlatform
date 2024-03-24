@@ -3,7 +3,7 @@ import { useState } from "react";
 
 /**
  * The SupportForm component renders a form for submitting support tickets.
- * It manages form fields such as subject, body, Category, and user information.
+ * It manages form fields such as body, Category, and user information.
  * Upon submission, it sends a POST request to a specified API endpoint and handles the response.
  */
 const SupportForm = () => {
@@ -11,12 +11,14 @@ const SupportForm = () => {
   const [error, setError] = useState(null); // Stores error messages
   const [success, setSuccess] = useState(null); // Stores success messages
   // Form fields state
-  const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
-  const [Category, setCategory] = useState("");
+  const [category, setCategory] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [userID, setUserId] = useState("test");
+  const [status, setStatus] = useState("Unanswered");
+  const [assignedSupportStaffId, setAssignedSupportStaffId] = useState("123");
 
   /**
    * Handles the form submission.
@@ -27,7 +29,7 @@ const SupportForm = () => {
    */
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-    const ticket = { subject, body, Category, firstName, lastName, email };
+    const ticket = { body, category, firstName, lastName, email };
 
     // Sending the ticket information to the server
     const response = await fetch("api/supportRoutes", {
@@ -47,12 +49,14 @@ const SupportForm = () => {
         `Your ticket has been successfully submitted. Reference number: ${json.ticketId}`
       );
       // Reset form fields after successful submission
-      setSubject("");
       setBody("");
       setCategory("");
       setFirstName("");
       setLastName("");
       setEmail("");
+      setUserId("");
+      setAssignedSupportStaffId("");
+      setStatus("");
     }
   };
 
@@ -80,10 +84,7 @@ const SupportForm = () => {
         value={email}
       />
       <label>Category:</label>
-      <select
-        onChange={(e) => setCategory(e.target.value)}
-        value={Category}
-      >
+      <select onChange={(e) => setCategory(e.target.value)} value={category}>
         {/* Dropdown menu for Category selection */}
         <option value="" disabled hidden>
           Select Category
