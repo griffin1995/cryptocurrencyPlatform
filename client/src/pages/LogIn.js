@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import "./SignUpLogIn.scss";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -18,11 +19,13 @@ export default function LogIn() {
           <Row className="text-center">
             <Col xs={6}>
               <h3>Log In</h3>
-              <hr />
+              <hr className="active"/>
             </Col>
             <Col xs={6}>
-              <h3>Sign Up</h3>
-              <hr className="active"/>
+            <Link to="/SignUp" className="link-unstyled">
+                <h3>Sign Up</h3>
+                <hr />
+              </Link>
             </Col>
           </Row>
           <Row>

@@ -22,3 +22,12 @@ hr {
     background-color: #FFFFFF !important; /* Change color to your desired color */
   }
 }
+
+.link-unstyled, .link-unstyled:link {
+  color: inherit;
+  text-decoration: inherit;
+  :hover{
+    color:#00a7e1;
+    transition: all 0.5s ease;
+  }
+}
