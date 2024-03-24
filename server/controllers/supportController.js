@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
  * @param {Object} request - The request object containing the ticket information.
  * @param {Object} response - The response object for sending back the created ticket or an error message.
  */
-const createSupportTicket = async (request, response) => {
+const createTicket = async (request, response) => {
   const {
     userId,
     status,
@@ -182,7 +182,7 @@ const updateTicket = async (request, response) => {
 
 // Export the controller functions to be used in router definitions
 module.exports = {
-  createSupportTicket,
+  createTicket,
   getAllTickets,
   getTicket,
   deleteTicket,
