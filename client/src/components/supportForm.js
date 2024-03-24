@@ -3,7 +3,7 @@ import { useState } from "react";
 
 /**
  * The SupportForm component renders a form for submitting support tickets.
- * It manages form fields such as subject, body, department, and user information.
+ * It manages form fields such as subject, body, Category, and user information.
  * Upon submission, it sends a POST request to a specified API endpoint and handles the response.
  */
 const SupportForm = () => {
@@ -13,7 +13,7 @@ const SupportForm = () => {
   // Form fields state
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
-  const [department, setDepartment] = useState("");
+  const [Category, setCategory] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,7 +27,7 @@ const SupportForm = () => {
    */
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-    const ticket = { subject, body, department, firstName, lastName, email };
+    const ticket = { subject, body, Category, firstName, lastName, email };
 
     // Sending the ticket information to the server
     const response = await fetch("api/ticketRoutes", {
@@ -49,7 +49,7 @@ const SupportForm = () => {
       // Reset form fields after successful submission
       setSubject("");
       setBody("");
-      setDepartment("");
+      setCategory("");
       setFirstName("");
       setLastName("");
       setEmail("");
@@ -79,16 +79,16 @@ const SupportForm = () => {
         onChange={(e) => setEmail(e.target.value)}
         value={email}
       />
-      <label>Department:</label>
+      <label>Category:</label>
       <select
-        onChange={(e) => setDepartment(e.target.value)}
-        value={department}
+        onChange={(e) => setCategory(e.target.value)}
+        value={Category}
       >
-        {/* Dropdown menu for department selection */}
+        {/* Dropdown menu for Category selection */}
         <option value="" disabled hidden>
-          Select Department
+          Select Category
         </option>
-        {/* Department options */}
+        {/* Category options */}
         <option value="technicalSupport">Technical Support</option>
         <option value="accountSupport">Account Support</option>
         <option value="depositWithdrawal">Deposit & Withdrawal</option>
