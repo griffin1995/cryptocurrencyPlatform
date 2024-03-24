@@ -1,32 +1,41 @@
-// Import the Express module to create an HTTP server and define API endpoints.
+// Import the Express module to set up the HTTP server and define API endpoints, facilitating the creation of RESTful web services.
 const express = require("express");
 
-// Import controller functions that handle administrative actions on users, such as creating, listing, fetching, deleting, and updating user information.
+// Import functions from the adminController module that handle administrative actions on users. 
+// These actions include creating, listing, fetching specific users, deleting, and updating user information.
 const {
-  createUser,
-  getAllUsers,
-  getUser,
-  deleteUser,
-  updateUser,
+  createUser,    // Function to create a new user
+  getAllUsers,   // Function to retrieve all users
+  getUser,       // Function to retrieve a specific user by ID
+  deleteUser,    // Function to delete a specific user by ID
+  updateUser,    // Function to update a specific user by ID
 } = require("../controllers/adminController");
 
-// Initialize an Express router to manage API routes for user-related operations, allowing for clean and organized route management.
+// Initialize an Express Router. This allows for defining a series of route handlers for the user-related operations, 
+// enabling organized management of API routes.
 const router = express.Router();
 
-// Route for fetching a list of all users. It uses the GET HTTP method and, when accessed, invokes the getAllUsers controller function.
+// Define a GET route for fetching a list of all users. 
+// When accessed, this route invokes the getAllUsers function from the controller.
 router.get("/", getAllUsers);
 
-// Route for fetching a single user by their unique ID. The ':id' parameter in the URL path captures the user's ID from the request.
+// Define a GET route for fetching a single user by their unique ID. 
+// The ':id' parameter in the URL path dynamically captures the user's ID from the incoming request.
 router.get("/:id", getUser);
 
-// Route for creating a new user. This POST endpoint expects user data in the request body, which is processed by the createUser controller function.
+// Define a POST route for creating a new user. 
+// This endpoint expects user data in the request body, which the createUser function from the controller processes.
 router.post("/", createUser);
 
-// Route for deleting a user by ID. This DELETE endpoint uses the ':id' parameter to identify and remove the specified user from the system.
+// Define a DELETE route for removing a user by their ID. 
+// This route utilizes the ':id' parameter to identify the user to be deleted.
 router.delete("/:id", deleteUser);
 
-// Route for partially updating a user's information. The PATCH method is used to apply updates to specific fields of a user's record, identified by their ID.
+// Define a PATCH route for updating partial information of a user's record. 
+// The route identifies the user by their ID and applies updates to specific fields as per the request body.
 router.patch("/:id", updateUser);
 
-// Export the router module to make these routes available for use in the main server configuration, integrating them into the application's API.
+// Export the router object. 
+// This makes the defined routes available for integration into the application's main server configuration, 
+// thereby becoming part of the application's API.
 module.exports = router;
