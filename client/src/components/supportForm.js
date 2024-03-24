@@ -79,6 +79,30 @@ const SupportForm = () => {
         onChange={(e) => setBody(e.target.value)}
         value={body}
       />
+      <label>Department:</label>
+      <input
+        type="text"
+        onChange={(e) => setBody(e.target.value)}
+        value={department}
+      />
+      <label>First Name:</label>
+      <input
+        type="text"
+        onChange={(e) => setBody(e.target.value)}
+        value={firstName}
+      />
+      <label>Last Name:</label>
+      <input
+        type="text"
+        onChange={(e) => setBody(e.target.value)}
+        value={lastName}
+      />
+      <label>Email:</label>
+      <input
+        type="text"
+        onChange={(e) => setBody(e.target.value)}
+        value={email}
+      />
       {/* Additional fields for department, user information, etc., can be added here. */}
       <button>Submit Ticket</button> {/* Button to trigger form submission. */}
       {/* Display error or success messages based on the state. */}
