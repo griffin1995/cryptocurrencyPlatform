@@ -10,7 +10,7 @@ import UserDetails from "./UserDetails";
  */
 const AdminControls = () => {
   const [users, setUsers] = useState(null); // State to store user data fetched from the API.
-
+  const [tickets, setTickets] = useState(null);
   useEffect(() => {
     /**
      * Fetches and updates the state with user data from the server.
@@ -33,7 +33,8 @@ const AdminControls = () => {
       <SignUpUser /> {/* Component for registering new users. */}
       <div className="allUsers">
         {/* Render UserDetails components for each user if the `users` state is not null. */}
-        {users && users.map((user) => <UserDetails key={user._id} user={user} />)}
+        {users &&
+          users.map((user) => <UserDetails key={user._id} user={user} />)}
       </div>
     </div>
   );

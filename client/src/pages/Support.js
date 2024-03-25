@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Support.scss";
-import SupportForm from "../components/supportForm";
 
 const faqs = [
   {
@@ -99,7 +98,6 @@ const FAQ = () => {
           <button type="submit">Send</button>
         </form>
       </div>{" "}
-      <SupportForm />
     </div>
   );
 };
