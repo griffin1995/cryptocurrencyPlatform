@@ -23,7 +23,7 @@ export default function Form1({onSubmit}) {
           <Form.Label>First Name</Form.Label>
           <Form.Control
             type="text"
-            placeholder="FORM 0"
+            placeholder="FORM 1"
             value={formData.field1 || ""}
           />
         </Form.Group>
