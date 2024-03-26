@@ -60,7 +60,7 @@ const FAQ = () => {
         ))}
       </div>
       <div className="contact-form">
-        <h1>Get In Touch.</h1>
+        <h1 class="get-in-touch">Get In <span class="highlight">Touch.</span></h1>
         <form onSubmit={handleSubmit}>
           <div className="row">
             <input

@@ -68,8 +68,6 @@
     margin-top: 20px;
 }
 
-
-
 .contact-form {
     display: flex;
     flex-direction: column;
@@ -82,6 +80,15 @@
     display: flex;
     flex-direction: column;
     width: 50%;
+}
+
+.get-in-touch {
+    font-size: 64px;
+    color: white;
+
+    .highlight {
+        color: #007EA7;
+    }
 }
 
 /* Support.css */
@@ -123,4 +130,6 @@
     width: 400px;
     overflow: hidden;
     transition: all .2s ease-in-out;
+    width: 30%;
+    margin-left: auto;
 }
