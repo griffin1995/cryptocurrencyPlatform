@@ -59,42 +59,46 @@ const FAQ = () => {
           </details>
         ))}
       </div>
-      <div className="contact-form">
+    <div className="contact-form">
+      <div className="first-row">
         <h1 class="get-in-touch">Get In <span class="highlight">Touch.</span></h1>
+      </div>
         <form onSubmit={handleSubmit}>
-          <div className="row">
+            <div className="row">
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="surname"
+                placeholder="Surname"
+                value={formData.surname}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="row">
             <input
-              type="text"
-              name="name"
-              placeholder="Name"
-              value={formData.name}
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
-            <input
-              type="text"
-              name="surname"
-              placeholder="Surname"
-              value={formData.surname}
+            <textarea
+              name="message"
+              placeholder="Message"
+              value={formData.message}
               onChange={handleChange}
               required
-            />
-          </div>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <textarea
-            name="message"
-            placeholder="Message"
-            value={formData.message}
-            onChange={handleChange}
-            required
-          ></textarea>
+            ></textarea>
+            </div>
           <button type="submit">Send</button>
         </form>
       </div>{" "}
