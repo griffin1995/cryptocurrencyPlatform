@@ -1,16 +1,15 @@
 // Import React and its hooks to build the component functionality.
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 // Import components related to user actions within the admin panel.
 import SignUpUser from "./SignUpUser";
 import UserDetails from "./UserDetails";
-
+import { useAdminContext } from "../hooks/useAdminContext";
 /**
  * AdminControls component for managing user-related administrative functions.
  * This component handles user registration and displays a list of users.
  */
 const AdminControls = () => {
-  const [users, setUsers] = useState(null); // State to store user data fetched from the API.
-  const [tickets, setTickets] = useState(null);
+  const {users, dispatch} = useAdminContext()
   useEffect(() => {
     /**
      * Fetches and updates the state with user data from the server.
@@ -20,7 +19,8 @@ const AdminControls = () => {
       const response = await fetch("/api/adminRoutes");
       const json = await response.json();
       if (response.ok) {
-        setUsers(json); // Update state only if the API call was successful.
+        //executes the usersReducer function
+        dispatch({type: 'SET_USERS',payload: json})
       }
     };
 

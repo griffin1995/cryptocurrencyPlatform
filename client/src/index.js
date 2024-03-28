@@ -6,7 +6,7 @@ import ReactDOM from "react-dom/client";
 import "./index.scss";
 // Import custom Bootstrap Styling
 import "./reactCustom.scss";
-import UsersContextProvider from "./context/UserContext";
+import { AdminContextProvider } from "./context/AdminContext";
 // Import the main App component to be rendered.
 import App from "./App";
 
@@ -19,8 +19,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 // It does not render any visible UI. It activates additional checks and warnings for its descendants.
 root.render(
   <React.StrictMode>
-    <UsersContextProvider>
       <App />
-    </UsersContextProvider>
   </React.StrictMode>
 );

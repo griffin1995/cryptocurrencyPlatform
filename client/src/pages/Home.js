@@ -1,6 +1,6 @@
 // Import hooks from React for managing component lifecycle and state.
 import { useEffect, useState } from "react";
-
+import { AdminContextProvider } from "../context/AdminContext";
 // Import components for displaying coin details and administrative controls.
 import CoinDetails from "../components/CoinDetails";
 import AdminControls from "../components/AdminControls";
@@ -33,9 +33,13 @@ const Home = () => {
     <div className="home text-white">
       <div className="coins">
         {/* Conditionally render CoinDetails components for each coin if coins data is available. */}
-        {coins && coins.map((coin) => <CoinDetails key={coin._id} coin={coin} />)}
-      </div>
-      <AdminControls /> {/* Administrative control panel for managing application data. */}
+        {coins &&
+          coins.map((coin) => <CoinDetails key={coin._id} coin={coin} />)}
+      </div>{" "}
+      <AdminContextProvider>
+        <AdminControls />{" "}
+        {/* Administrative control panel for managing application data. */}
+      </AdminContextProvider>{" "}
     </div>
   );
 };
