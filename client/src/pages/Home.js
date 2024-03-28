@@ -30,7 +30,7 @@ const Home = () => {
   }, []); // Empty dependency array ensures this effect runs only once after initial render.
 
   return (
-    <div className="home">
+    <div className="home text-white">
       <div className="coins">
         {/* Conditionally render CoinDetails components for each coin if coins data is available. */}
         {coins && coins.map((coin) => <CoinDetails key={coin._id} coin={coin} />)}

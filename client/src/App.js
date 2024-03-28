@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import SignUp from "./pages/SignUp"
 import LogIn from "./pages/LogIn"
 import Support from './pages/Support';
+import Markets from "./pages/Markets";
 
 // import Navbar from "./components/NavigationBar";
 import Navbar from "./components/NavigationBar";
@@ -29,6 +30,7 @@ function App() {
             <Route path="/SignUp" element={<SignUp />} />
             <Route path="/LogIn" element={<LogIn />} />
             <Route path="/Support" element={<Support />} />
+            <Route path="/Markets" element={<Markets/>}/>
           </Routes>
       </BrowserRouter>
     </Container>

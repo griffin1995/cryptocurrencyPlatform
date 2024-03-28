@@ -7,6 +7,7 @@ const {
   createUser,    // Function to create a new user
   getAllUsers,   // Function to retrieve all users
   getUser,       // Function to retrieve a specific user by ID
+  getUserEmail,  // Function to retrieve a specific user by Email
   deleteUser,    // Function to delete a specific user by ID
   updateUser,    // Function to update a specific user by ID
 } = require("../controllers/adminController");
@@ -22,6 +23,10 @@ router.get("/", getAllUsers);
 // Define a GET route for fetching a single user by their unique ID. 
 // The ':id' parameter in the URL path dynamically captures the user's ID from the incoming request.
 router.get("/:id", getUser);
+
+// Define a GET route for fetching a single user by their unique Email. 
+// The ':email' parameter in the URL path dynamically captures the user's Email from the incoming request.
+router.get("/:email", getUserEmail);
 
 // Define a POST route for creating a new user. 
 // This endpoint expects user data in the request body, which the createUser function from the controller processes.

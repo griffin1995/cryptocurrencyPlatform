@@ -48,8 +48,8 @@ const FAQ = () => {
   };
 
   return (
-    <div className="grid-container">
-      <div className="faq-section">
+    <div className="grid-container row">
+      <div className="faq-section col-sm-8">
         {faqs.map((faq, index) => (
           <details key={index} open={index === openIndex}>
             <summary onClick={(event) => handleClick(index, event)}>
@@ -59,7 +59,7 @@ const FAQ = () => {
           </details>
         ))}
       </div>
-    <div className="contact-form">
+    <div className="contact-form col-sm-4 d-flex content-justify-center">
       <div className="first-row">
         <h1 class="get-in-touch">Get In <span class="highlight">Touch.</span></h1>
       </div>
@@ -101,7 +101,7 @@ const FAQ = () => {
             </div>
           <button type="submit">Send</button>
         </form>
-      </div>{" "}
+      </div>
     </div>
   );
 };

@@ -62,6 +62,24 @@ const getUser = async (request, response) => {
 };
 
 /**
+ * Retrieves a single user document by its unique ID.
+ *
+ * @param {Object} request - The HTTP request object, including the user ID in the params.
+ * @param {Object} response - The HTTP response object for returning the user document or errors.
+ */
+const getUserEmail = async (request, response) => {
+  const { email } = request.params;
+
+  const user = await User.findOne({email});
+
+  if (!user) {
+    return response.status(404).json({ error: "Can't find the user" });
+  }
+
+  response.status(200).json(user);
+};
+
+/**
  * Deletes a user document using its unique ID.
  *
  * @param {Object} request - The HTTP request object, including the user ID in the params.
@@ -114,6 +132,7 @@ module.exports = {
   createUser,
   getAllUsers,
   getUser,
+  getUserEmail,
   deleteUser,
   updateUser,
 };

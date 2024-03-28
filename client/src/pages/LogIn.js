@@ -1,5 +1,5 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import { React, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./SignUpLogIn.scss";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -9,20 +9,58 @@ import Form from "react-bootstrap/Form";
 
 //Login form window where users can log in
 export default function LogIn() {
+  const [user, setUser] = useState(null); // State to store user data fetched from the API.
+  const [userFirstName, setUserFirstName] = useState("NO USER FOUND");
+  const [email, setEmail] = useState(),
+    onInput = ({ target: { email } }) => setEmail(email),
+    onFormSubmit = (e) => {
+      e.preventDefault();
+      setEmail();
+    };
+  const [password, setPassword] = useState(null);
+  const [loggingIn, setLoggingIn] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async (email, loggingIn) => {
+      if (loggingIn) {
+        try {
+          const response = await fetch(`/api/adminRoutes/${email}`);
+          if (response.ok) {
+            const json = await response.json();
+            setUser(json);
+            setUserFirstName(json.firstName);
+          } else {
+            console.log("USER NOT FOUND");
+            setLoggingIn(false);
+          }
+        } catch (error) {
+          console.error("Error fetching user:", error);
+          setLoggingIn(false);
+        }
+      }
+    };
+    fetchUser(email, loggingIn);
+  }, [email, loggingIn]);
+
+  const loggingInHandler = () => {
+    setLoggingIn(true);
+  };
+
   return (
     <Row className="justify-content-center align-items-center form-container text-light">
+      <div>{userFirstName}</div>
       <Col
         md="2"
-        className="bg-primary form d-flex align-items-center justify-content-center"
+        className="bg-primary form d-flex align-items-center justify-content-center rounded"
       >
         <Container fluid>
           <Row className="text-center">
             <Col xs={6}>
               <h3>Log In</h3>
-              <hr className="active"/>
+              <hr className="active" />
             </Col>
             <Col xs={6}>
-            <Link to="/SignUp" className="link-unstyled">
+              <Link to="/SignUp" className="link-unstyled">
                 <h3>Sign Up</h3>
                 <hr />
               </Link>
@@ -30,10 +68,15 @@ export default function LogIn() {
           </Row>
           <Row>
             <Col xs={12}>
-              <Form>
+              <Form onSubmit={loggingInHandler}>
                 <Form.Group className="mb-1" controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                  <Form.Control
+                    type="email"
+                    onChange={onInput}
+                    value={email}
+                    placeholder="Enter email"
+                  />
                   <Form.Text className="text-secondary">
                     We'll never share your email with anyone else.
                   </Form.Text>
