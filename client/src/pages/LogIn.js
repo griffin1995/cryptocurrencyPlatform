@@ -19,7 +19,9 @@ export default function LogIn() {
     const fetchUser = async (email, loggingIn) => {
       if (loggingIn) {
         try {
-          const response = await fetch(`/api/adminRoutes/${email}`);
+          const response = await fetch("/api/adminRoutes/" + user.email, {
+            method: "GET",
+          });
           if (response.ok) {
             const json = await response.json();
             setUser(json);
