@@ -6,7 +6,6 @@ import ReactDOM from "react-dom/client";
 import "./index.scss";
 // Import custom Bootstrap Styling
 import "./reactCustom.scss";
-import { AdminContextProvider } from "./context/AdminContext";
 // Import the main App component to be rendered.
 import App from "./App";
 

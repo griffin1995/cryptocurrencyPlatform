@@ -21,7 +21,8 @@ export const usersReducer = (state, action) => {
     case "CREATE_USER":
       // Adds a new user to the beginning of the users array
       return { users: [action.payload, ...state.users] };
-
+    case "DELETE_USER":
+      return { users: state.users.filter((w) => w._id !== action.payload._id) };
     default:
       // Returns the current state unchanged if action type is unrecognized
       return state;

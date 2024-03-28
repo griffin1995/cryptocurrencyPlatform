@@ -1,6 +1,6 @@
 // Import the React library to enable the use of React's features, such as components and hooks.
 import React from "react";
-
+import { useAdminContext } from "../hooks/useAdminContext";
 /**
  * UserDetails component for displaying detailed information about a user.
  *
@@ -9,6 +9,7 @@ import React from "react";
  *           phone number, and the last update timestamp.
  */
 const UserDetails = ({ user }) => {
+  const { dispatch } = useAdminContext();
   // Convert the 'updatedAt' string from the user object to a Date object for date manipulation.
   const updatedAt = new Date(user.updatedAt);
 
@@ -23,7 +24,18 @@ const UserDetails = ({ user }) => {
 
   // Use the toLocaleString method to format the 'updatedAt' date based on the specified options.
   const dateString = updatedAt.toLocaleString(undefined, dateOptions);
+  
+  const handleDelete = async () => {
+    const response = await fetch("/api/adminRoutes/" + user._id, {
+      method: "DELETE",
+    });
+    //when we get the response the document that's just been deleted is returned
+    const json = await response.json();
 
+    if (response.ok) {
+      dispatch({ type: "DELETE_USER", payload: json });
+    }
+  };
   // Render the user's details in a structured layout.
   return (
     <div className="user-details">
@@ -45,6 +57,9 @@ const UserDetails = ({ user }) => {
       <p>
         <strong>Updated at: </strong>
         {dateString}
+      </p>
+      <p onClick={handleDelete}>
+        <u>Delete User</u>
       </p>
     </div>
   );
