@@ -11,12 +11,7 @@ import Form from "react-bootstrap/Form";
 export default function LogIn() {
   const [user, setUser] = useState(null); // State to store user data fetched from the API.
   const [userFirstName, setUserFirstName] = useState("NO USER FOUND");
-  const [email, setEmail] = useState(),
-    onInput = ({ target: { email } }) => setEmail(email),
-    onFormSubmit = (e) => {
-      e.preventDefault();
-      setEmail();
-    };
+  const [email, setEmail] = useState();
   const [password, setPassword] = useState(null);
   const [loggingIn, setLoggingIn] = useState(false);
 
@@ -46,9 +41,14 @@ export default function LogIn() {
     setLoggingIn(true);
   };
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
   return (
     <Row className="justify-content-center align-items-center form-container text-light">
       <div>{userFirstName}</div>
+      <div>{loggingIn ? "True" : "False"}</div>
       <Col
         md="2"
         className="bg-primary form d-flex align-items-center justify-content-center rounded"
@@ -73,7 +73,7 @@ export default function LogIn() {
                   <Form.Label>Email address</Form.Label>
                   <Form.Control
                     type="email"
-                    onChange={onInput}
+                    onChange={handleEmailChange}
                     value={email}
                     placeholder="Enter email"
                   />
