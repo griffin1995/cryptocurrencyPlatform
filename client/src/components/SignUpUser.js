@@ -28,6 +28,7 @@ const SignUpUser = () => {
   const [paymentDetails, setPaymentDetails] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [emptyFields, setEmptyFields] = useState([]);
 
   /**
    * handleSubmit is an asynchronous function that gets called when the user submits the form.
@@ -67,6 +68,7 @@ const SignUpUser = () => {
       // Checks if the response was not OK (i.e., server responded with an error status).
       if (!response.ok) {
         throw new Error(json.error); // Throws an error with the message from the server.
+        setEmptyFields(json.emptyFields);
       }
 
       // If the server responded OK, update the success message and clear any error messages.
@@ -96,6 +98,7 @@ const SignUpUser = () => {
     setPhoneNumber("");
     setPassword("");
     setPaymentDetails(false);
+    setEmptyFields([]);
   };
 
   // Render the sign-up form.
@@ -109,30 +112,39 @@ const SignUpUser = () => {
         type="text"
         onChange={(e) => setFirstName(e.target.value)}
         value={firstName}
+        class={emptyFields.includes("firstName") ? 'error' : ''}
       />
       <label>Last Name:</label>
       <input
         type="text"
         onChange={(e) => setLastName(e.target.value)}
         value={lastName}
+        class={emptyFields.includes("lastName") ? 'error' : ''}
+
       />
       <label>Email:</label>
       <input
         type="email"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
+        class={emptyFields.includes("email") ? 'error' : ''}
+
       />
       <label>Phone Number:</label>
       <input
         type="text"
         onChange={(e) => setPhoneNumber(e.target.value)}
         value={phoneNumber}
+        class={emptyFields.includes("phoneNumber") ? 'error' : ''}
+
       />
       <label>Password:</label>
       <input
         type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
+        class={emptyFields.includes("password") ? 'error' : ''}
+
       />
       <button>Sign Up</button> {/* Button to trigger form submission. */}
       {/* Display error or success messages based on the state. */}

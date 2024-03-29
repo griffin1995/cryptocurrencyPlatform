@@ -13,18 +13,44 @@ const register = async (request, response) => {
   const { firstName, lastName, email, phoneNumber, password, paymentDetails } =
     request.body;
 
-  try {
-    const user = await User.create({
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      password,
-      paymentDetails,
-    });
-    response.status(200).json(user);
-  } catch (error) {
-    response.status(400).json({ error: error.message });
+  let emptyFields = [];
+
+  if (!firstName) {
+    emptyFields.push("firstName");
+  }
+
+  if (!lastName) {
+    emptyFields.push("lastName");
+  }
+
+  if (!email) {
+    emptyFields.push("email");
+  }
+
+  if (!phoneNumber) {
+    emptyFields.push("phoneNumber");
+  }
+
+  if (!password) {
+    emptyFields.push("password");
+  }
+
+  if (emptyFields.length === 0) {
+    try {
+      const user = await User.create({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        password,
+        paymentDetails,
+      });
+      response.status(200).json(user);
+    } catch (error) {
+      response
+        .status(400)
+        .json({ error: "Please fill in all of the fields", emptyFields });
+    }
   }
 };
 
