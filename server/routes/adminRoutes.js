@@ -10,6 +10,7 @@ const {
   getUserEmail,  // Function to retrieve a specific user by Email
   deleteUser,    // Function to delete a specific user by ID
   updateUser,    // Function to update a specific user by ID
+  addPost,       // Function to add posts to the blog
 } = require("../controllers/adminController");
 
 // Initialize an Express Router. This allows for defining a series of route handlers for the user-related operations, 
@@ -39,6 +40,8 @@ router.delete("/:id", deleteUser);
 // Define a PATCH route for updating partial information of a user's record. 
 // The route identifies the user by their ID and applies updates to specific fields as per the request body.
 router.patch("/:id", updateUser);
+
+router.post("/addPost", addPost);
 
 // Export the router object. 
 // This makes the defined routes available for integration into the application's main server configuration, 

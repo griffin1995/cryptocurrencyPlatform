@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 // Import components related to user actions within the admin panel.
 import SignUpUser from "./SignUpUser";
 import UserDetails from "./UserDetails";
+import CreatePost from './BlogPosts';
 import { useAdminContext } from "../hooks/useAdminContext";
 /**
  * AdminControls component for managing user-related administrative functions.
@@ -32,6 +33,8 @@ const AdminControls = () => {
       <h2>Admin Controls</h2>
       <h3>Sign Up User</h3>
       <SignUpUser /> {/* Component for registering new users. */}
+      <h3>Create Post</h3> {/* Add a heading for the CreatePost component */}
+      <CreatePost /> {/* Include the CreatePost component */}
       <h3>Look Up User</h3>
       <div className="allUsers">
         {/* Render UserDetails components for each user if the `users` state is not null. */}
