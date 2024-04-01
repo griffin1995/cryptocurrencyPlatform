@@ -52,8 +52,9 @@ export default function LogIn() {
       <div>{userFirstName}</div>
       <div>{loggingIn ? "True" : "False"}</div>
       <Col
-        md="2"
+        md={2}
         className="bg-primary form d-flex align-items-center justify-content-center rounded"
+        style={{ marginTop: '-500px' }} // Adjusts the negative margin to move the box up
       >
         <Container fluid>
           <Row className="text-center">
@@ -98,3 +99,4 @@ export default function LogIn() {
     </Row>
   );
 }
+
