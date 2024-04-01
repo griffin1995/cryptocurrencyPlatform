@@ -9,6 +9,7 @@ import SignUp from "./pages/SignUp"
 import LogIn from "./pages/LogIn"
 import Support from './pages/Support';
 import Markets from "./pages/Markets";
+import Blog from "./pages/Blog"
 
 // import Navbar from "./components/NavigationBar";
 import Navbar from "./components/NavigationBar";
@@ -31,6 +32,7 @@ function App() {
             <Route path="/LogIn" element={<LogIn />} />
             <Route path="/Support" element={<Support />} />
             <Route path="/Markets" element={<Markets/>}/>
+            <Route path="/Blog" element={<Blog/>}/>
           </Routes>
       </BrowserRouter>
     </Container>

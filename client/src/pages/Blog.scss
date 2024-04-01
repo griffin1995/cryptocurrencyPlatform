@@ -1,0 +1,29 @@
+.blog-container {
+    padding: 3rem 1rem;
+    min-height: 100vh;
+}
+
+.card .card-title {
+    color: #007EA7;  // Replace with the color you want
+}
+
+.btn-primary {
+    background-color: #007bff;  
+}
+
+.blog-container {
+    padding-top: 15rem;
+}
+
+@media (max-width: 767px) {
+    .blog-container {
+        padding-top: 1rem;
+    }
+}
+
+/* Tablet (devices with width between 768px and 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .blog-container {
+        padding-top: 3rem;
+    }
+}
