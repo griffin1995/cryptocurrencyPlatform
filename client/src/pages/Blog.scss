@@ -11,12 +11,20 @@
     background-color: #007bff;  
 }
 
-.blog-container {
-    padding-top: 15rem;
-}
-
 .error-message {
     color: white;
+}
+
+.post-info {
+    margin-top: 1rem;
+}
+
+.date-author {
+    color: lightgrey;
+}
+
+.author-name {
+    margin-left: 0.5rem; // Adjust this value as needed for spacing
 }
 
 @media (max-width: 767px) {
