@@ -1,47 +1,32 @@
-import React, { createContext, useReducer } from "react";
+import { createContext, useState, useContext } from "react";
 
 // Create a context for managing user authentication state
 export const AuthContext = createContext();
 
-// Define actions for managing authentication state
-const LOGIN = "LOGIN";
-const LOGOUT = "LOGOUT";
-
-// Reducer function for managing state transitions in the authentication context
-const authReducer = (state, action) => {
-  switch (action.type) {
-    case LOGIN:
-      return { isLoggedIn: true };
-    case LOGOUT:
-      return { isLoggedIn: false };
-    default:
-      return state;
-  }
-};
+// Custom hook to access the authentication context
+export const useAuth = () => useContext(AuthContext);
 
 // Component that provides the AuthContext to its child components
 export const AuthContextProvider = ({ children }) => {
-  // Initialize the state of the context using the useReducer hook with the authReducer function
-  const [state, dispatch] = useReducer(authReducer, { isLoggedIn: false });
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Initial state: not logged in
 
   // Function to handle user login
   const login = () => {
-    dispatch({ type: LOGIN });
+    setIsLoggedIn(true);
   };
 
   // Function to handle user logout
   const logout = () => {
-    dispatch({ type: LOGOUT });
+    setIsLoggedIn(false);
   };
 
   // The context value includes the isLoggedIn state and login/logout functions
   const contextValue = {
-    isLoggedIn: state.isLoggedIn,
+    isLoggedIn,
     login,
     logout
   };
 
-  // Provide the AuthContext with the context value
   return (
     <AuthContext.Provider value={contextValue}>
       {children}
