@@ -26,8 +26,8 @@ router.get("/", getAllUsers);
 router.get("/:id", getUser);
 
 // Define a GET route for fetching a single user by their unique Email. 
-// The ':email' parameter in the URL path dynamically captures the user's Email from the incoming request.
-router.get("/:email", getUserEmail);
+// The '/email/:email' parameter in the URL path dynamically captures the user's Email from the incoming request.
+router.get("/email/:email", getUserEmail);
 
 // Define a POST route for creating a new user. 
 // This endpoint expects user data in the request body, which the createUser function from the controller processes.

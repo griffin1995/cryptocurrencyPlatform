@@ -19,13 +19,13 @@ export default function LogIn() {
     const fetchUser = async (email, loggingIn) => {
       if (loggingIn) {
         try {
-          const response = await fetch("/api/adminRoutes/" + user.email, {
-            method: "GET",
-          });
+          const response = await fetch(`/api/adminRoutes/email/${email}`);
           if (response.ok) {
             const json = await response.json();
             setUser(json);
             setUserFirstName(json.firstName);
+            console.log(json.firstName);
+            console.log(json);
           } else {
             console.log("USER NOT FOUND");
             setLoggingIn(false);
@@ -39,9 +39,11 @@ export default function LogIn() {
     fetchUser(email, loggingIn);
   }, [email, loggingIn]);
 
-  const loggingInHandler = () => {
+  const loggingInHandler = (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
     setLoggingIn(true);
   };
+
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
