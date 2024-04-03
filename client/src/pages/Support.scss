@@ -1,16 +1,3 @@
-
-/* Create a grid container with two columns and a gap of 10px */
-.grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr; 
-    gap: 50px; 
-}
-
-/* Style the FAQ section */
-.faq-section {
-    margin: 100px 0 0 50px;
-}
-
 /* Style the details element within the FAQ section */
 .faq-section details {
     margin-bottom: 30px;
@@ -68,26 +55,6 @@
     margin-top: 20px;
 }
 
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    margin: 100px 0 0 0px;
-    align-items: flex-start;
-}
-
-.contact-form form {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-}
-
-.first-row{
-    display: flex;
-    justify-content: flex-start;
-}
-
 .get-in-touch {
     font-size: 64px;
     color: white;
@@ -95,47 +62,4 @@
     .highlight {
         color: #007EA7;
     }
-}
-
-/* Support.css */
-
-.contact-form form input[type="text"],
-.contact-form form input[type="email"],
-.contact-form form textarea {
-    margin-bottom: 25px;
-    padding: 10px;
-    border: 2px solid white;
-    border-radius: 5px;
-    box-sizing: border-box;
-    background-color: #00171f;
-    color: #fff;
-    letter-spacing: 1px;
-}
-
-.contact-form form .row {
-    display: flex;
-    justify-content: space-between;
-    width: 100%
-}
-
-.contact-form form .row input[type="text"] {
-    width: 49%; /* to account for the space-between */
-}
-
-.contact-form form textarea {
-    height: 200px; 
-}
-
-.contact-form form button {
-    padding: 10px;
-    background-color: #007EA7;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 400px;
-    overflow: hidden;
-    transition: all .2s ease-in-out;
-    width: 30%;
-    margin-left: auto;
 }

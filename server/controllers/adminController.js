@@ -70,18 +70,13 @@ const getUser = async (request, response) => {
 const getUserEmail = async (request, response) => {
   const { email } = request.params;
 
-  try {
-    const user = await User.findOne({ email });
+  const user = await User.findOne({email});
 
-    if (!user) {
-      return response.status(404).json({ error: "Can't find the user" });
-    }
-
-    response.status(200).json(user);
-  } catch (error) {
-    console.error('Error fetching user by email:', error);
-    response.status(500).json({ error: 'Internal server error' });
+  if (!user) {
+    return response.status(404).json({ error: "Can't find the user" });
   }
+
+  response.status(200).json(user);
 };
 
 /**
