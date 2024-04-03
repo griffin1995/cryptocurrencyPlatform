@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import image from "../media/place-holder.jpg"
-
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Blog = () => {
     // Define an array of blog posts
@@ -20,6 +20,8 @@ const Blog = () => {
 
     //     fetchPosts();
     // }, []);
+
+    //const { isLoggedIn } = useAuthContext(); // Access isLoggedIn state from authentication context
 
     const posts = [
         {
@@ -56,12 +58,15 @@ const Blog = () => {
         },
     ];
 
-    // Render login prompt if user is not logged inb
+    // Render login prompt if user is not logged in
     // if (!isLoggedIn) {
     //     return (
-    //         <div className="login-prompt">
-    //             <p>Please Log In first to get Access to the Blog</p>
-    //             <Button variant="primary">Log In</Button>
+    //         <div className="blog-container">
+    //             <div className="login-prompt">
+    //                 <p>Please Log In first to get Access to the Blog</p>
+    //                 {/* Add login button or link */}
+    //                 <Button variant="primary">Log In</Button>
+    //             </div>
     //         </div>
     //     );
     // }
