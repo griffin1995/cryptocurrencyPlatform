@@ -26,7 +26,7 @@ const Blog = () => {
     const posts = [
         {
             id: 1,
-            title: 'The Rise of Bitcoin',
+            title: 'The Rise of Bitcoin: BEWARE OF IT!',
             date: 'April 1, 2024',
             author: 'Jack Griffin',
             image: 'got annoyed', 
@@ -89,7 +89,7 @@ const Blog = () => {
                                             <span className="date-author author-name">{post.author}</span>
                                         </div>
                                     </Card.Title>
-                                    <Card.Text>{post.content}</Card.Text>
+                                    <Card.Text className="post-description">{post.content}</Card.Text>
                                     <Button variant="primary">Read More</Button>
                                 </Card.Body>
                             </Card>
