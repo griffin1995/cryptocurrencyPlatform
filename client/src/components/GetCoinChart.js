@@ -52,7 +52,7 @@ export default function GetCoinChart() {
     labels,
     datasets: [
       {
-        label: "Average Temperature (°C)",
+        label: "Some coin data",
         data: labelsTestData,
         borderColor: "#8de969",
         backgroundColor: "#8de969",
