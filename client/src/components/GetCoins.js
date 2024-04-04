@@ -1,10 +1,9 @@
 import React from "react";
-import useCoins from "../hooks/useCoins";
-import GetCoinsNamesList from "./GetCoinsNamesList";
+import useAllCoins from "../hooks/useAllCoins";
 
 export default function GetCoins() {
 
-  const coins = GetCoinsNamesList.map(useCoins);
+  const allCoins = useAllCoins();
 
-  return coins;
+  return allCoins?.data;
 }

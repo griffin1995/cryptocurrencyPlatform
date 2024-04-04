@@ -3,6 +3,7 @@ import { Container, Row, Col, ListGroup, Card } from "react-bootstrap";
 import useConvertCurrency from "../hooks/useConvertCurrency";
 import GetCoins from "../components/GetCoins";
 import GetCoinChart from "../components/GetCoinChart"
+import "./Markets.scss";
 
 export default function Markets() {
   //Fetchin data for all coins
@@ -12,7 +13,7 @@ export default function Markets() {
   const [selectedCoin, setSelectedCoin] = useState(null);
 
   useEffect(() => {
-    if (selectedCoin === null) {
+    if (selectedCoin === null && coins != null) {
       setSelectedCoin(coins[0]);
     }
   }, [coins, selectedCoin]);
@@ -20,38 +21,38 @@ export default function Markets() {
   console.log("CURRENCY TO GBP");
   return (
     <>
-      <Row className="text-white py-4">
-        <Col xs={2}>
+      <Row className="text-white py-4 list-graph-section">
+        <Col xs={2} className="d-flex flex-column">
           <ListGroup className="text-center" defaultActiveKey="#Bitcoin">
-            {coins.length === 0 ? (
+            {coins?.length === 0 ? (
               <p>No coins data</p>
             ) : (
               <>
-                {coins.map((coin) => (
+                {coins?.map((coin) => (
                   <ListGroup.Item
                     action
-                    href={"#" + coin?.data.name}
+                    href={"#" + coin?.name}
                     onClick={() => setSelectedCoin(coin)}
                   >
-                    {coin?.data != null ? coin?.data.name + " (" + coin?.data.symbol + ")" : "Fetching data"}
+                    {coin != null ? coin?.name + " (" + coin?.symbol + ")" : "Fetching data"}
                   </ListGroup.Item>
                 ))}
               </>
             )}
           </ListGroup>
         </Col>
-        <Col xs={10}>
+        <Col xs={10} className="d-flex flex-column align-items-start limiter">
           <Container fluid className="bg-primary rounded">
             <Row>
               <Col sm={12}>
-                <h1>{selectedCoin?.data.name}</h1>
+                <h1>{selectedCoin?.name}</h1>
               </Col>
             </Row>
             <Row>
               <Col sm={12}>
                 <h3>
                   Current rate (GBP):{" "}
-                  {useConvertCurrency(selectedCoin?.data.priceUsd)}
+                  {useConvertCurrency(selectedCoin?.priceUsd)}
                 </h3>
               </Col>
             </Row>
@@ -64,25 +65,25 @@ export default function Markets() {
         </Col>
       </Row>
       <Row>
-        {coins.length === 0 ? (
+        {coins?.length === 0 ? (
           <p className="error-message">No posts to display</p>
         ) : (
           <>
-            {coins.map((coin) => (
+            {coins?.map((coin) => (
               <Col sm={3}>
                 <Card className="my-2 text-center" bg="primary" text="dark" border="primary">
                   <Card.Header className="text-light">
-                    <span className="h4">{coin?.data.symbol}</span>
+                    <span className="h4">{coin?.symbol}</span>
                   </Card.Header>
                   <Card.Body className="bg-light">
                     <Card.Title>Coin</Card.Title>
-                    <Card.Text>{coin?.data.name}</Card.Text>
+                    <Card.Text>{coin?.name}</Card.Text>
                     <hr className="bg-dark"/>
                     <Card.Title>Change (24Hr)</Card.Title>
-                    <Card.Text>{coin?.data.changePercent24Hr}%</Card.Text>
+                    <Card.Text>{coin?.changePercent24Hr}%</Card.Text>
                     <hr className="bg-dark"/>
                     <Card.Title>Current Price (USD)</Card.Title>
-                    <Card.Text>${coin?.data.priceUsd}</Card.Text>
+                    <Card.Text>${coin?.priceUsd}</Card.Text>
                   </Card.Body>
                 </Card>
               </Col>

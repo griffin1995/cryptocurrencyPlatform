@@ -1,6 +1,5 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
-import CoinsNamesList from "./GetCoinsNamesList";
 
 import {
   Chart as ChartJS,
@@ -53,7 +52,7 @@ export default function GetCoinChart() {
     labels,
     datasets: [
       {
-        label: "Some crypto data",
+        label: "Average Temperature (°C)",
         data: labelsTestData,
         borderColor: "#8de969",
         backgroundColor: "#8de969",

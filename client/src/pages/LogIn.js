@@ -50,8 +50,6 @@ export default function LogIn() {
 
   return (
     <Row className="justify-content-center align-items-center form-container text-light">
-      <div>{userFirstName}</div>
-      <div>{loggingIn ? "True" : "False"}</div>
       <Col
         md="2"
         className="bg-primary form d-flex align-items-center justify-content-center rounded"
