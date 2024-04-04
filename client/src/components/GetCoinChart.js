@@ -54,8 +54,8 @@ export default function GetCoinChart() {
       {
         label: "Some coin data",
         data: labelsTestData,
-        borderColor: "#8de969",
-        backgroundColor: "#8de969",
+        borderColor: "#00a7e1",
+        backgroundColor: "#00a7e1",
       },
     ],
   };
