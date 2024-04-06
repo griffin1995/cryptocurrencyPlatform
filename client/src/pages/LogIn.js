@@ -27,7 +27,7 @@ export default function LogIn() {
             console.log(json.firstName);
             console.log(json);
           } else {
-            console.log("USER NOT FOUND");
+            console.log("USER NOT FOUND ", response);
             setLoggingIn(false);
           }
         } catch (error) {
