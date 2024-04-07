@@ -4,6 +4,7 @@ import { AdminContextProvider } from "../context/AdminContext";
 // Import components for displaying coin details and administrative controls.
 import CoinDetails from "../components/CoinDetails";
 import AdminControls from "../components/AdminControls";
+import "./Home.scss";
 
 /**
  * Home component serving as the main view for the application.

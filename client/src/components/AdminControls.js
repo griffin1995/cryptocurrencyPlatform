@@ -5,6 +5,7 @@ import SignUpUser from "./SignUpUser";
 import UserDetails from "./UserDetails";
 import { useAdminContext } from "../hooks/useAdminContext";
 import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
+import "./AdminControls.scss";
 /**
  * AdminControls component for managing user-related administrative functions.
  * This component handles user registration and displays a list of users.
