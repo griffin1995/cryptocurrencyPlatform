@@ -4,28 +4,33 @@ import React, { useEffect } from "react";
 import SignUpUser from "./SignUpUser";
 import UserDetails from "./UserDetails";
 import { useAdminContext } from "../hooks/useAdminContext";
+import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
 /**
  * AdminControls component for managing user-related administrative functions.
  * This component handles user registration and displays a list of users.
  */
 const AdminControls = () => {
   const { users, dispatch } = useAdminContext();
+  const { user } = useAuthenticationContext();
   useEffect(() => {
     /**
      * Fetches and updates the state with user data from the server.
      * It asynchronously retrieves user data from the `/api/adminRoutes` endpoint and updates the `users` state.
      */
     const fetchUsers = async () => {
-      const response = await fetch("/api/adminRoutes");
+      const response = await fetch("/api/adminRoutes", {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
       const json = await response.json();
       if (response.ok) {
         //executes the usersReducer function
         dispatch({ type: "SET_USERS", payload: json });
       }
     };
-
-    fetchUsers(); // Execute the fetch operation when the component mounts.
-  }, []);
+    if (user) {
+      fetchUsers(); // Execute the fetch operation when the component mounts.
+    }
+  }, [dispatch, user]);
 
   return (
     <div className="admin-controls">

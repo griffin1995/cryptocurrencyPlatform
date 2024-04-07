@@ -1,6 +1,6 @@
 // Import the User model to interact with the MongoDB 'users' collection.
 const User = require("../models/userModel");
-// Import Mongoose for MongoDB object modeling and to utilize its schema validation and ObjectId.
+// Import Mongoose for MongoDB object modelling and to utilize its schema validation and ObjectId.
 const mongoose = require("mongoose");
 
 /**
@@ -12,7 +12,33 @@ const mongoose = require("mongoose");
 const createUser = async (request, response) => {
   const { firstName, lastName, email, phoneNumber, password, paymentDetails } =
     request.body;
+  let emptyFields = [];
 
+  if (!firstName) {
+    emptyFields.push("firstName");
+  }
+  if (!lastName) {
+    emptyFields.push("lastName");
+  }
+  if (!email) {
+    emptyFields.push("email");
+  }
+  if (!phoneNumber) {
+    emptyFields.push("phoneNumber");
+  }
+  if (!password) {
+    emptyFields.push("password");
+  }
+  if (!paymentDetails) {
+    emptyFields.push("paymentDetails");
+  }
+
+  if (emptyFields.length > 0) {
+    return response.status(400).json({
+      error: "Please fill in all of the fields",
+      emptyFields,
+    });
+  }
   try {
     const user = await User.create({
       firstName,
@@ -70,7 +96,7 @@ const getUser = async (request, response) => {
 const getUserEmail = async (request, response) => {
   const { email } = request.params;
 
-  const user = await User.findOne({email});
+  const user = await User.findOne({ email });
 
   if (!user) {
     return response.status(404).json({ error: "Can't find the user" });

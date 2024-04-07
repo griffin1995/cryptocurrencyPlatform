@@ -1,51 +1,24 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
+import { useLogin } from "../hooks/useLogin";
 import { Link } from "react-router-dom";
 import "./SignUpLogIn.scss";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 
 //Login form window where users can log in
 export default function LogIn() {
-  const [user, setUser] = useState(null); // State to store user data fetched from the API.
-  const [userFirstName, setUserFirstName] = useState("NO USER FOUND");
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState(null);
-  const [loggingIn, setLoggingIn] = useState(false);
+  // State hooks for managing email and password input fields
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { login, isLoading, error } = useLogin();
 
-  useEffect(() => {
-    const fetchUser = async (email, loggingIn) => {
-      if (loggingIn) {
-        try {
-          const response = await fetch(`/api/adminRoutes/email/${email}`);
-          if (response.ok) {
-            const json = await response.json();
-            setUser(json);
-            setUserFirstName(json.firstName);
-            console.log(json.firstName);
-            console.log(json);
-          } else {
-            console.log("USER NOT FOUND ", response);
-            setLoggingIn(false);
-          }
-        } catch (error) {
-          console.error("Error fetching user:", error);
-          setLoggingIn(false);
-        }
-      }
-    };
-    fetchUser(email, loggingIn);
-  }, [email, loggingIn]);
-
-  const loggingInHandler = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    setLoggingIn(true);
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  /**
+   * Handles the form submission event.
+   * Prevents the default form submission behavior and logs the email and password.
+   * @param {Event} e - The event object
+   */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(email, password);
   };
 
   return (
@@ -69,12 +42,12 @@ export default function LogIn() {
           </Row>
           <Row>
             <Col xs={12}>
-              <Form onSubmit={loggingInHandler}>
+              <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-1" controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control
                     type="email"
-                    onChange={handleEmailChange}
+                    onChange={(e) => setEmail(e.target.value)}
                     value={email}
                     placeholder="Enter email"
                   />
@@ -84,11 +57,17 @@ export default function LogIn() {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                  />
                 </Form.Group>
-                <Button variant="secondary" type="submit" className="w-100">
+                <Button disabled={isLoading} variant="secondary" type="submit" className="w-100">
                   Log In
                 </Button>
+                {error && <span className="error">{error}</span>}
               </Form>
             </Col>
           </Row>

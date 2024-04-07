@@ -1,33 +1,30 @@
 import React, { useState } from "react";
 import {Link} from "react-router-dom";
 import "./SignUpLogIn.scss";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Form0 from "./sign_up_forms/Form0"
-import Form1 from "./sign_up_forms/Form1"
-import Form2 from "./sign_up_forms/Form2"
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { useSignUp } from "../hooks/useSignUp";
 
 export default function SignUp() {
-  const [currentForm, setCurrentForm] = useState(0);
-  const [submittedData, setSubmittedData] = useState(null);
+  // State hooks for managing email and password input fields
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  // Retrieves signUp function and state from custom hook for handling the sign-up process
+  const { signUp, isLoading, error } = useSignUp();
 
-  const handleFormSubmit = (isValid) => {
-      setCurrentForm((prevForm) => prevForm + 1);
+  /**
+   * Handles the form submission event.
+   * Prevents the default form submission behavior and logs the email and password.
+   * Initiates the sign-up process with user-provided details.
+   * @param {Event} e - The event object
+   */
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevents the browser from performing the default form submit action
+    await signUp(firstName, lastName, email, phoneNumber, password); // Calls signUp from useSignUp hook
   };
 
-  const renderForm = () => {
-    switch (currentForm) {
-      case 1:
-        return <Form1 onSubmit={handleFormSubmit} />;
-      case 2:
-        return <Form2 onSubmit={handleFormSubmit} />;
-      default:
-        return <Form0 onSubmit={handleFormSubmit} />;
-    }
-  };
   return (
     <Row className="justify-content-center align-items-center form-container text-light">
       <Col
@@ -49,7 +46,6 @@ export default function SignUp() {
           </Row>
           <Row>
             <Col xs={12}>
-            {renderForm()}
             </Col>
           </Row>
         </Container>

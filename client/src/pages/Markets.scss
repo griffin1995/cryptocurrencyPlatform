@@ -1,7 +1,14 @@
-.list-graph-section{
-    :not(.limiter) > .list-group{
-        flex-basis: 0px;
-        flex-grow: 1;
-        overflow-y: auto;
-      }
+.list-graph-section {
+  :not(.limiter) > .list-group {
+    flex-basis: 0px;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+}
+
+.list-group-item {
+  &:not(.active) {
+    background-color: #ebebeb; /* Change this to your desired color */
+  }
+  border-color: #007ea7;
 }

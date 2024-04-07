@@ -2,14 +2,13 @@ import { React, useEffect, useState } from "react";
 import { Container, Row, Col, ListGroup, Card } from "react-bootstrap";
 import useConvertCurrency from "../hooks/useConvertCurrency";
 import GetCoins from "../components/GetCoins";
-import GetCoinChart from "../components/GetCoinChart"
+import GetCoinChart from "../components/GetCoinChart";
 import "./Markets.scss";
 
-export default function Markets() {
-  //Fetchin data for all coins
-  const coins = GetCoins();
+//This is the Market page where user can see more in-depth information about different coins
 
-  //Currently selected coin
+export default function Markets() {
+  const coins = GetCoins();
   const [selectedCoin, setSelectedCoin] = useState(null);
 
   useEffect(() => {
@@ -18,10 +17,9 @@ export default function Markets() {
     }
   }, [coins, selectedCoin]);
 
-  console.log("CURRENCY TO GBP");
   return (
     <>
-      <Row className="text-white py-4 list-graph-section">
+      <Row className="py-4 list-graph-section">
         <Col xs={2} className="d-flex flex-column">
           <ListGroup className="text-center" defaultActiveKey="#Bitcoin">
             {coins?.length === 0 ? (
@@ -34,7 +32,9 @@ export default function Markets() {
                     href={"#" + coin?.name}
                     onClick={() => setSelectedCoin(coin)}
                   >
-                    {coin != null ? coin?.name + " (" + coin?.symbol + ")" : "Fetching data"}
+                    {coin != null
+                      ? coin?.name + " (" + coin?.symbol + ")"
+                      : "Fetching data"}
                   </ListGroup.Item>
                 ))}
               </>
@@ -43,22 +43,22 @@ export default function Markets() {
         </Col>
         <Col xs={10} className="d-flex flex-column align-items-start limiter">
           <Container fluid className="bg-primary rounded">
-            <Row>
-              <Col sm={12}>
-                <h1>{selectedCoin?.name}</h1>
+            <Row className="pt-3">
+              <Col sm={12} className="text-center text-light ">
+                <h1>[{selectedCoin?.name}]</h1>
               </Col>
             </Row>
+            <hr className="bg-dark" />
             <Row>
-              <Col sm={12}>
-                <h3>
-                  Current rate (GBP):{" "}
-                  {useConvertCurrency(selectedCoin?.priceUsd)}
-                </h3>
+              <Col sm={12} className="text-center">
+                <h3 className="text-success fw-bolder">Current rate (GBP):</h3>
+                <h4 className="text-light">{useConvertCurrency(selectedCoin?.priceUsd)}</h4>
               </Col>
             </Row>
+            <hr className="bg-dark" />
             <Row>
               <Col sm={12}>
-                  {GetCoinChart()}
+                <GetCoinChart coin={selectedCoin?.id} />
               </Col>
             </Row>
           </Container>
@@ -71,17 +71,22 @@ export default function Markets() {
           <>
             {coins?.map((coin) => (
               <Col sm={3}>
-                <Card className="my-2 text-center" bg="primary" text="dark" border="primary">
+                <Card
+                  className="my-2 text-center"
+                  bg="primary"
+                  text="dark"
+                  border="primary"
+                >
                   <Card.Header className="text-light">
                     <span className="h4">{coin?.symbol}</span>
                   </Card.Header>
                   <Card.Body className="bg-light">
                     <Card.Title>Coin</Card.Title>
                     <Card.Text>{coin?.name}</Card.Text>
-                    <hr className="bg-dark"/>
+                    <hr className="bg-dark" />
                     <Card.Title>Change (24Hr)</Card.Title>
                     <Card.Text>{coin?.changePercent24Hr}%</Card.Text>
-                    <hr className="bg-dark"/>
+                    <hr className="bg-dark" />
                     <Card.Title>Current Price (USD)</Card.Title>
                     <Card.Text>${coin?.priceUsd}</Card.Text>
                   </Card.Body>

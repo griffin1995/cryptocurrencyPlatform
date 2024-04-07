@@ -1,6 +1,8 @@
 // Import the React library to enable the use of React's features, such as components and hooks.
 import React from "react";
 import { useAdminContext } from "../hooks/useAdminContext";
+import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
+
 /**
  * UserDetails component for displaying detailed information about a user.
  *
@@ -9,6 +11,8 @@ import { useAdminContext } from "../hooks/useAdminContext";
  *           phone number, and the last update timestamp.
  */
 const UserDetails = ({ user }) => {
+  const { userAuth } = useAuthenticationContext();
+
   const { dispatch } = useAdminContext();
   // Convert the 'updatedAt' string from the user object to a Date object for date manipulation.
   const updatedAt = new Date(user.updatedAt);
@@ -24,10 +28,15 @@ const UserDetails = ({ user }) => {
 
   // Use the toLocaleString method to format the 'updatedAt' date based on the specified options.
   const dateString = updatedAt.toLocaleString(undefined, dateOptions);
-  
+
   const handleDelete = async () => {
+
+    if (!userAuth) {
+      return;
+    }
     const response = await fetch("/api/adminRoutes/" + user._id, {
       method: "DELETE",
+      headers: { Authorization: `Bearer ${user.token}` },
     });
     //when we get the response the document that's just been deleted is returned
     const json = await response.json();
@@ -58,9 +67,9 @@ const UserDetails = ({ user }) => {
         <strong>Updated at: </strong>
         {dateString}
       </p>
-      <p onClick={handleDelete}>
-        <u>Delete User</u>
-      </p>
+      <span className="material-symbols-outlined" onClick={handleDelete}>
+        delete{" "}
+      </span>
     </div>
   );
 };

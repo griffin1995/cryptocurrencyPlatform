@@ -4,7 +4,7 @@ import { useState } from "react";
 // Import our custom hook, useAdminContext, to interact with our global admin state.
 // This lets us dispatch actions (like adding a new user) that can affect the whole app.
 import { useAdminContext } from "../hooks/useAdminContext";
-
+import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
 /**
  * SignUpUser is a component that renders a form for user registration.
  * It captures user details through form inputs, validates and submits this data to a server,
@@ -15,6 +15,7 @@ const SignUpUser = () => {
   // This function allows us to send actions to our global state to update it,
   // such as adding a new user to our list of users.
   const { dispatch } = useAdminContext();
+  const { userAuth } = useAuthenticationContext();
 
   // useState hooks for managing form inputs and submission feedback.
   // Each call to useState returns a pair: the current state value and a function that lets you update it.
@@ -44,7 +45,12 @@ const SignUpUser = () => {
    */
   const handleSubmit = async (e) => {
     e.preventDefault(); // Stops the form from submitting in the traditional way (no page reload).
-
+    if (!userAuth) {
+      setError(
+        "You must be logged in with admin privileges to create a new user."
+      );
+      return;
+    }
     // Constructs a user object from the current state.
     const user = {
       firstName,
@@ -59,7 +65,10 @@ const SignUpUser = () => {
       // Try to send the user data to the server using the fetch API.
       const response = await fetch("/api/adminRoutes", {
         method: "POST", // Specifies the request method.
-        headers: { "Content-Type": "application/json" }, // Tells the server we're sending JSON.
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        }, // Tells the server we're sending JSON.
         body: JSON.stringify(user), // Turns the user object into a JSON string to send in the request body.
       });
 
@@ -76,6 +85,7 @@ const SignUpUser = () => {
         `Success! ${firstName} ${lastName} has been signed up with the email: ${email}.`
       );
       setError(null);
+
       resetFormFields(); // Resets the form fields to their initial state.
 
       // Dispatches an action to our global state to add the new user to our list of users.
@@ -104,6 +114,7 @@ const SignUpUser = () => {
   // Render the sign-up form.
   // This includes input fields for all user details, a submit button, and areas to display error or success messages.
   return (
+    // TODO: Implement CSS for className "error" > if x field is empty then className = error > red border etc
     <form className="signUp" onSubmit={handleSubmit}>
       <h3>Create a new user</h3>
       {/* Input fields for collecting user information, with onChange handlers to update state. */}
@@ -112,39 +123,35 @@ const SignUpUser = () => {
         type="text"
         onChange={(e) => setFirstName(e.target.value)}
         value={firstName}
-        class={emptyFields.includes("firstName") ? 'error' : ''}
+        className={emptyFields.includes("firstName") ? "error" : ""}
       />
       <label>Last Name:</label>
       <input
         type="text"
         onChange={(e) => setLastName(e.target.value)}
         value={lastName}
-        class={emptyFields.includes("lastName") ? 'error' : ''}
-
+        className={emptyFields.includes("lastName") ? "error" : ""}
       />
       <label>Email:</label>
       <input
         type="email"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
-        class={emptyFields.includes("email") ? 'error' : ''}
-
+        className={emptyFields.includes("email") ? "error" : ""}
       />
       <label>Phone Number:</label>
       <input
         type="text"
         onChange={(e) => setPhoneNumber(e.target.value)}
         value={phoneNumber}
-        class={emptyFields.includes("phoneNumber") ? 'error' : ''}
-
+        className={emptyFields.includes("phoneNumber") ? "error" : ""}
       />
       <label>Password:</label>
       <input
         type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
-        class={emptyFields.includes("password") ? 'error' : ''}
-
+        className={emptyFields.includes("password") ? "error" : ""}
       />
       <button>Sign Up</button> {/* Button to trigger form submission. */}
       {/* Display error or success messages based on the state. */}
