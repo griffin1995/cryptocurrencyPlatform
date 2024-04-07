@@ -47,20 +47,20 @@ export default function NavigationBar() {
               <Nav.Link as={Link} to="/Blog">
                 Blog
               </Nav.Link>
-              {/* Show sign up and login links only if user is not logged in */}
-              {!user && (
-                <>
-                  <Nav.Link as={Link} to="/signup">
-                    Sign Up
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/login">
-                    Log In
-                  </Nav.Link>
-                </>
-              )}
               <Nav.Link as={Link} to="/Support">
                 Support
               </Nav.Link>
+              {/* Show sign up and login links only if user is not logged in */}
+              {!user && (
+                <>
+                  <Nav.Link as={Link} to="/login">
+                    Log In
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/signup" className="btn btn-primary rounded-pill">
+                    Sign Up
+                  </Nav.Link>
+                </>
+              )}
               {/* Logout button visible only if user is logged in */}
               {user && (
                 <Button type="submit" onClick={handleClick}>
