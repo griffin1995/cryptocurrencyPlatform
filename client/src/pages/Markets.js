@@ -45,14 +45,15 @@ export default function Markets() {
           <Container fluid className="bg-primary rounded">
             <Row className="pt-3">
               <Col sm={12} className="text-center text-light ">
-                <h1>[{selectedCoin?.name}]</h1>
+                {/* <h1>[{selectedCoin?.name}]</h1> */}
               </Col>
             </Row>
             <hr className="bg-dark" />
             <Row>
               <Col sm={12} className="text-center">
                 <h3 className="text-success fw-bolder">Current rate (GBP):</h3>
-                <h4 className="text-light">{useConvertCurrency(selectedCoin?.priceUsd)}</h4>
+                {/* <h4 className="text-light">{useConvertCurrency(selectedCoin?.priceUsd)}</h4> */}
+                <h4 className="text-light">${parseFloat(useConvertCurrency(selectedCoin?.priceUsd)).toFixed(2)}</h4>
               </Col>
             </Row>
             <hr className="bg-dark" />
