@@ -51,7 +51,9 @@ export default function Markets() {
             <Row>
               <Col sm={12} className="text-center">
                 <h3 className="text-success fw-bolder">Current rate (USD):</h3>
-                <h4 className="text-light">{selectedCoin?.priceUsd}</h4>
+                {/* <h4 className="text-light">{selectedCoin?.priceUsd}</h4> */}
+                <h4 className="text-light">${selectedCoin?.priceUsd ? Number(selectedCoin.priceUsd).toFixed(2) : 'N/A'}</h4>
+
               </Col>
             </Row>
             <hr className="bg-dark" />
