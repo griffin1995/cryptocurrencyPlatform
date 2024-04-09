@@ -1,7 +1,6 @@
 // Import the React library to enable the use of React's features, such as components and hooks.
 import React from "react";
 import { useAdminContext } from "../hooks/useAdminContext";
-import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
 
 /**
  * UserDetails component for displaying detailed information about a user.
@@ -11,7 +10,12 @@ import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
  *           phone number, and the last update timestamp.
  */
 const UserDetails = ({ user }) => {
-  const { userAuth } = useAuthenticationContext();
+
+  // TODO: Decouple display and authentication responsibilities. Implement a dedicated authentication context or mechanism
+  // TODO: that consistently provides the current logged-in user's credentials, independent of the user objects used for display.
+  // TODO: Additionally, consider implementing role-based access control, checking if `user.role === 'admin'` to ensure that only
+  // TODO: authorized users can perform CRUD operations. This will ensure that authentication checks are always reliable and not
+  // TODO: dependent on which user details are being displayed, and that they appropriately restrict access based on user roles.
 
   const { dispatch } = useAdminContext();
   // Convert the 'updatedAt' string from the user object to a Date object for date manipulation.
@@ -30,11 +34,10 @@ const UserDetails = ({ user }) => {
   const dateString = updatedAt.toLocaleString(undefined, dateOptions);
 
   const handleDelete = async () => {
-
-    if (!userAuth) {
+    if (!user) {
       return;
     }
-    const response = await fetch("/api/adminRoutes/" + user._id, {
+    const response = await fetch("/api/admin/" + user._id, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${user.token}` },
     });

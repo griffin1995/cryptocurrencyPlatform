@@ -46,7 +46,7 @@ const loginUser = async (request, response) => {
  * @param {Object} response - The HTTP response object used to send back the new user data or error message.
  */
 const signupUser = async (request, response) => {
-  const { firstName, lastName, email, phoneNumber, password, paymentDetails } =
+  const { firstName, lastName, email, phoneNumber, password } =
     request.body;
 
   try {
@@ -57,7 +57,6 @@ const signupUser = async (request, response) => {
       email,
       phoneNumber,
       password,
-      paymentDetails
     );
 
     // Create a JSON Web Token for the newly created user using their MongoDB ID.

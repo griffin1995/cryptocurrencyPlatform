@@ -15,18 +15,16 @@ const SignUpUser = () => {
   // This function allows us to send actions to our global state to update it,
   // such as adding a new user to our list of users.
   const { dispatch } = useAdminContext();
-  const { userAuth } = useAuthenticationContext();
+  const { user } = useAuthenticationContext();
 
   // useState hooks for managing form inputs and submission feedback.
   // Each call to useState returns a pair: the current state value and a function that lets you update it.
-  // Here, we initialize our form fields to empty strings or false (for paymentDetails),
   // and our feedback messages (error, success) to null because they have no value initially.
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [paymentDetails, setPaymentDetails] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
@@ -45,31 +43,30 @@ const SignUpUser = () => {
    */
   const handleSubmit = async (e) => {
     e.preventDefault(); // Stops the form from submitting in the traditional way (no page reload).
-    if (!userAuth) {
+    if (!user) {
       setError(
         "You must be logged in with admin privileges to create a new user."
       );
       return;
     }
     // Constructs a user object from the current state.
-    const user = {
+    const newUser = {
       firstName,
       lastName,
       email,
       phoneNumber,
       password,
-      paymentDetails,
     };
 
     try {
       // Try to send the user data to the server using the fetch API.
-      const response = await fetch("/api/adminRoutes", {
+      const response = await fetch("/api/admin", {
         method: "POST", // Specifies the request method.
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
         }, // Tells the server we're sending JSON.
-        body: JSON.stringify(user), // Turns the user object into a JSON string to send in the request body.
+        body: JSON.stringify(newUser), // Turns the user object into a JSON string to send in the request body.
       });
 
       const json = await response.json(); // Parses the JSON response body from the server.
@@ -107,7 +104,6 @@ const SignUpUser = () => {
     setEmail("");
     setPhoneNumber("");
     setPassword("");
-    setPaymentDetails(false);
     setEmptyFields([]);
   };
 

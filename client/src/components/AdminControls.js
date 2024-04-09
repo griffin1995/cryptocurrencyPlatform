@@ -2,16 +2,17 @@
 import React, { useEffect } from "react";
 // Import components related to user actions within the admin panel.
 import SignUpUser from "./SignUpUser";
+import AddNewCoin from "./AddNewCoin";
 import UserDetails from "./UserDetails";
+import CoinDetails from "./CoinDetails";
 import { useAdminContext } from "../hooks/useAdminContext";
 import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
-import "./AdminControls.scss";
 /**
  * AdminControls component for managing user-related administrative functions.
  * This component handles user registration and displays a list of users.
  */
 const AdminControls = () => {
-  const { users, dispatch } = useAdminContext();
+  const { users, coins, dispatch } = useAdminContext();
   const { user } = useAuthenticationContext();
   useEffect(() => {
     /**
@@ -19,7 +20,7 @@ const AdminControls = () => {
      * It asynchronously retrieves user data from the `/api/adminRoutes` endpoint and updates the `users` state.
      */
     const fetchUsers = async () => {
-      const response = await fetch("/api/adminRoutes", {
+      const response = await fetch("/api/admin", {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       const json = await response.json();
@@ -28,8 +29,19 @@ const AdminControls = () => {
         dispatch({ type: "SET_USERS", payload: json });
       }
     };
+    const fetchCoins = async () => {
+      const response = await fetch("/api/coins", {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      const json = await response.json();
+      if (response.ok) {
+        //executes the usersReducer function
+        dispatch({ type: "SET_COINS", payload: json });
+      }
+    };
     if (user) {
-      fetchUsers(); // Execute the fetch operation when the component mounts.
+      fetchUsers();
+      fetchCoins(); // Execute the fetch operation when the component mounts.
     }
   }, [dispatch, user]);
 
@@ -43,6 +55,12 @@ const AdminControls = () => {
         {/* Render UserDetails components for each user if the `users` state is not null. */}
         {users &&
           users.map((user) => <UserDetails key={user._id} user={user} />)}
+      </div>{" "}
+      <AddNewCoin />
+      <div className="allCoins">
+        {/* Render UserDetails components for each user if the `users` state is not null. */}
+        {coins &&
+          coins.map((coin) => <CoinDetails key={coin._id} coin={coin} />)}
       </div>
     </div>
   );

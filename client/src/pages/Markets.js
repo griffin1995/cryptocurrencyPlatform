@@ -1,6 +1,5 @@
 import { React, useEffect, useState } from "react";
 import { Container, Row, Col, ListGroup, Card } from "react-bootstrap";
-import useConvertCurrency from "../hooks/useConvertCurrency";
 import GetCoins from "../components/GetCoins";
 import GetCoinChart from "../components/GetCoinChart";
 import "./Markets.scss";
@@ -45,15 +44,14 @@ export default function Markets() {
           <Container fluid className="bg-primary rounded">
             <Row className="pt-3">
               <Col sm={12} className="text-center text-light ">
-                {/* <h1>[{selectedCoin?.name}]</h1> */}
+                <h1>[{selectedCoin?.name}]</h1>
               </Col>
             </Row>
             <hr className="bg-dark" />
             <Row>
               <Col sm={12} className="text-center">
                 <h3 className="text-success fw-bolder">Current rate (USD):</h3>
-                {/* <h4 className="text-light">{useConvertCurrency(selectedCoin?.priceUsd)}</h4> */}
-                <h4 className="text-light">${parseFloat(useConvertCurrency(selectedCoin?.priceUsd)).toFixed(2)}</h4>
+                <h4 className="text-light">{selectedCoin?.priceUsd}</h4>
               </Col>
             </Row>
             <hr className="bg-dark" />

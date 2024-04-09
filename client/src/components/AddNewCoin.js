@@ -1,0 +1,182 @@
+// Import the useState hook from React to manage the state within our component.
+// This will allow us to keep track of coin inputs and feedback messages.
+import { useState } from "react";
+// Import our custom hook, useAdminContext, to interact with our global admin state.
+// This lets us dispatch actions (like adding a new coin) that can affect the whole app.
+import { useAdminContext } from "../hooks/useAdminContext";
+import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
+
+/**
+ * CreateCoin is a component that renders a form for coin creation.
+ * It captures coin details through form inputs, validates and submits this data to a server,
+ * and handles the response to either show a success message or an error message.
+ */
+const CreateCoin = () => {
+  // Access the 'dispatch' function from our admin context using the custom hook.
+  // This function allows us to send actions to our global state to update it,
+  // such as adding a new coin to our list of coins.
+  const { dispatch } = useAdminContext();
+  const { user } = useAuthenticationContext();
+
+  // useState hooks for managing form inputs and submission feedback.
+  const [id, setId] = useState("");
+  const [symbol, setSymbol] = useState("");
+  const [name, setName] = useState("");
+  const [supply, setSupply] = useState("");
+  const [maxSupply, setMaxSupply] = useState("");
+  const [marketCapUsd, setMarketCapUsd] = useState("");
+  const [volumeUsd24Hr, setVolumeUsd24Hr] = useState("");
+  const [priceUsd, setPriceUsd] = useState("");
+  const [changePercent24Hr, setChangePercent24Hr] = useState("");
+  const [vwap24Hr, setVwap24Hr] = useState("");
+  const [explorer, setExplorer] = useState("");
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [emptyFields, setEmptyFields] = useState([]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Stops the form from submitting in the traditional way (no page reload).
+    if (!user) {
+      setError(
+        "You must be logged in with admin privileges to create a new coin."
+      );
+      return;
+    }
+
+    const newCoin = {
+      id,
+      symbol,
+      name,
+      supply,
+      maxSupply,
+      marketCapUsd,
+      volumeUsd24Hr,
+      priceUsd,
+      changePercent24Hr,
+      vwap24Hr,
+      explorer,
+    };
+
+    try {
+      const response = await fetch("/api/coins", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify(newCoin),
+      });
+
+      const json = await response.json();
+
+      if (!response.ok) {
+        throw new Error(json.error);
+      }
+
+      setSuccess(`Success! The coin ${name} has been created.`);
+      setError(null);
+      resetFormFields();
+
+      // Dispatches an action to our global state to add the new coin to our list of coins.
+      dispatch({ type: "CREATE_COIN", payload: json });
+    } catch (error) {
+      setError(error.message);
+      setSuccess(null);
+    }
+  };
+
+  const resetFormFields = () => {
+    setId("");
+    setSymbol("");
+    setName("");
+    setSupply("");
+    setMaxSupply("");
+    setMarketCapUsd("");
+    setVolumeUsd24Hr("");
+    setPriceUsd("");
+    setChangePercent24Hr("");
+    setVwap24Hr("");
+    setExplorer("");
+    setEmptyFields([]);
+  };
+
+  return (
+    <form className="createCoin" onSubmit={handleSubmit}>
+      <h3>Create a New Coin</h3>
+      <label>ID:</label>
+      <input
+        type="text"
+        onChange={(e) => setId(e.target.value)}
+        value={id}
+        className={emptyFields.includes("id") ? "error" : ""}
+      />
+      <label>Symbol:</label>
+      <input
+        type="text"
+        onChange={(e) => setSymbol(e.target.value)}
+        value={symbol}
+        className={emptyFields.includes("symbol") ? "error" : ""}
+      />
+      <label>Name:</label>
+      <input
+        type="text"
+        onChange={(e) => setName(e.target.value)}
+        value={name}
+        className={emptyFields.includes("name") ? "error" : ""}
+      />
+      <label>Supply:</label>
+      <input
+        type="number"
+        onChange={(e) => setSupply(e.target.value)}
+        value={supply}
+      />
+      <label>Max Supply:</label>
+      <input
+        type="number"
+        onChange={(e) => setMaxSupply(e.target.value)}
+        value={maxSupply}
+      />
+      <label>Market Cap USD:</label>
+      <input
+        type="number"
+        onChange={(e) => setMarketCapUsd(e.target.value)}
+        value={marketCapUsd}
+      />
+      <label>Volume USD 24Hr:</label>
+      <input
+        type="number"
+        onChange={(e) => setVolumeUsd24Hr(e.target.value)}
+        value={volumeUsd24Hr}
+      />
+      <label>Price USD:</label>
+      <input
+        type="number"
+        onChange={(e) => setPriceUsd(e.target.value)}
+        value={priceUsd}
+      />
+      <label>Change Percent 24Hr:</label>
+      <input
+        type="number"
+        onChange={(e) => setChangePercent24Hr(e.target.value)}
+        value={changePercent24Hr}
+      />
+      <label>VWAP 24Hr:</label>
+      <input
+        type="number"
+        onChange={(e) => setVwap24Hr(e.target.value)}
+        value={vwap24Hr}
+      />
+      <label>Explorer:</label>
+      <input
+        type="text"
+        onChange={(e) => setExplorer(e.target.value)}
+        value={explorer}
+      />
+      <button>Create Coin</button>
+      {error && <div className="error">{error}</div>}
+      {success && <div className="success">{success}</div>}
+    </form>
+  );
+};
+
+export default CreateCoin;

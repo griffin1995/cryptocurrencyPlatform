@@ -2,7 +2,7 @@ import React from "react";
 import useCoinHistory from "../hooks/useCoinHistory";
 
 //Method that calls the useCoinHistory, and calculates start and end UNIX values
-//for the last 30 days. It returns the specifyied coin's history data.
+//for the last 30 days. It returns the specified coin's history data.
 
 export default function GetCoinHistory(coin) {
   const now = new Date();

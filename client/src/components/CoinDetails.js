@@ -1,36 +1,62 @@
-// Import React from the 'react' package to enable component creation and JSX support.
 import React from "react";
+import { useAdminContext } from "../hooks/useAdminContext";
 
 /**
- * The CoinDetails component displays detailed information about a cryptocurrency coin.
+ * CoinDetails component for displaying detailed information about a coin.
  *
  * Props:
- *  - coin: An object containing details about the coin, including its name, value, and last update timestamp.
+ *   - coin: An object containing information about the coin, such as its symbol, name, market cap,
+ *           volume, price, and the last update timestamp.
  */
 const CoinDetails = ({ coin }) => {
-  // Convert the 'updatedAt' property of the coin object from a string to a Date object.
-  const updatedAt = new Date(coin.updatedAt);
-  // Format the 'updatedAt' Date object into a more readable string format, combining date and time.
-  const dateString = `${updatedAt.toLocaleDateString()} ${updatedAt.toLocaleTimeString()}`;
+  const { dispatch } = useAdminContext();
 
-  // Render the details of the coin in a structured layout.
+
+
+  const handleDelete = async () => {
+    const response = await fetch(`/api/coins/${coin._id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${coin.token}` }, // Assuming you handle token similarly
+    });
+    // When we get the response, the document that's just been deleted is returned
+    const json = await response.json();
+
+    if (response.ok) {
+      dispatch({ type: "DELETE_COIN", payload: json });
+    }
+  };
+  console.log(coin.priceUsd)
+
+  // Render the coin's details in a structured layout.
   return (
     <div className="coin-details">
-      {/* The coin's name is displayed in a larger font size as a heading. */}
-      <h4>{coin.name}</h4>
-      {/* Display the coin's current value with a label. */}
+      {/* Display the coin's symbol and name. */}
+      <h4>
+        {coin.symbol} - {coin.name}
+      </h4>
+      {/* Display the coin's market capitalization. */}
       <p>
-        <strong>Value: </strong>
-        {coin.value}
+        <strong>Market Cap USD: </strong>
+        {coin.marketCapUsd}
       </p>
-      {/* Show the last updated date and time for the coin's information. */}
+      {/* Display the coin's trading volume. */}
       <p>
-        <strong>Updated at: </strong>
-        {dateString}
+        <strong>Volume USD 24Hr: </strong>
+        {coin.volumeUsd24Hr}
       </p>
+      {/* Display the coin's price. */}
+      <p>
+        <strong>Price USD: </strong>
+        {coin.priceUsd}
+      </p>
+
+      {/* Icon for deleting a coin, with an event handler for the delete logic. */}
+      <span className="material-symbols-outlined" onClick={handleDelete}>
+        delete
+      </span>
     </div>
   );
 };
 
-// Export the CoinDetails component to allow its use in other parts of the application.
+// Export the CoinDetails component to make it reusable across the application.
 export default CoinDetails;

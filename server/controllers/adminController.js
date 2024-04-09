@@ -10,7 +10,7 @@ const mongoose = require("mongoose");
  * @param {Object} response - The HTTP response object used to return data or errors.
  */
 const createUser = async (request, response) => {
-  const { firstName, lastName, email, phoneNumber, password, paymentDetails } =
+  const { firstName, lastName, email, phoneNumber, password } =
     request.body;
   let emptyFields = [];
 
@@ -29,14 +29,12 @@ const createUser = async (request, response) => {
   if (!password) {
     emptyFields.push("password");
   }
-  if (!paymentDetails) {
-    emptyFields.push("paymentDetails");
-  }
+
 
   if (emptyFields.length > 0) {
     return response.status(400).json({
-      error: "Please fill in all of the fields",
-      emptyFields,
+      error:
+        "(ADMINCONTROLLER) Please fill in all of the fields: " + emptyFields,
     });
   }
   try {
@@ -46,7 +44,6 @@ const createUser = async (request, response) => {
       email,
       phoneNumber,
       password,
-      paymentDetails,
     });
     response.status(200).json(user);
   } catch (error) {

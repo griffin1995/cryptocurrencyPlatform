@@ -6,9 +6,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 // Import route handlers to manage requests for different entities within the application.
-const adminUserRoutes = require("./routes/adminUserRoutes");
-const adminRoutes = require("./routes/adminRoutes");
+const adminRoutes = require("./routes/admin");
 const userRoutes = require("./routes/user");
+const coinRoutes = require("./routes/coin")
 
 // Initialize the Express app to configure middleware and routes.
 const app = express();
@@ -23,9 +23,9 @@ app.use((request, response, next) => {
 });
 
 // Define base paths for API routes, organizing the server's endpoint structure.
-app.use("/api/adminUserRoutes", adminUserRoutes); // For user-related functionalities.
-app.use("/api/adminRoutes", adminRoutes); // For administrative actions.
+app.use("/api/admin", adminRoutes); // For administrative actions.
 app.use("/api/user", userRoutes)
+app.use("/api/coins", coinRoutes)
 
 // Connect to the MongoDB database using a URI stored in environment variables for security.
 mongoose

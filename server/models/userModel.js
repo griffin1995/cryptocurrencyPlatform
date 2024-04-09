@@ -20,8 +20,6 @@ const userSchema = new Schema({
   phoneNumber: { type: Number, required: true },
   // Define 'password' as a required string to securely store the user's password.
   password: { type: String, required: true },
-  // Define 'paymentDetails' as a boolean to indicate whether the user has provided payment information, defaulting to false if not specified.
-  paymentDetails: { type: Boolean, default: false, required: true },
 });
 
 // Static method to register a new user. It checks for existing users with the same email to avoid duplicates,
@@ -31,8 +29,7 @@ userSchema.statics.signup = async function (
   lastName,
   email,
   phoneNumber,
-  password,
-  paymentDetails
+  password
 ) {
   // Validate mandatory fields: Ensure all required fields are provided.
   if (!firstName || !lastName || !email || !phoneNumber || !password) {
@@ -69,7 +66,6 @@ userSchema.statics.signup = async function (
     email,
     phoneNumber,
     password: hash,
-    paymentDetails,
   });
 
   // Return the newly created user object for further use.

@@ -24,46 +24,54 @@ export default function NavigationBar() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="justify-content-end flex-grow-1">
-              {/* Display the user's email if logged in */}
               {user && (
                 <>
                   <Nav.Link disabled className="text-light">
                     {user.email}
                   </Nav.Link>
-                  <Nav.Link>
-                    Account
+                </>
+              )}
+              {!user && (
+                <Nav.Link as={Link} to="/">
+                  Home
+                </Nav.Link>
+              )}
+              {/* Display the user's email if logged in */}
+              {user && (
+                <>
+                  <Nav.Link as={Link} to="/Markets">
+                    Markets
                   </Nav.Link>
-                  <Nav.Link>
-                    Wallets
+                  <Nav.Link>Account</Nav.Link>
+                  <Nav.Link as={Link} to="/Wallets">Wallets</Nav.Link>
+                  <Nav.Link as={Link} to="/Admin-Controls">
+                    Admin
                   </Nav.Link>
                 </>
               )}
-              <Nav.Link as={Link} to="/">
-                Home
-              </Nav.Link>
-              <Nav.Link as={Link} to="/Markets">
-                Markets
-              </Nav.Link>
+
               <Nav.Link as={Link} to="/Blog">
                 Blog
               </Nav.Link>
-              <Nav.Link as={Link} to="/Support">
-                Support
-              </Nav.Link>
-              <Nav.Link as={Link} to="/UserProfile">
-                Profile
-              </Nav.Link>
-              {/* Show sign up and login links only if user is not logged in */}
-              {!user && (
+              {user && (
                 <>
-                  <Nav.Link as={Link} to="/login">
-                    Log In
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/signup" className="sign-up-btn">
-                    Sign Up
+                  <Nav.Link as={Link} to="/Support">
+                    Support
                   </Nav.Link>
                 </>
               )}
+              {/* Show sign up and login links only if user is not logged in */}
+              {!user && (
+                <>
+                  <Nav.Link as={Link} to="/Sign-Up">
+                    Sign Up
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/Log-In">
+                    Log In
+                  </Nav.Link>
+                </>
+              )}
+
               {/* Logout button visible only if user is logged in */}
               {user && (
                 <Button type="submit" onClick={handleClick}>
