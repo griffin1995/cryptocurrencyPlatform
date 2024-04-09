@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import "./NavigationBar.scss";
 import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
 import { useLogout } from "../hooks/useLogout";
+import userProfileIcon from "../media/icon.jpg";
 
 export default function NavigationBar() {
   const { user } = useAuthenticationContext();
@@ -42,7 +43,6 @@ export default function NavigationBar() {
                   <Nav.Link as={Link} to="/Markets">
                     Markets
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/UserProfile">Account</Nav.Link>
                   <Nav.Link as={Link} to="/Wallets">Wallets</Nav.Link>
                   <Nav.Link as={Link} to="/Admin-Controls">
                     Admin
@@ -74,9 +74,20 @@ export default function NavigationBar() {
 
               {/* Logout button visible only if user is logged in */}
               {user && (
-                <Button type="submit" onClick={handleClick}>
-                  Log Out
-                </Button>
+                <>
+                  <Nav.Link as={Link} to="/UserProfile">
+                    {/* Icon next to the Log Out button */}
+                    <img
+                      src={userProfileIcon}
+                      alt="User Profile"
+                      className="user-profile-icon"
+                    />
+                  </Nav.Link>
+                  <Button type="submit" onClick={handleClick}>
+                    Log Out
+                  </Button>
+                </>
+                
               )}
             </Nav>
           </Navbar.Collapse>
