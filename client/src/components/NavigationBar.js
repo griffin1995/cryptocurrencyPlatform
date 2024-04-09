@@ -50,6 +50,9 @@ export default function NavigationBar() {
               <Nav.Link as={Link} to="/Support">
                 Support
               </Nav.Link>
+              <Nav.Link as={Link} to="/UserProfile">
+                Profile
+              </Nav.Link>
               {/* Show sign up and login links only if user is not logged in */}
               {!user && (
                 <>
