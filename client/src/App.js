@@ -14,6 +14,8 @@ import Markets from "./pages/Markets";
 import Wallets from "./pages/Wallets";
 import Account from "./pages/UserProfile";
 
+import ErrorPage from "./components/ErrorPage";
+
 import { useAuthenticationContext } from "./hooks/useAuthenticationContext";
 
 // import Navbar from "./components/NavigationBar";
@@ -69,6 +71,12 @@ function App() {
           <Route
             path="/Wallets"
             element={user ? <Wallets/> : <Login />}
+          />
+          
+          {/* Route for handling unknown paths */}
+          <Route 
+            path="*" 
+            element={<ErrorPage />} 
           />
         </Routes>
       </BrowserRouter>
