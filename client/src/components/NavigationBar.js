@@ -42,7 +42,7 @@ export default function NavigationBar() {
                   <Nav.Link as={Link} to="/Markets">
                     Markets
                   </Nav.Link>
-                  <Nav.Link>Account</Nav.Link>
+                  <Nav.Link as={Link} to="/UserProfile">Account</Nav.Link>
                   <Nav.Link as={Link} to="/Wallets">Wallets</Nav.Link>
                   <Nav.Link as={Link} to="/Admin-Controls">
                     Admin

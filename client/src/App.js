@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Support from "./pages/Support";
 import Markets from "./pages/Markets";
 import Wallets from "./pages/Wallets";
+import Account from "./pages/UserProfile";
 
 import { useAuthenticationContext } from "./hooks/useAuthenticationContext";
 
@@ -42,6 +43,10 @@ function App() {
           <Route
             path="/Blog"
             element={<Blog/>}
+          />
+          <Route
+            path="/UserProfile"
+            element={user ? <Account /> : <Login />}
           />
           <Route
             path="/Markets"
