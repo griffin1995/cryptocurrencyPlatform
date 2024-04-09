@@ -1,19 +1,27 @@
+// pages/UserProfile.js
+
 import React, { useState, useEffect } from 'react';
+import './UserProfile.scss'; 
 import UserDetails from '../components/UserDetails';
+import { useAdminContext } from '../hooks/useAdminContext';
+import { useAuthenticationContext } from '../hooks/useAuthenticationContext';
 
 const UserProfile = () => {
+
     const [user, setUser] = useState(null);
 
     useEffect(() => {
+        // Simulate fetching user data (replace with actual fetch logic)
         const fetchUserData = async () => {
+        // Example user data (replace with actual user data retrieval)
         const userData = {
-            firstName: 'Jack',
-            lastName: 'Griffin',
-            email: 'JG@gmail.com',
-            phoneNumber: '7777 777 777',
-            updatedAt: '2024-04-10T12:30:00Z',
-            _id: '111111',
-            token: 'your-auth-token-here'
+            firstName: 'John',
+            lastName: 'Doe',
+            email: 'johndoe@example.com',
+            phoneNumber: '1234567890',
+            updatedAt: '2024-04-10T12:30:00Z', // Example timestamp (should be ISO string)
+            _id: '123456789', // Example user ID
+            token: 'your-auth-token-here', // Example user token
         };
         setUser(userData);
         };
@@ -21,36 +29,19 @@ const UserProfile = () => {
         fetchUserData();
     }, []);
 
-    const handleDelete = async () => {
-        if (!userAuth || !user) {
-          return;
-        }
-    
-        const response = await fetch(`/api/adminRoutes/${user._id}`, {
-          method: 'DELETE',
-          headers: { Authorization: `Bearer ${user.token}` },
-        });
-    
-        if (response.ok) {
-          const deletedUser = await response.json();
-          dispatch({ type: 'DELETE_USER', payload: deletedUser });
-          // Optionally update state or show a success message
-          alert('User deleted successfully!');
-        } else {
-          // Handle error response
-          alert('Failed to delete user.');
-        }
-      };
-
     return (
-        <div>
-        <h1>User Profile</h1>
-        {user ? (
-            <UserDetails user={user} onDelete={handleDelete} />
-        ) : (
-            <p>Loading...</p>
-        )}
-            
+        <div className="user-profile">
+          <div className="user-details">
+            {user ? (
+              <>
+                <h4>{user.firstName} {user.lastName}</h4>
+                <p><strong>Email:</strong> {user.email}</p>
+                <p><strong>Phone Number:</strong> {user.phoneNumber}</p>
+              </>
+            ) : (
+              <p>Loading user information...</p>
+            )}
+          </div>
         </div>
     );
 };

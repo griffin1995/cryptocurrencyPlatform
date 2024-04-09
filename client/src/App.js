@@ -10,10 +10,12 @@ import SignUp from "./pages/SignUpUnstyled";
 import Login from "./pages/LogIn";
 import Support from "./pages/Support";
 import Markets from "./pages/Markets";
+import Profile from "./pages/UserProfile";
 
 // import Navbar from "./components/NavigationBar";
 import Navbar from "./components/NavigationBar";
 import "react-bootstrap";
+
 /**
  * The App component acts as the root component of the application, wrapping all other components.
  */
@@ -33,6 +35,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/Support" element={<Support />} />
           <Route path="/Markets" element={<Markets />} />
+          <Route path="/UserProfile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </Container>
