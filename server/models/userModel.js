@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
 const validator = require("validator");
-
+const Wallet = require("./walletModel");
 /**
  * Define a schema for 'User' documents in the MongoDB database.
  * This schema specifies the structure, data types, and validation rules for user-related data.
@@ -68,6 +68,12 @@ userSchema.statics.signup = async function (
     password: hash,
   });
 
+  await Wallet.create({
+    id: user._id,
+    assets: [],
+    depositMoney: 0,
+  });
+
   // Return the newly created user object for further use.
   return user;
 };
@@ -107,6 +113,8 @@ userSchema.statics.login = async function (email, password) {
 
   return user;
 };
+// const Wallet = mongoose.model("User", userSchema);
+// module.export = Wallet
 
 // Export the User model, which allows for creating, reading, updating, and deleting (CRUD) operations on 'User' documents in the 'users' collection using the defined schema.
 module.exports = mongoose.model("User", userSchema);

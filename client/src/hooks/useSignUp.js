@@ -35,7 +35,7 @@ export const useSignUp = () => {
     setError(null);
 
     const response = await fetch("/api/user/signup", {
-      method: "POST",
+      method: "POST", 
       headers: {
         "Content-Type": "application/json",
       },

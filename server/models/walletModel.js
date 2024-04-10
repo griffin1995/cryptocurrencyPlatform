@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // Schema definition for the Wallet model. This schema links to a User and manages their cryptocurrency holdings.
 const walletSchema = new Schema({
-  name: { type: String, required: true },
+  id: { type: String, required: true },
   assets: [
     {
       coinId: { type: String, required: true },
@@ -29,4 +29,5 @@ walletSchema.methods.modifyHolding = async function (coinId, amount) {
   }
 };
 
-const Wallet = mongoose.model("Wallet", walletSchema);
+module.exports = mongoose.model("Wallet", walletSchema);
+// where export?!!!!!!!!!!!!!!!!!!!

@@ -22,7 +22,7 @@ export default function SignUp() {
    */
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevents the browser from performing the default form submit action
-    await signUp(firstName, lastName, email, phoneNumber, password); // Calls signUp from useSignUp hook
+    await signUp(firstName, lastName, email, phoneNumber, password); // Calls signUp from useSignUp hook 
   };
   return (
     <Row className="justify-content-center align-items-center form-container text-light">
