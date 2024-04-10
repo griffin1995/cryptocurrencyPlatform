@@ -7,10 +7,10 @@ import "./Markets.scss";
 //This is the Market page where user can see more in-depth information about different coins
 
 export default function Markets() {
-  // const coins = GetCoins();
-  // const [selectedCoin, setSelectedCoin] = useState(null);
-  const [refreshKey, setRefreshKey] = useState(0); // State to trigger re-fetch
+  const coins = GetCoins();
   const [selectedCoin, setSelectedCoin] = useState(null);
+  // const [refreshKey, setRefreshKey] = useState(0); // State to trigger re-fetch
+  // const [selectedCoin, setSelectedCoin] = useState(null);
   
 
   // useEffect(() => {
@@ -19,17 +19,9 @@ export default function Markets() {
   //   }
   // }, [coins, selectedCoin]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Updates refreshKey to trigger re-fetch
-      setRefreshKey(prevKey => prevKey + 1);
-    }, 30); // refreshes every 30 milliseconds
+  //   return () => clearInterval(interval);
+  // }, []);
 
-    return () => clearInterval(interval);
-  }, []);
-
-  // Fetch coins whenever refreshKey changes
-  const coins = GetCoins();
 
   // Set the first coin as selected when coins data is fetched or updated
   useEffect(() => {
@@ -37,6 +29,7 @@ export default function Markets() {
       setSelectedCoin(coins[0]);
     }
   }, [coins, selectedCoin]);
+
 
   return (
     <>
