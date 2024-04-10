@@ -47,9 +47,8 @@ const getAllWallets = async (request, response) => {
  */
 const getWalletByUserId = async (request, response) => {
   const userId = request.params.userId;
-
   try {
-    const wallet = await Wallet.findById(userId); // Simplified to use findById for consistency
+    const wallet = await Wallet.findOne({ id: userId });
     if (!wallet) {
       return response.status(404).json({ error: "Wallet not found" });
     }

@@ -23,8 +23,7 @@ router.use(requireAuth);
 router.get("/", getAllWallets);
 
 // Define a GET route for fetching a single wallet by the associated user ID.
-// The ':userId' parameter in the URL path dynamically captures the user ID from the incoming request.
-router.get("/user/:userId", getWalletByUserId);
+router.get("/:userId", getWalletByUserId);
 
 // Define a POST route for creating a new wallet.
 // This endpoint expects wallet data in the request body, which the createWallet function from the controller processes.

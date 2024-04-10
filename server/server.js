@@ -2,19 +2,19 @@
 require("dotenv").config();
 
 // Import Express to create and manage the server, and Mongoose for database operations with MongoDB.
-const express = require("express");
-const mongoose = require("mongoose");
+import express, { json } from "express";
+import { connect } from "mongoose";
 
 // Import route handlers to manage requests for different entities within the application.
-const adminRoutes = require("./routes/admin");
-const userRoutes = require("./routes/user");
-const coinRoutes = require("./routes/coin");
-const walletRoutes = require("./routes/wallet");
+import adminRoutes from "./routes/admin";
+import userRoutes from "./routes/user";
+import coinRoutes from "./routes/coin";
+import walletRoutes from "./routes/wallet";
 // Initialize the Express app to configure middleware and routes.
 const app = express();
 
 // Middleware to parse JSON bodies of incoming requests, enabling easy access to request data.
-app.use(express.json());
+app.use(json());
 
 // Middleware for logging request details, helping with debugging and monitoring request patterns.
 app.use((request, response, next) => {
@@ -28,8 +28,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/coins", coinRoutes);
 app.use("/api/wallet",walletRoutes);
 // Connect to the MongoDB database using a URI stored in environment variables for security.
-mongoose
-  .connect(process.env.MONGO_URI)
+connect(process.env.MONGO_URI)
   .then(() => {
     // Start the server to listen on a specific port after a successful database connection.
     app.listen(process.env.PORT, () => {
