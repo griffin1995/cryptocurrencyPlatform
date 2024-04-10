@@ -110,7 +110,6 @@ userSchema.statics.login = async function (email, password) {
       "Incorrect password (userModel > userSchema.statics.login)"
     );
   }
-
   return user;
 };
 // const Wallet = mongoose.model("User", userSchema);

@@ -3,10 +3,11 @@ import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import Wallet from "../components/Wallet";
 import WalletPage from "./WalletPage";
 import "./Wallet.scss";
-
+import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
 export default function Wallets() {
   var [selectedWallet, setSelectedWallet] = useState(null);
-
+  const { user } = useAuthenticationContext();
+  console.log(user._id);
   const asset1 = {
     name: "Bitcoin",
     id: "bitcoin",

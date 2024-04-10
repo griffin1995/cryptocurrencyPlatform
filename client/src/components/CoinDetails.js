@@ -24,7 +24,6 @@ const CoinDetails = ({ coin }) => {
       dispatch({ type: "DELETE_COIN", payload: json });
     }
   };
-  console.log(coin.priceUsd);
 
   // Render the coin's details in a structured layout.
   return (
@@ -50,7 +49,7 @@ const CoinDetails = ({ coin }) => {
         </Card.Body>
       </Card>
       <Button onClick={handleDelete} className="w-100 border-dark">
-      <i class="bi bi-trash"/> Delete
+        <i class="bi bi-trash" /> Delete
       </Button>
     </div>
   );
