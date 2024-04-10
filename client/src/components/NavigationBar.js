@@ -63,11 +63,11 @@ export default function NavigationBar() {
               {/* Show sign up and login links only if user is not logged in */}
               {!user && (
                 <>
-                  <Nav.Link as={Link} to="/Sign-Up">
-                    Sign Up
-                  </Nav.Link>
                   <Nav.Link as={Link} to="/Log-In">
                     Log In
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/Sign-Up" style={{ backgroundColor: "#003459", borderRadius: "8px" }}>
+                    Sign Up
                   </Nav.Link>
                 </>
               )}
