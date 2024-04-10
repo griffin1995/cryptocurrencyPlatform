@@ -5,6 +5,7 @@ import { useState } from "react";
 // This lets us dispatch actions (like adding a new user) that can affect the whole app.
 import { useAdminContext } from "../hooks/useAdminContext";
 import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
+import {Form, Button} from "react-bootstrap";
 /**
  * SignUpUser is a component that renders a form for user registration.
  * It captures user details through form inputs, validates and submits this data to a server,
@@ -111,49 +112,64 @@ const SignUpUser = () => {
   // This includes input fields for all user details, a submit button, and areas to display error or success messages.
   return (
     // TODO: Implement CSS for className "error" > if x field is empty then className = error > red border etc
-    <form className="signUp" onSubmit={handleSubmit}>
-      <h3>Create a new user</h3>
-      {/* Input fields for collecting user information, with onChange handlers to update state. */}
-      <label>First Name:</label>
-      <input
+    <Form className="signUp bg-dark p-4 rounded" onSubmit={handleSubmit}>
+    <Form.Group controlId="firstName" className="mb-2">
+      <Form.Label>First Name:</Form.Label>
+      <Form.Control
         type="text"
         onChange={(e) => setFirstName(e.target.value)}
         value={firstName}
         className={emptyFields.includes("firstName") ? "error" : ""}
       />
-      <label>Last Name:</label>
-      <input
+    </Form.Group>
+
+    <Form.Group controlId="lastName" className="mb-2">
+      <Form.Label>Last Name:</Form.Label>
+      <Form.Control
         type="text"
         onChange={(e) => setLastName(e.target.value)}
         value={lastName}
         className={emptyFields.includes("lastName") ? "error" : ""}
       />
-      <label>Email:</label>
-      <input
+    </Form.Group>
+
+    <Form.Group controlId="email" className="mb-2">
+      <Form.Label>Email:</Form.Label>
+      <Form.Control
         type="email"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
         className={emptyFields.includes("email") ? "error" : ""}
       />
-      <label>Phone Number:</label>
-      <input
+    </Form.Group>
+
+    <Form.Group controlId="phoneNumber" className="mb-2">
+      <Form.Label>Phone Number:</Form.Label>
+      <Form.Control
         type="text"
         onChange={(e) => setPhoneNumber(e.target.value)}
         value={phoneNumber}
         className={emptyFields.includes("phoneNumber") ? "error" : ""}
       />
-      <label>Password:</label>
-      <input
+    </Form.Group>
+
+    <Form.Group controlId="password" className="mb-2">
+      <Form.Label>Password:</Form.Label>
+      <Form.Control
         type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
         className={emptyFields.includes("password") ? "error" : ""}
       />
-      <button>Sign Up</button> {/* Button to trigger form submission. */}
-      {/* Display error or success messages based on the state. */}
-      {error && <div className="error">{error}</div>}
-      {success && <div className="success">{success}</div>}
-    </form>
+    </Form.Group>
+
+    <Button variant="secondary" type="submit" className="my-2 w-100">
+      Add User
+    </Button>
+
+    {error && <div className="error">{error}</div>}
+    {success && <div className="success">{success}</div>}
+  </Form>
   );
 };
 

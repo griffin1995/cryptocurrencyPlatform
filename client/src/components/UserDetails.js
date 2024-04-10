@@ -1,6 +1,7 @@
 // Import the React library to enable the use of React's features, such as components and hooks.
 import React from "react";
 import { useAdminContext } from "../hooks/useAdminContext";
+import { Card, Button } from "react-bootstrap";
 
 /**
  * UserDetails component for displaying detailed information about a user.
@@ -50,29 +51,33 @@ const UserDetails = ({ user }) => {
   };
   // Render the user's details in a structured layout.
   return (
-    <div className="user-details">
-      {/* Display the user's full name by concatenating the firstName and lastName. */}
-      <h4>
-        {user.firstName} {user.lastName}
-      </h4>
-      {/* Display the user's email. */}
-      <p>
-        <strong>Email: </strong>
-        {user.email}
-      </p>
-      {/* Display the user's phone number. */}
-      <p>
-        <strong>Phone Number: </strong>
-        {user.phoneNumber}
-      </p>
-      {/* Display the last updated timestamp, formatted for readability. */}
-      <p>
-        <strong>Updated at: </strong>
-        {dateString}
-      </p>
-      <span className="material-symbols-outlined" onClick={handleDelete}>
-        delete{" "}
-      </span>
+    <div className="user-details bg-secondary py-2 px-2 h-100 rounded">
+      <Card
+        className="my-2 text-center"
+        bg="primary"
+        text="dark"
+        border="primary"
+      >
+        <Card.Body className="bg-light rounded">
+          <Card.Title>First Name</Card.Title>
+          <Card.Text>{user.firstName}</Card.Text>
+          <hr className="bg-dark" />
+          <Card.Title>Last Name</Card.Title>
+          <Card.Text>{user.lastName}%</Card.Text>
+          <hr className="bg-dark" />
+          <Card.Title>Email</Card.Title>
+          <Card.Text>{user.email}</Card.Text>
+          <hr className="bg-dark" />
+          <Card.Title>Phone Number</Card.Title>
+          <Card.Text>{user.phoneNumber}</Card.Text>
+          <hr className="bg-dark" />
+          <Card.Title>Last Updated</Card.Title>
+          <Card.Text>{dateString}</Card.Text>
+        </Card.Body>
+      </Card>
+      <Button onClick={handleDelete} className="w-100 border-dark">
+      <i class="bi bi-trash"/> Delete
+      </Button>
     </div>
   );
 };

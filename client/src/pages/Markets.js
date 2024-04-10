@@ -9,27 +9,12 @@ import "./Markets.scss";
 export default function Markets() {
   const coins = GetCoins();
   const [selectedCoin, setSelectedCoin] = useState(null);
-  // const [refreshKey, setRefreshKey] = useState(0); // State to trigger re-fetch
-  // const [selectedCoin, setSelectedCoin] = useState(null);
-  
 
-  // useEffect(() => {
-  //   if (selectedCoin === null && coins != null) {
-  //     setSelectedCoin(coins[0]);
-  //   }
-  // }, [coins, selectedCoin]);
-
-  //   return () => clearInterval(interval);
-  // }, []);
-
-
-  // Set the first coin as selected when coins data is fetched or updated
   useEffect(() => {
     if (selectedCoin === null && coins != null) {
       setSelectedCoin(coins[0]);
     }
   }, [coins, selectedCoin]);
-
 
   return (
     <>
@@ -66,9 +51,7 @@ export default function Markets() {
             <Row>
               <Col sm={12} className="text-center">
                 <h3 className="text-success fw-bolder">Current rate (USD):</h3>
-                {/* <h4 className="text-light">{selectedCoin?.priceUsd}</h4> */}
-                <h4 className="text-light">${selectedCoin?.priceUsd ? Number(selectedCoin.priceUsd).toFixed(2) : 'N/A'}</h4>
-
+                <h4 className="text-light">{selectedCoin?.priceUsd}</h4>
               </Col>
             </Row>
             <hr className="bg-dark" />

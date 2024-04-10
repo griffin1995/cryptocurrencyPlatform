@@ -1,5 +1,6 @@
 import React from "react";
 import { useAdminContext } from "../hooks/useAdminContext";
+import { Card, Button } from "react-bootstrap";
 
 /**
  * CoinDetails component for displaying detailed information about a coin.
@@ -10,8 +11,6 @@ import { useAdminContext } from "../hooks/useAdminContext";
  */
 const CoinDetails = ({ coin }) => {
   const { dispatch } = useAdminContext();
-
-
 
   const handleDelete = async () => {
     const response = await fetch(`/api/coins/${coin._id}`, {
@@ -25,35 +24,34 @@ const CoinDetails = ({ coin }) => {
       dispatch({ type: "DELETE_COIN", payload: json });
     }
   };
-  console.log(coin.priceUsd)
+  console.log(coin.priceUsd);
 
   // Render the coin's details in a structured layout.
   return (
-    <div className="coin-details">
-      {/* Display the coin's symbol and name. */}
-      <h4>
-        {coin.symbol} - {coin.name}
-      </h4>
-      {/* Display the coin's market capitalization. */}
-      <p>
-        <strong>Market Cap USD: </strong>
-        {coin.marketCapUsd}
-      </p>
-      {/* Display the coin's trading volume. */}
-      <p>
-        <strong>Volume USD 24Hr: </strong>
-        {coin.volumeUsd24Hr}
-      </p>
-      {/* Display the coin's price. */}
-      <p>
-        <strong>Price USD: </strong>
-        {coin.priceUsd}
-      </p>
-
-      {/* Icon for deleting a coin, with an event handler for the delete logic. */}
-      <span className="material-symbols-outlined" onClick={handleDelete}>
-        delete
-      </span>
+    <div className="coin-details bg-secondary py-2 px-2 h-100 rounded">
+      <Card
+        className="my-2 text-center"
+        bg="primary"
+        text="dark"
+        border="primary"
+      >
+        <Card.Header className="text-light">
+          <span className="h4">{coin.symbol}</span>
+        </Card.Header>
+        <Card.Body className="bg-light rounded">
+          <Card.Title>Coin</Card.Title>
+          <Card.Text>{coin.name}</Card.Text>
+          <hr className="bg-dark" />
+          <Card.Title>Change (24Hr)</Card.Title>
+          <Card.Text>{coin.changePercent24Hr}%</Card.Text>
+          <hr className="bg-dark" />
+          <Card.Title>Current Price (USD)</Card.Title>
+          <Card.Text>${coin.priceUsd}</Card.Text>
+        </Card.Body>
+      </Card>
+      <Button onClick={handleDelete} className="w-100 border-dark">
+      <i class="bi bi-trash"/> Delete
+      </Button>
     </div>
   );
 };

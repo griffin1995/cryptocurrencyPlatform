@@ -5,6 +5,7 @@ import SignUpUser from "./SignUpUser";
 import AddNewCoin from "./AddNewCoin";
 import UserDetails from "./UserDetails";
 import CoinDetails from "./CoinDetails";
+import { Container, Row, Col } from "react-bootstrap";
 import { useAdminContext } from "../hooks/useAdminContext";
 import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
 /**
@@ -46,23 +47,95 @@ const AdminControls = () => {
   }, [dispatch, user]);
 
   return (
-    <div className="admin-controls">
-      <h2>Admin Controls</h2>
-      <h3>Sign Up User</h3>
-      <SignUpUser /> {/* Component for registering new users. */}
-      <h3>Look Up User</h3>
-      <div className="allUsers">
-        {/* Render UserDetails components for each user if the `users` state is not null. */}
-        {users &&
-          users.map((user) => <UserDetails key={user._id} user={user} />)}
-      </div>{" "}
-      <AddNewCoin />
-      <div className="allCoins">
-        {/* Render UserDetails components for each user if the `users` state is not null. */}
-        {coins &&
-          coins.map((coin) => <CoinDetails key={coin._id} coin={coin} />)}
-      </div>
-    </div>
+    <>
+      <Row className="admin-controls mt-4">
+        <Col sm={12} className="text-center">
+          <h1>Admin Controls</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col sm={6}>
+          <Container fluid className="bg-primary p-4 rounded">
+            <Row>
+              <Col sm={12} className="text-center">
+                <h2>Users Controls</h2>
+              </Col>
+            </Row>
+            <hr className="bg-dark" />
+            <Row>
+              <Col sm={12} className="text-center">
+                <h3>Create a New User</h3>
+              </Col>
+              <Col sm={12}>
+                <Row className="justify-content-center my-2">
+                  <Col sm={6}>
+                    <SignUpUser />
+                  </Col>
+                </Row>
+              </Col>
+              <hr className="bg-dark" />
+              <Col sm={12}>
+                <Container fluid>
+                  <Row>
+                    <Col sm={12} className="text-center mb-2">
+                      <h3>List of Users</h3>
+                    </Col>
+                  </Row>
+                  <Row>
+                    {users &&
+                      users.map((user) => (
+                        <Col sm={4} className="text-center p-2">
+                          <UserDetails key={user._id} user={user} />
+                        </Col>
+                      ))}
+                  </Row>
+                </Container>
+              </Col>
+            </Row>
+          </Container>
+        </Col>
+        <Col sm={6}>
+          <Container fluid className="bg-primary p-4 rounded">
+            <Row>
+              <Col sm={12} className="text-center">
+                <h2>Coins Controls</h2>
+              </Col>
+            </Row>
+            <hr className="bg-dark" />
+            <Row>
+              <Col sm={12} className="text-center">
+                <h3>Add Coin</h3>
+              </Col>
+            </Row>
+            <Row className="justify-content-center my-2">
+              <Col sm={6}>
+                <AddNewCoin />
+              </Col>
+            </Row>
+            <hr className="bg-dark" />
+            <Row>
+              <Col sm={12}>
+                <Container fluid>
+                  <Row className="text-center">
+                    <Col sm={12}>
+                      <h3>List of Coins</h3>
+                    </Col>
+                  </Row>
+                  <Row>
+                    {coins &&
+                      coins.map((coin) => (
+                        <Col sm={4} className="text-center p-2">
+                          <CoinDetails key={coin._id} coin={coin} />
+                        </Col>
+                      ))}
+                  </Row>
+                </Container>
+              </Col>
+            </Row>
+          </Container>
+        </Col>
+      </Row>
+    </>
   );
 };
 

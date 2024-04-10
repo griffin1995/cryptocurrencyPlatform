@@ -5,6 +5,7 @@ import { useState } from "react";
 // This lets us dispatch actions (like adding a new coin) that can affect the whole app.
 import { useAdminContext } from "../hooks/useAdminContext";
 import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
+import {Form, Button} from "react-bootstrap";
 
 /**
  * CreateCoin is a component that renders a form for coin creation.
@@ -101,81 +102,116 @@ const CreateCoin = () => {
   };
 
   return (
-    <form className="createCoin" onSubmit={handleSubmit}>
-      <h3>Create a New Coin</h3>
-      <label>ID:</label>
-      <input
-        type="text"
-        onChange={(e) => setId(e.target.value)}
-        value={id}
-        className={emptyFields.includes("id") ? "error" : ""}
-      />
-      <label>Symbol:</label>
-      <input
-        type="text"
-        onChange={(e) => setSymbol(e.target.value)}
-        value={symbol}
-        className={emptyFields.includes("symbol") ? "error" : ""}
-      />
-      <label>Name:</label>
-      <input
-        type="text"
-        onChange={(e) => setName(e.target.value)}
-        value={name}
-        className={emptyFields.includes("name") ? "error" : ""}
-      />
-      <label>Supply:</label>
-      <input
-        type="number"
-        onChange={(e) => setSupply(e.target.value)}
-        value={supply}
-      />
-      <label>Max Supply:</label>
-      <input
-        type="number"
-        onChange={(e) => setMaxSupply(e.target.value)}
-        value={maxSupply}
-      />
-      <label>Market Cap USD:</label>
-      <input
-        type="number"
-        onChange={(e) => setMarketCapUsd(e.target.value)}
-        value={marketCapUsd}
-      />
-      <label>Volume USD 24Hr:</label>
-      <input
-        type="number"
-        onChange={(e) => setVolumeUsd24Hr(e.target.value)}
-        value={volumeUsd24Hr}
-      />
-      <label>Price USD:</label>
-      <input
-        type="number"
-        onChange={(e) => setPriceUsd(e.target.value)}
-        value={priceUsd}
-      />
-      <label>Change Percent 24Hr:</label>
-      <input
-        type="number"
-        onChange={(e) => setChangePercent24Hr(e.target.value)}
-        value={changePercent24Hr}
-      />
-      <label>VWAP 24Hr:</label>
-      <input
-        type="number"
-        onChange={(e) => setVwap24Hr(e.target.value)}
-        value={vwap24Hr}
-      />
-      <label>Explorer:</label>
-      <input
-        type="text"
-        onChange={(e) => setExplorer(e.target.value)}
-        value={explorer}
-      />
-      <button>Create Coin</button>
+    <Form className="createCoin bg-dark p-4 rounded" onSubmit={handleSubmit}>
+      <Form.Group controlId="id" className="mb-2">
+        <Form.Label>ID:</Form.Label>
+        <Form.Control
+          type="text"
+          onChange={(e) => setId(e.target.value)}
+          value={id}
+          className={emptyFields.includes("id") ? "error" : ""}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="symbol" className="mb-2">
+        <Form.Label>Symbol:</Form.Label>
+        <Form.Control
+          type="text"
+          onChange={(e) => setSymbol(e.target.value)}
+          value={symbol}
+          className={emptyFields.includes("symbol") ? "error" : ""}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="name" className="mb-2">
+        <Form.Label>Name:</Form.Label>
+        <Form.Control
+          type="text"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+          className={emptyFields.includes("name") ? "error" : ""}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="supply" className="mb-2">
+        <Form.Label>Supply:</Form.Label>
+        <Form.Control
+          type="number"
+          onChange={(e) => setSupply(e.target.value)}
+          value={supply}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="maxSupply" className="mb-2">
+        <Form.Label>Max Supply:</Form.Label>
+        <Form.Control
+          type="number"
+          onChange={(e) => setMaxSupply(e.target.value)}
+          value={maxSupply}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="marketCapUsd" className="mb-2">
+        <Form.Label>Market Cap USD:</Form.Label>
+        <Form.Control
+          type="number"
+          onChange={(e) => setMarketCapUsd(e.target.value)}
+          value={marketCapUsd}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="volumeUsd24Hr" className="mb-2">
+        <Form.Label>Volume USD 24Hr:</Form.Label>
+        <Form.Control
+          type="number"
+          onChange={(e) => setVolumeUsd24Hr(e.target.value)}
+          value={volumeUsd24Hr}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="priceUsd" className="mb-2">
+        <Form.Label>Price USD:</Form.Label>
+        <Form.Control
+          type="number"
+          onChange={(e) => setPriceUsd(e.target.value)}
+          value={priceUsd}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="changePercent24Hr" className="mb-2">
+        <Form.Label>Change Percent 24Hr:</Form.Label>
+        <Form.Control
+          type="number"
+          onChange={(e) => setChangePercent24Hr(e.target.value)}
+          value={changePercent24Hr}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="vwap24Hr" className="mb-2">
+        <Form.Label>VWAP 24Hr:</Form.Label>
+        <Form.Control
+          type="number"
+          onChange={(e) => setVwap24Hr(e.target.value)}
+          value={vwap24Hr}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="explorer" className="mb-2">
+        <Form.Label>Explorer:</Form.Label>
+        <Form.Control
+          type="text"
+          onChange={(e) => setExplorer(e.target.value)}
+          value={explorer}
+        />
+      </Form.Group>
+
+      <Button variant="secondary" type="submit" className="my-2 w-100">
+        Create Coin
+      </Button>
+
       {error && <div className="error">{error}</div>}
       {success && <div className="success">{success}</div>}
-    </form>
+    </Form>
   );
 };
 

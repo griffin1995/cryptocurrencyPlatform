@@ -34,7 +34,7 @@ export default function LogIn() {
               <hr className="active" />
             </Col>
             <Col xs={6}>
-              <Link to="/SignUp" className="link-unstyled">
+              <Link to="/Sign-Up" className="link-unstyled">
                 <h3>Sign Up</h3>
                 <hr />
               </Link>

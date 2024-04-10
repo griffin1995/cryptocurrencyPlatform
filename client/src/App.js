@@ -7,14 +7,12 @@ import Home from "./pages/Home";
 
 import AdminControls from "./pages/AdminControls";
 import Blog from "./pages/Blog";
-import SignUp from "./pages/SignUpUnstyled";
-import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import LogIn from "./pages/LogIn";
 import Support from "./pages/Support";
 import Markets from "./pages/Markets";
 import Wallets from "./pages/Wallets";
-import Account from "./pages/UserProfile";
-
-import ErrorPage from "./pages/ErrorPage";
+import Account from "./pages/Account";
 
 import { useAuthenticationContext } from "./hooks/useAuthenticationContext";
 
@@ -39,25 +37,13 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route
             path="/Admin-Controls"
-            element={user ? <AdminControls /> : <Login />}
+            element={user ? <AdminControls /> : <LogIn />}
           />
           {/* Protected routes that require the user to be logged in */}
-          <Route
-            path="/Blog"
-            element={<Blog/>}
-          />
-          <Route
-            path="/UserProfile"
-            element={user ? <Account /> : <Login />}
-          />
-          <Route
-            path="/Markets"
-            element={user ? <Markets /> : <Login />}
-          />
-          <Route
-            path="/Support"
-            element={user ? <Support /> : <Login />}
-          />
+          <Route path="/Blog" element={<Blog />} />
+          <Route path="/Markets" element={user ? <Markets /> : <LogIn />} />
+          <Route path="/Account" element={user ? <Account /> : <LogIn />} />
+          <Route path="/Support" element={user ? <Support /> : <LogIn />} />
 
           {/* Routes that are inaccessible to logged-in users, redirecting them to the Home page */}
           <Route
@@ -66,18 +52,9 @@ function App() {
           />
           <Route
             path="/Log-In"
-            element={user ? <Navigate to="/" /> : <Login />}
+            element={user ? <Navigate to="/" /> : <LogIn />}
           />
-          <Route
-            path="/Wallets"
-            element={user ? <Wallets/> : <Login />}
-          />
-
-          {/* Route for handling unknown paths */}
-          <Route 
-            path="*" 
-            element={<ErrorPage />} 
-          />
+          <Route path="/Wallets" element={user ? <Wallets /> : <LogIn />} />
         </Routes>
       </BrowserRouter>
     </Container>
