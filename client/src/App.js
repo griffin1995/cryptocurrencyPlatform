@@ -9,7 +9,7 @@ import AdminControls from "./pages/AdminControls";
 import Blog from "./pages/Blog";
 import SignUp from "./pages/SignUp";
 // import LogIn from "./pages/LogIn";
-import LogIn from './pages/Login';
+import LogIn from './pages/LogIn';
 import Support from "./pages/Support";
 import Markets from "./pages/Markets";
 import Wallets from "./pages/Wallets";
