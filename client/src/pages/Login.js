@@ -5,7 +5,7 @@ import "./SignUpLogIn.scss";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 
 //Login form window where users can log in
-export default function LogIn() {
+export default function Login() {
   // State hooks for managing email and password input fields
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

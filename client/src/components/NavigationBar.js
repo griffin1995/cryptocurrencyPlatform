@@ -42,8 +42,12 @@ export default function NavigationBar() {
                   <Nav.Link as={Link} to="/Markets">
                     Markets
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/Account">Account</Nav.Link>
-                  <Nav.Link as={Link} to="/Wallets">Wallets</Nav.Link>
+                  <Nav.Link as={Link} to="/Account">
+                    Account
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/Wallets">
+                    Wallets
+                  </Nav.Link>
                   <Nav.Link as={Link} to="/Admin-Controls">
                     Admin
                   </Nav.Link>
@@ -63,11 +67,15 @@ export default function NavigationBar() {
               {/* Show sign up and login links only if user is not logged in */}
               {!user && (
                 <>
+                  <Nav.Link
+                    as={Link}
+                    to="/Sign-Up"
+                    style={{ backgroundColor: "#003459", borderRadius: "8px" }}
+                  >
+                    Sign Up
+                  </Nav.Link>
                   <Nav.Link as={Link} to="/Log-In">
                     Log In
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/Sign-Up" style={{ backgroundColor: "#003459", borderRadius: "8px" }}>
-                    Sign Up
                   </Nav.Link>
                 </>
               )}

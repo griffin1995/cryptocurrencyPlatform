@@ -8,8 +8,7 @@ import Home from "./pages/Home";
 import AdminControls from "./pages/AdminControls";
 import Blog from "./pages/Blog";
 import SignUp from "./pages/SignUp";
-// import LogIn from "./pages/LogIn";
-import LogIn from './pages/LogIn';
+import Login from "./pages/Login";
 import Support from "./pages/Support";
 import Markets from "./pages/Markets";
 import Wallets from "./pages/Wallets";
@@ -38,13 +37,13 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route
             path="/Admin-Controls"
-            element={user ? <AdminControls /> : <LogIn />}
+            element={user ? <AdminControls /> : <Login />}
           />
           {/* Protected routes that require the user to be logged in */}
           <Route path="/Blog" element={<Blog />} />
-          <Route path="/Markets" element={user ? <Markets /> : <LogIn />} />
-          <Route path="/Account" element={user ? <Account /> : <LogIn />} />
-          <Route path="/Support" element={user ? <Support /> : <LogIn />} />
+          <Route path="/Markets" element={user ? <Markets /> : <Login />} />
+          <Route path="/Account" element={user ? <Account /> : <Login />} />
+          <Route path="/Support" element={user ? <Support /> : <Login />} />
 
           {/* Routes that are inaccessible to logged-in users, redirecting them to the Home page */}
           <Route
@@ -53,9 +52,9 @@ function App() {
           />
           <Route
             path="/Log-In"
-            element={user ? <Navigate to="/" /> : <LogIn />}
+            element={user ? <Navigate to="/" /> : <Login />}
           />
-          <Route path="/Wallets" element={user ? <Wallets /> : <LogIn />} />
+          <Route path="/Wallets" element={user ? <Wallets /> : <Login />} />
         </Routes>
       </BrowserRouter>
     </Container>
