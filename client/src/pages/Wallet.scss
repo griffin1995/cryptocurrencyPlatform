@@ -1,0 +1,15 @@
+.assets-graph-section {
+    :not(.limiter) > .cards-group {
+      flex-basis: 0px;
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+  }
+
+  .overflow-auto {
+    overflow: auto;
+  }
+  
+  .max-h-100 {
+    max-height: 100%;
+  }

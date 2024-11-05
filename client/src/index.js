@@ -8,7 +8,7 @@ import "./index.scss";
 import "./reactCustom.scss";
 // Import the main App component to be rendered.
 import App from "./App";
-
+import { AuthenticationContextProvider } from "./context/AuthenticationContext";
 // Create a root container instance using the element with ID 'root' in the HTML.
 // This is where our React app will be mounted.
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -18,6 +18,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 // It does not render any visible UI. It activates additional checks and warnings for its descendants.
 root.render(
   <React.StrictMode>
+    <AuthenticationContextProvider>
       <App />
+    </AuthenticationContextProvider>
   </React.StrictMode>
 );

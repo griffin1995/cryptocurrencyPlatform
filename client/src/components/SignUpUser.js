@@ -4,7 +4,8 @@ import { useState } from "react";
 // Import our custom hook, useAdminContext, to interact with our global admin state.
 // This lets us dispatch actions (like adding a new user) that can affect the whole app.
 import { useAdminContext } from "../hooks/useAdminContext";
-
+import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
+import {Form, Button} from "react-bootstrap";
 /**
  * SignUpUser is a component that renders a form for user registration.
  * It captures user details through form inputs, validates and submits this data to a server,
@@ -15,17 +16,16 @@ const SignUpUser = () => {
   // This function allows us to send actions to our global state to update it,
   // such as adding a new user to our list of users.
   const { dispatch } = useAdminContext();
+  const { user } = useAuthenticationContext();
 
   // useState hooks for managing form inputs and submission feedback.
   // Each call to useState returns a pair: the current state value and a function that lets you update it.
-  // Here, we initialize our form fields to empty strings or false (for paymentDetails),
   // and our feedback messages (error, success) to null because they have no value initially.
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [paymentDetails, setPaymentDetails] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
@@ -44,23 +44,30 @@ const SignUpUser = () => {
    */
   const handleSubmit = async (e) => {
     e.preventDefault(); // Stops the form from submitting in the traditional way (no page reload).
-
+    if (!user) {
+      setError(
+        "You must be logged in with admin privileges to create a new user."
+      );
+      return;
+    }
     // Constructs a user object from the current state.
-    const user = {
+    const newUser = {
       firstName,
       lastName,
       email,
       phoneNumber,
       password,
-      paymentDetails,
     };
 
     try {
       // Try to send the user data to the server using the fetch API.
-      const response = await fetch("/api/adminRoutes", {
+      const response = await fetch("/api/admin", {
         method: "POST", // Specifies the request method.
-        headers: { "Content-Type": "application/json" }, // Tells the server we're sending JSON.
-        body: JSON.stringify(user), // Turns the user object into a JSON string to send in the request body.
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        }, // Tells the server we're sending JSON.
+        body: JSON.stringify(newUser), // Turns the user object into a JSON string to send in the request body.
       });
 
       const json = await response.json(); // Parses the JSON response body from the server.
@@ -76,6 +83,7 @@ const SignUpUser = () => {
         `Success! ${firstName} ${lastName} has been signed up with the email: ${email}.`
       );
       setError(null);
+
       resetFormFields(); // Resets the form fields to their initial state.
 
       // Dispatches an action to our global state to add the new user to our list of users.
@@ -97,60 +105,71 @@ const SignUpUser = () => {
     setEmail("");
     setPhoneNumber("");
     setPassword("");
-    setPaymentDetails(false);
     setEmptyFields([]);
   };
 
   // Render the sign-up form.
   // This includes input fields for all user details, a submit button, and areas to display error or success messages.
   return (
-    <form className="signUp" onSubmit={handleSubmit}>
-      <h3>Create a new user</h3>
-      {/* Input fields for collecting user information, with onChange handlers to update state. */}
-      <label>First Name:</label>
-      <input
+    // TODO: Implement CSS for className "error" > if x field is empty then className = error > red border etc
+    <Form className="signUp bg-dark p-4 rounded" onSubmit={handleSubmit}>
+    <Form.Group controlId="firstName" className="mb-2">
+      <Form.Label>First Name:</Form.Label>
+      <Form.Control
         type="text"
         onChange={(e) => setFirstName(e.target.value)}
         value={firstName}
-        class={emptyFields.includes("firstName") ? 'error' : ''}
+        className={emptyFields.includes("firstName") ? "error" : ""}
       />
-      <label>Last Name:</label>
-      <input
+    </Form.Group>
+
+    <Form.Group controlId="lastName" className="mb-2">
+      <Form.Label>Last Name:</Form.Label>
+      <Form.Control
         type="text"
         onChange={(e) => setLastName(e.target.value)}
         value={lastName}
-        class={emptyFields.includes("lastName") ? 'error' : ''}
-
+        className={emptyFields.includes("lastName") ? "error" : ""}
       />
-      <label>Email:</label>
-      <input
+    </Form.Group>
+
+    <Form.Group controlId="email" className="mb-2">
+      <Form.Label>Email:</Form.Label>
+      <Form.Control
         type="email"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
-        class={emptyFields.includes("email") ? 'error' : ''}
-
+        className={emptyFields.includes("email") ? "error" : ""}
       />
-      <label>Phone Number:</label>
-      <input
+    </Form.Group>
+
+    <Form.Group controlId="phoneNumber" className="mb-2">
+      <Form.Label>Phone Number:</Form.Label>
+      <Form.Control
         type="text"
         onChange={(e) => setPhoneNumber(e.target.value)}
         value={phoneNumber}
-        class={emptyFields.includes("phoneNumber") ? 'error' : ''}
-
+        className={emptyFields.includes("phoneNumber") ? "error" : ""}
       />
-      <label>Password:</label>
-      <input
+    </Form.Group>
+
+    <Form.Group controlId="password" className="mb-2">
+      <Form.Label>Password:</Form.Label>
+      <Form.Control
         type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
-        class={emptyFields.includes("password") ? 'error' : ''}
-
+        className={emptyFields.includes("password") ? "error" : ""}
       />
-      <button>Sign Up</button> {/* Button to trigger form submission. */}
-      {/* Display error or success messages based on the state. */}
-      {error && <div className="error">{error}</div>}
-      {success && <div className="success">{success}</div>}
-    </form>
+    </Form.Group>
+
+    <Button variant="secondary" type="submit" className="my-2 w-100">
+      Add User
+    </Button>
+
+    {error && <div className="error">{error}</div>}
+    {success && <div className="success">{success}</div>}
+  </Form>
   );
 };
 

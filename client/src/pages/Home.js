@@ -1,47 +1,38 @@
-// Import hooks from React for managing component lifecycle and state.
-import { useEffect, useState } from "react";
-import { AdminContextProvider } from "../context/AdminContext";
-// Import components for displaying coin details and administrative controls.
-import CoinDetails from "../components/CoinDetails";
-import AdminControls from "../components/AdminControls";
+import React from "react";
+import { Row, Col, Button, Image } from "react-bootstrap";
+import ShowcaseImage from "../media/Macbook_Air_Showcase.png";
 
-/**
- * Home component serving as the main view for the application.
- * It handles fetching and displaying lists of coins, and provides administrative controls.
- */
-const Home = () => {
-  // State to hold coins data; initially null to signify that data has not been loaded yet.
-  const [coins, setCoins] = useState(null);
-
-  useEffect(() => {
-    /**
-     * Fetches coin data from the server asynchronously.
-     * Updates the coins state with the fetched data if the API call succeeds.
-     */
-    const fetchCoins = async () => {
-      const response = await fetch("/api/coins");
-      const json = await response.json();
-      if (response.ok) {
-        setCoins(json); // Set the coins state to the fetched data.
-      }
-    };
-
-    fetchCoins(); // Executes the fetching of coin data on component mount.
-  }, []); // Empty dependency array ensures this effect runs only once after initial render.
-
+export default function Home() {
   return (
-    <div className="home text-white">
-      <div className="coins">
-        {/* Conditionally render CoinDetails components for each coin if coins data is available. */}
-        {coins &&
-          coins.map((coin) => <CoinDetails key={coin._id} coin={coin} />)}
-      </div>{" "}
-      <AdminContextProvider>
-        <AdminControls />{" "}
-        {/* Administrative control panel for managing application data. */}
-      </AdminContextProvider>{" "}
-    </div>
+    <Row className="text-light mt-4">
+      <Col
+        sm={{ span: 5, offset: 1 }}
+        className="min-vh-100 d-column align-content-center"
+      >
+        <h5>
+          Your Gateway to <span className="fw-medium text-success">Crypto</span>{" "}
+          Simplified 🚀
+        </h5>
+        <span className="display-1">
+          Hello, <span className="text-success">Traders</span>!
+        </span>
+        <h4>
+          Say hello to Crypti<span className="fw-medium text-success">Q</span> -
+          your user-friendly platform designed to make navigating the world of
+          crypto a breeze. Tailored for beginners, Crypti
+          <span className="fw-medium text-success">Q</span> offers a
+          straightforward approach to buying, selling, and trading digital
+          currencies. No complicated jargon or convoluted processes here - just
+          simplicity at its finest.
+        </h4>
+        <br />
+        <Button variant="secondary" className="text-dark">
+          <span className="h4">Sign Up</span>
+        </Button>
+      </Col>
+      <Col sm={5} className="min-vh-100 d-column align-content-center">
+        <Image src={ShowcaseImage} fluid />
+      </Col>
+    </Row>
   );
-};
-
-export default Home; // Make the Home component available for import elsewhere in the application.
+}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "./Support.scss";
 
 const faqs = [
@@ -48,61 +49,75 @@ const FAQ = () => {
   };
 
   return (
-    <div className="grid-container row">
-      <div className="faq-section col-sm-8">
-        {faqs.map((faq, index) => (
-          <details key={index} open={index === openIndex}>
-            <summary onClick={(event) => handleClick(index, event)}>
-              {faq.question}
-            </summary>
-            <p>{faq.answer}</p>
-          </details>
-        ))}
-      </div>
-    <div className="contact-form col-sm-4 d-flex content-justify-center">
-      <div className="first-row">
-        <h1 class="get-in-touch">Get In <span class="highlight">Touch.</span></h1>
-      </div>
-        <form onSubmit={handleSubmit}>
-            <div className="row">
-              <input
-                type="text"
-                name="name"
-                placeholder="Name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="text"
-                name="surname"
-                placeholder="Surname"
-                value={formData.surname}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="row">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            <textarea
-              name="message"
-              placeholder="Message"
-              value={formData.message}
-              onChange={handleChange}
-              required
-            ></textarea>
-            </div>
-          <button type="submit">Send</button>
-        </form>
-      </div>
-    </div>
+    <Row className="mt-4">
+      <Col sm={6}>
+        <div className="faq-section">
+          {faqs.map((faq, index) => (
+            <details key={index} open={index === openIndex}>
+              <summary onClick={(event) => handleClick(index, event)}>
+                {faq.question}
+              </summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </Col>
+      <Col sm={{ span: 4, offset: 1 }}>
+        <Container fluid>
+          <Row className="mt-5">
+            <Col sm={12}>
+              <h1 className="get-in-touch text-center">
+                Get In <span class="highlight">Touch.</span>
+              </h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={12}>
+              <Form className="d-column text-light justify-content-center align-items-center">
+                <Form.Group
+                  className="mb-4 d-flex"
+                  controlId="formBasicFullName"
+                >
+                  <Form.Control
+                    className="me-2"
+                    size="lg"
+                    type="text"
+                    placeholder="Name"
+                  />
+                  <Form.Control
+                    className="ms-2"
+                    size="lg"
+                    type="text"
+                    placeholder="Surname"
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-4" controlId="formBasicEmail">
+                  <Form.Control size="lg" type="email" placeholder="Email" />
+                  <Form.Text className="text-white">
+                    We'll never share your email with anyone else.
+                  </Form.Text>
+                </Form.Group>
+
+                <Form.Group className="mb-4" controlId="formBasixTextArea">
+                  <Form.Control
+                    size="lg"
+                    as="textarea"
+                    placeholder="Ask a question..."
+                    rows={3}
+                  />
+                </Form.Group>
+                <div className="h-100 d-flex justify-content-center">
+                  <Button className="px-5" size="lg" variant="primary" type="submit">
+                    Submit
+                  </Button>
+                </div>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+      </Col>
+    </Row>
   );
 };
 
