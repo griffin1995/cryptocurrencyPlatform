@@ -1,6 +1,7 @@
 // Import the React library to enable the use of React's features, such as components and hooks.
 import React from "react";
 import { useAdminContext } from "../hooks/useAdminContext";
+import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
 import { Card, Button } from "react-bootstrap";
 
 /**
@@ -11,14 +12,10 @@ import { Card, Button } from "react-bootstrap";
  *           phone number, and the last update timestamp.
  */
 const UserDetails = ({ user }) => {
-
-  // TODO: Decouple display and authentication responsibilities. Implement a dedicated authentication context or mechanism
-  // TODO: that consistently provides the current logged-in user's credentials, independent of the user objects used for display.
-  // TODO: Additionally, consider implementing role-based access control, checking if `user.role === 'admin'` to ensure that only
-  // TODO: authorized users can perform CRUD operations. This will ensure that authentication checks are always reliable and not
-  // TODO: dependent on which user details are being displayed, and that they appropriately restrict access based on user roles.
-
   const { dispatch } = useAdminContext();
+  // FIXED: Get authenticated user's token instead of displayed user's token
+  const { user: authUser } = useAuthenticationContext();
+
   // Convert the 'updatedAt' string from the user object to a Date object for date manipulation.
   const updatedAt = new Date(user.updatedAt);
 
@@ -35,20 +32,33 @@ const UserDetails = ({ user }) => {
   const dateString = updatedAt.toLocaleString(undefined, dateOptions);
 
   const handleDelete = async () => {
-    if (!user) {
+    if (!authUser) {
+      console.error("No authenticated user found");
       return;
     }
-    const response = await fetch("/api/admin/" + user._id, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${user.token}` },
-    });
-    //when we get the response the document that's just been deleted is returned
-    const json = await response.json();
 
-    if (response.ok) {
+    try {
+      const response = await fetch(`/api/admin/${user._id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authUser.token}`, // FIXED: Use authenticated user's token
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // When we get the response the document that's just been deleted is returned
+      const json = await response.json();
       dispatch({ type: "DELETE_USER", payload: json });
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      // You might want to show this error to the user via a toast or alert
     }
   };
+
   // Render the user's details in a structured layout.
   return (
     <div className="user-details bg-secondary py-2 px-2 h-100 rounded">
@@ -63,7 +73,7 @@ const UserDetails = ({ user }) => {
           <Card.Text>{user.firstName}</Card.Text>
           <hr className="bg-dark" />
           <Card.Title>Last Name</Card.Title>
-          <Card.Text>{user.lastName}%</Card.Text>
+          <Card.Text>{user.lastName}</Card.Text>
           <hr className="bg-dark" />
           <Card.Title>Email</Card.Title>
           <Card.Text>{user.email}</Card.Text>
@@ -75,8 +85,12 @@ const UserDetails = ({ user }) => {
           <Card.Text>{dateString}</Card.Text>
         </Card.Body>
       </Card>
-      <Button onClick={handleDelete} className="w-100 border-dark">
-      <i class="bi bi-trash"/> Delete
+      <Button
+        onClick={handleDelete}
+        className="w-100 border-dark"
+        variant="danger"
+      >
+        <i className="bi bi-trash" /> Delete
       </Button>
     </div>
   );

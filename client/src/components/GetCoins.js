@@ -1,9 +1,8 @@
-import React from "react";
 import useAllCoins from "../hooks/useAllCoins";
 
 export default function GetCoins() {
+  const allCoinsResult = useAllCoins();
 
-  const allCoins = useAllCoins();
-
-  return allCoins?.data;
+  // FIXED: Return the coins data from the API response structure
+  return allCoinsResult?.data?.data; // CoinCap API returns data.data
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import useCoinHistory from "../hooks/useCoinHistory";
 
 //Method that calls the useCoinHistory, and calculates start and end UNIX values
@@ -11,7 +10,18 @@ export default function GetCoinHistory(coin) {
   start.setDate(now.getDate() - 31);
   const startTimestamp = start.getTime();
 
-  const coinHistory = useCoinHistory(coin, startTimestamp, endTimestamp);
+  // FIXED: Always call the hook - let the hook handle null/undefined coin
+  const coinHistoryResult = useCoinHistory(coin, startTimestamp, endTimestamp);
 
-  return coinHistory?.data;
+  // Return appropriate response based on coin parameter and results
+  if (!coin) {
+    return { data: null, loading: false, error: "No coin specified" };
+  }
+
+  // Return the full result object
+  return {
+    data: coinHistoryResult?.data?.data, // CoinCap API returns data.data
+    loading: coinHistoryResult?.loading || false,
+    error: coinHistoryResult?.error || null,
+  };
 }
