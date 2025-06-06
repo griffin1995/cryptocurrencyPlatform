@@ -165,14 +165,18 @@ mongoose
     const PORT = process.env.PORT || 4000;
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
-      console.log(`API available at: http://localhost:${PORT}/api`);
-      console.log(`User routes: http://localhost:${PORT}/api/user`);
-      console.log(`Admin routes: http://localhost:${PORT}/api/admin`);
-      console.log(`Coin routes: http://localhost:${PORT}/api/coins`);
-      console.log(`Wallet routes: http://localhost:${PORT}/api/wallet`);
 
       if (process.env.NODE_ENV === "production") {
+        console.log("Production server ready");
+        console.log("API endpoints available at /api/*");
         console.log("Serving React app for all non-API routes");
+      } else {
+        console.log(`Development server running`);
+        console.log(`API available at: http://localhost:${PORT}/api`);
+        console.log(`User routes: http://localhost:${PORT}/api/user`);
+        console.log(`Admin routes: http://localhost:${PORT}/api/admin`);
+        console.log(`Coin routes: http://localhost:${PORT}/api/coins`);
+        console.log(`Wallet routes: http://localhost:${PORT}/api/wallet`);
       }
 
       console.log("Server ready to accept connections!");

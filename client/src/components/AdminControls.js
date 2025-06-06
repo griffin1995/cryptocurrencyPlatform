@@ -21,7 +21,7 @@ const AdminControls = () => {
      * It asynchronously retrieves user data from the `/api/adminRoutes` endpoint and updates the `users` state.
      */
     const fetchUsers = async () => {
-const response = await fetch("http://localhost:4000/api/admin", {        headers: { Authorization: `Bearer ${user.token}` },
+const response = await fetch("/api/admin", {        headers: { Authorization: `Bearer ${user.token}` },
       });
       const json = await response.json();
       if (response.ok) {
@@ -30,7 +30,7 @@ const response = await fetch("http://localhost:4000/api/admin", {        headers
       }
     };
     const fetchCoins = async () => {
-const response = await fetch("http://localhost:4000/api/coins", {        headers: { Authorization: `Bearer ${user.token}` },
+const response = await fetch("/api/coins", {        headers: { Authorization: `Bearer ${user.token}` },
       });
       const json = await response.json();
       if (response.ok) {

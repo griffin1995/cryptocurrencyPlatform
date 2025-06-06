@@ -52,7 +52,7 @@ export const useRegisterCoin = () => {
     setIsLoading(true);
     setError(null);
 
-const response = await fetch("http://localhost:4000/api/coins", {      method: "POST",
+const response = await fetch("/api/coins", {      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },

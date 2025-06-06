@@ -21,7 +21,7 @@ export const useLogin = () => {
       console.log("📡 Making fetch request to /api/user/login");
 
       // Sending POST request to login endpoint with email and password
-      const response = await fetch("http://localhost:4000/api/user/login", {
+      const response = await fetch("/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

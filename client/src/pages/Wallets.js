@@ -21,15 +21,12 @@ import GetColours from "../components/GetColours";
 // Wallet API functions
 const walletAPI = {
   async getUserWallet(userId, token) {
-    const response = await fetch(
-      `http://localhost:4000/api/wallet/user/${userId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`/api/wallet/user/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -40,7 +37,7 @@ const walletAPI = {
   },
 
   async buyAsset(userId, coinId, coinName, amount, pricePerUnit, token) {
-    const response = await fetch(`http://localhost:4000/api/wallet/buy`, {
+    const response = await fetch(`/api/wallet/buy`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -64,7 +61,7 @@ const walletAPI = {
   },
 
   async sellAsset(userId, coinId, amount, pricePerUnit, token) {
-    const response = await fetch(`http://localhost:4000/api/wallet/sell`, {
+    const response = await fetch(`/api/wallet/sell`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -87,7 +84,7 @@ const walletAPI = {
   },
 
   async depositMoney(userId, amount, token) {
-    const response = await fetch(`http://localhost:4000/api/wallet/deposit`, {
+    const response = await fetch(`/api/wallet/deposit`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -105,7 +102,7 @@ const walletAPI = {
   },
 
   async withdrawMoney(userId, amount, token) {
-    const response = await fetch(`http://localhost:4000/api/wallet/withdraw`, {
+    const response = await fetch(`/api/wallet/withdraw`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -526,13 +523,13 @@ export default function WalletPage() {
         setWalletLoading(true);
         setWalletError(null);
 
-        console.log("💼 Fetching user wallet...");
+        console.log("Fetching user wallet...");
         const walletData = await walletAPI.getUserWallet(user._id, user.token);
-        console.log("💼 Wallet fetched successfully:", walletData);
+        console.log("Wallet fetched successfully:", walletData);
 
         setWallet(walletData);
       } catch (error) {
-        console.error("❌ Error fetching wallet:", error);
+        console.error("Error fetching wallet:", error);
         setWalletError(error.message);
       } finally {
         setWalletLoading(false);
@@ -612,7 +609,7 @@ export default function WalletPage() {
   // Chart data handling using local coins only
   const hasAssets = wallet.assets && wallet.assets.length > 0;
 
-  console.log("📊 Chart data debug:", {
+  console.log("Chart data debug:", {
     hasAssets,
     assetsCount: wallet.assets?.length || 0,
     localCoins: localCoins?.length || 0,
