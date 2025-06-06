@@ -1,5 +1,13 @@
 import { React, useEffect, useState } from "react";
-import { Container, Row, Col, ListGroup, Card } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  ListGroup,
+  Card,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
 import GetCoins from "../components/GetCoins";
 import GetCoinChart from "../components/GetCoinChart";
 import "./Markets.scss";
@@ -9,35 +17,66 @@ import "./Markets.scss";
 export default function Markets() {
   const coins = GetCoins();
   const [selectedCoin, setSelectedCoin] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (selectedCoin === null && coins != null) {
-      setSelectedCoin(coins[0]);
+    if (coins === null) {
+      setLoading(true);
+    } else if (coins && coins.length > 0) {
+      setLoading(false);
+      if (selectedCoin === null) {
+        setSelectedCoin(coins[0]);
+      }
+    } else if (coins && coins.length === 0) {
+      setLoading(false);
+      setError("No cryptocurrency data available");
     }
   }, [coins, selectedCoin]);
+
+  if (loading) {
+    return (
+      <Row
+        className="justify-content-center align-items-center"
+        style={{ minHeight: "50vh" }}
+      >
+        <Col xs="auto">
+          <Spinner animation="border" variant="primary" />
+          <p className="text-light mt-2">Loading cryptocurrency data...</p>
+        </Col>
+      </Row>
+    );
+  }
+
+  if (error) {
+    return (
+      <Row className="justify-content-center">
+        <Col md={6}>
+          <Alert variant="danger" className="text-center">
+            <Alert.Heading>Error Loading Data</Alert.Heading>
+            <p>{error}</p>
+          </Alert>
+        </Col>
+      </Row>
+    );
+  }
 
   return (
     <>
       <Row className="py-4 list-graph-section">
         <Col xs={2} className="d-flex flex-column">
           <ListGroup className="text-center" defaultActiveKey="#Bitcoin">
-            {coins?.length === 0 ? (
-              <p>No coins data</p>
-            ) : (
-              <>
-                {coins?.map((coin) => (
-                  <ListGroup.Item
-                    action
-                    href={"#" + coin?.name}
-                    onClick={() => setSelectedCoin(coin)}
-                  >
-                    {coin != null
-                      ? coin?.name + " (" + coin?.symbol + ")"
-                      : "Fetching data"}
-                  </ListGroup.Item>
-                ))}
-              </>
-            )}
+            {coins?.map((coin) => (
+              <ListGroup.Item
+                key={coin.id} // FIXED: Added missing key prop
+                action
+                href={`#${coin.name}`}
+                onClick={() => setSelectedCoin(coin)}
+                active={selectedCoin?.id === coin.id}
+              >
+                {coin.name} ({coin.symbol})
+              </ListGroup.Item>
+            ))}
           </ListGroup>
         </Col>
         <Col xs={10} className="d-flex flex-column align-items-start limiter">
@@ -51,7 +90,9 @@ export default function Markets() {
             <Row>
               <Col sm={12} className="text-center">
                 <h3 className="text-success fw-bolder">Current rate (USD):</h3>
-                <h4 className="text-light">{selectedCoin?.priceUsd}</h4>
+                <h4 className="text-light">
+                  ${parseFloat(selectedCoin?.priceUsd).toLocaleString()}
+                </h4>
               </Col>
             </Row>
             <hr className="bg-dark" />
@@ -64,36 +105,42 @@ export default function Markets() {
         </Col>
       </Row>
       <Row>
-        {coins?.length === 0 ? (
-          <p className="error-message">No posts to display</p>
-        ) : (
-          <>
-            {coins?.map((coin) => (
-              <Col sm={3}>
-                <Card
-                  className="my-2 text-center"
-                  bg="primary"
-                  text="dark"
-                  border="primary"
+        {coins?.map((coin) => (
+          <Col sm={3} key={coin.id}>
+            {" "}
+            {/* FIXED: Added missing key prop */}
+            <Card
+              className="my-2 text-center"
+              bg="primary"
+              text="dark"
+              border="primary"
+            >
+              <Card.Header className="text-light">
+                <span className="h4">{coin.symbol}</span>
+              </Card.Header>
+              <Card.Body className="bg-light">
+                <Card.Title>Coin</Card.Title>
+                <Card.Text>{coin.name}</Card.Text>
+                <hr className="bg-dark" />
+                <Card.Title>Change (24Hr)</Card.Title>
+                <Card.Text
+                  className={
+                    parseFloat(coin.changePercent24Hr) >= 0
+                      ? "text-success"
+                      : "text-danger"
+                  }
                 >
-                  <Card.Header className="text-light">
-                    <span className="h4">{coin?.symbol}</span>
-                  </Card.Header>
-                  <Card.Body className="bg-light">
-                    <Card.Title>Coin</Card.Title>
-                    <Card.Text>{coin?.name}</Card.Text>
-                    <hr className="bg-dark" />
-                    <Card.Title>Change (24Hr)</Card.Title>
-                    <Card.Text>{coin?.changePercent24Hr}%</Card.Text>
-                    <hr className="bg-dark" />
-                    <Card.Title>Current Price (USD)</Card.Title>
-                    <Card.Text>${coin?.priceUsd}</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </>
-        )}
+                  {parseFloat(coin.changePercent24Hr).toFixed(2)}%
+                </Card.Text>
+                <hr className="bg-dark" />
+                <Card.Title>Current Price (USD)</Card.Title>
+                <Card.Text>
+                  ${parseFloat(coin.priceUsd).toLocaleString()}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
       </Row>
     </>
   );
