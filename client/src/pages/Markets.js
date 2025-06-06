@@ -68,7 +68,7 @@ export default function Markets() {
           <ListGroup className="text-center" defaultActiveKey="#Bitcoin">
             {coins?.map((coin) => (
               <ListGroup.Item
-                key={coin.id} // FIXED: Added missing key prop
+                key={coin.id} 
                 action
                 href={`#${coin.name}`}
                 onClick={() => setSelectedCoin(coin)}
