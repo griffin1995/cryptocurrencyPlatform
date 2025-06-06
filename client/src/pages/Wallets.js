@@ -1,260 +1,254 @@
-import { React, useState } from "react";
-import { Container, Row, Col, Button, Image } from "react-bootstrap";
+import { React, useState, useEffect } from "react";
+import { Container, Row, Col, Button, Spinner, Alert } from "react-bootstrap";
+import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
 import Wallet from "../components/Wallet";
 import WalletPage from "./WalletPage";
 import "./Wallet.scss";
 
+// Custom hook for wallet management with real API integration
+const useWallets = () => {
+  const [wallets, setWallets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { user } = useAuthenticationContext();
+
+  const fetchWallets = async () => {
+    if (!user) {
+      setWallets([]);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch(`/api/wallet/user/${user._id}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 404) {
+        // No wallet exists, create one
+        const createResponse = await fetch("/api/wallet", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId: user._id }),
+        });
+
+        if (!createResponse.ok) {
+          throw new Error("Failed to create wallet");
+        }
+
+        const newWallet = await createResponse.json();
+        const transformedWallet = {
+          name: `${user.email}'s Wallet`,
+          assets: newWallet.assets || [],
+          depositMoney: newWallet.depositMoney || 0,
+          _id: newWallet._id,
+          userId: newWallet.userId,
+        };
+        setWallets([transformedWallet]);
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch wallet: ${response.status}`);
+      }
+
+      const walletData = await response.json();
+
+      // Transform API data to match component expectations
+      const transformedWallet = {
+        name: `${user.email}'s Wallet`,
+        assets: walletData.assets || [],
+        depositMoney: walletData.depositMoney || 0,
+        _id: walletData._id,
+        userId: walletData.userId,
+      };
+
+      setWallets([transformedWallet]);
+    } catch (err) {
+      console.error("Error fetching wallets:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchWallets();
+  }, [user]);
+
+  return { wallets, loading, error, refetch: fetchWallets };
+};
+
+// Wallet API operations
+export const walletAPI = {
+  // Function to buy assets
+  buyAsset: async (userId, coinId, coinName, amount, pricePerUnit, token) => {
+    try {
+      const response = await fetch("/api/wallet/buy", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          coinId,
+          coinName,
+          amount: parseFloat(amount),
+          pricePerUnit: parseFloat(pricePerUnit),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to buy asset");
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw new Error(`Buy operation failed: ${error.message}`);
+    }
+  },
+
+  // Function to sell assets
+  sellAsset: async (userId, coinId, amount, pricePerUnit, token) => {
+    try {
+      const response = await fetch("/api/wallet/sell", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          coinId,
+          amount: parseFloat(amount),
+          pricePerUnit: parseFloat(pricePerUnit),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to sell asset");
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw new Error(`Sell operation failed: ${error.message}`);
+    }
+  },
+
+  // Function to deposit money
+  depositMoney: async (userId, amount, token) => {
+    try {
+      const response = await fetch("/api/wallet/deposit", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          amount: parseFloat(amount),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to deposit money");
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw new Error(`Deposit failed: ${error.message}`);
+    }
+  },
+
+  // Function to withdraw money
+  withdrawMoney: async (userId, amount, token) => {
+    try {
+      const response = await fetch("/api/wallet/withdraw", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          amount: parseFloat(amount),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to withdraw money");
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw new Error(`Withdrawal failed: ${error.message}`);
+    }
+  },
+};
+
 export default function Wallets() {
+  const [selectedWallet, setSelectedWallet] = useState(null);
+  const { wallets, loading, error, refetch } = useWallets();
 
+  if (loading) {
+    return (
+      <Row className="mt-2 min-vh-100 justify-content-center align-items-center">
+        <Col xs="auto" className="text-center">
+          <Spinner animation="border" variant="primary" size="lg" />
+          <p className="text-light mt-3">Loading your wallets...</p>
+        </Col>
+      </Row>
+    );
+  }
 
-  
-  var [selectedWallet, setSelectedWallet] = useState(null);
+  if (error) {
+    return (
+      <Row className="mt-2 min-vh-100 justify-content-center align-items-center">
+        <Col md={6}>
+          <Alert variant="danger" className="text-center">
+            <Alert.Heading>Error Loading Wallets</Alert.Heading>
+            <p>{error}</p>
+            <Button variant="outline-danger" onClick={refetch}>
+              Try Again
+            </Button>
+          </Alert>
+        </Col>
+      </Row>
+    );
+  }
 
-  const asset1 = {
-    name: "Bitcoin",
-    id: "bitcoin",
-    amount: "202",
-  };
+  if (wallets.length === 0) {
+    return (
+      <Row className="mt-2 min-vh-100 justify-content-center align-items-center">
+        <Col md={6} className="text-center">
+          <div className="text-light">
+            <h3>No Wallets Found</h3>
+            <p>
+              You don't have any wallets yet. One will be created automatically!
+            </p>
+            <Button variant="primary" size="lg" onClick={refetch}>
+              Create Wallet
+            </Button>
+          </div>
+        </Col>
+      </Row>
+    );
+  }
 
-  const asset2 = {
-    name: "Ethereum",
-    id: "ethereum",
-    amount: "1234",
-  };
-
-  const asset3 = {
-    name: "Dogecoin",
-    id: "dogecoin",
-    amount: "123",
-  };
-  const asset4 = {
-    name: "Chainlink",
-    id: "chainlink",
-    amount: "5678",
-  };
-
-  const asset5 = {
-    name: "Polkadot",
-    id: "polkadot",
-    amount: "890",
-  };
-
-  const asset6 = {
-    name: "Uniswap",
-    id: "uniswap",
-    amount: "4567",
-  };
-
-  const asset7 = {
-    name: "Solana",
-    id: "solana",
-    amount: "12345",
-  };
-
-  const asset8 = {
-    name: "Aave",
-    id: "aave",
-    amount: "678",
-  };
-
-  const asset9 = {
-    name: "Cosmos",
-    id: "cosmos",
-    amount: "9012",
-  };
-
-  const asset10 = {
-    name: "Compound",
-    id: "compound",
-    amount: "3456",
-  };
-
-  const asset11 = {
-    name: "Theta",
-    id: "theta",
-    amount: "7890",
-  };
-
-  const asset12 = {
-    name: "Filecoin",
-    id: "filecoin",
-    amount: "2345",
-  };
-
-  const asset13 = {
-    name: "VeChain",
-    id: "vechain",
-    amount: "6789",
-  };
-
-  const asset14 = {
-    name: "Neo",
-    id: "neo",
-    amount: "1234",
-  };
-
-  const asset15 = {
-    name: "Tezos",
-    id: "tezos",
-    amount: "567",
-  };
-
-  const asset16 = {
-    name: "Zilliqa",
-    id: "zilliqa",
-    amount: "8901",
-  };
-
-  const asset17 = {
-    name: "Aeternity",
-    id: "aeternity",
-    amount: "2345",
-  };
-
-  const asset18 = {
-    name: "Maker",
-    id: "maker",
-    amount: "6789",
-  };
-
-  const asset19 = {
-    name: "DigiByte",
-    id: "digibyte",
-    amount: "1234",
-  };
-
-  const asset20 = {
-    name: "ICON",
-    id: "icon",
-    amount: "567",
-  };
-
-  const asset21 = {
-    name: "Synthetix",
-    id: "synthetix",
-    amount: "890",
-  };
-
-  const asset22 = {
-    name: "Yearn.finance",
-    id: "yearn-finance",
-    amount: "1234",
-  };
-
-  const asset23 = {
-    name: "SushiSwap",
-    id: "sushiswap",
-    amount: "567",
-  };
-
-  const asset24 = {
-    name: "Curve DAO Token",
-    id: "curve-dao-token",
-    amount: "8901",
-  };
-
-  const asset25 = {
-    name: "Nexo",
-    id: "nexo",
-    amount: "2345",
-  };
-
-  const asset26 = {
-    name: "Hedera Hashgraph",
-    id: "hedera-hashgraph",
-    amount: "6789",
-  };
-
-  const asset27 = {
-    name: "Enjin Coin",
-    id: "enjin-coin",
-    amount: "1234",
-  };
-
-  const asset28 = {
-    name: "Decentraland",
-    id: "decentraland",
-    amount: "567",
-  };
-
-  const asset29 = {
-    name: "0x",
-    id: "0x",
-    amount: "8901",
-  };
-
-  const asset30 = {
-    name: "Ren",
-    id: "ren",
-    amount: "2345",
-  };
-
-  const assets1 = [
-    asset1,
-    asset2,
-    asset3,
-    asset4,
-    asset5,
-    asset6,
-    asset7,
-    asset8,
-    asset9,
-    asset10,
-    asset11,
-    asset12,
-    asset13,
-    asset14,
-    asset15,
-    asset16,
-    asset17,
-    asset18,
-    asset19,
-    asset20,
-    asset21,
-    asset22,
-    asset23,
-    asset24,
-    asset25,
-    asset26,
-    asset27,
-    asset28,
-    asset29,
-    asset30,
-  ];
-
-  const assets2 = [
-    asset1,
-    asset2,
-    asset3,
-    asset4,
-    asset5,
-    asset9,
-    asset10,
-    asset11,
-    asset12,
-    asset13,
-    asset14,
-    asset19,
-    asset20,
-    asset24,
-    asset25,
-    asset29,
-    asset30,
-  ];
-
-  const wallet1 = {
-    name: "My First Wallet",
-    assets: assets1,
-    depositMoney: 2000,
-  };
-
-  const wallet2 = {
-    name: "My Second Wallet",
-    assets: assets2,
-    depositMoney: 1000,
-  };
-
-  const wallets = [wallet1, wallet2];
   return (
     <Row className="mt-2 min-vh-100">
       <Col
@@ -274,15 +268,21 @@ export default function Wallets() {
             }
           >
             {selectedWallet === null ? (
-              wallets.map((wallet) => {
-                return (
-                  <Col sm={3} onClick={() => setSelectedWallet(wallet)}>
-                    <Wallet className="wallet" walletName={wallet.name} />
-                  </Col>
-                );
-              })
+              wallets.map((wallet) => (
+                <Col
+                  sm={3}
+                  key={wallet._id || wallet.name}
+                  onClick={() => setSelectedWallet(wallet)}
+                >
+                  <Wallet className="wallet" walletName={wallet.name} />
+                </Col>
+              ))
             ) : (
-              <WalletPage wallet={selectedWallet} />
+              <WalletPage
+                wallet={selectedWallet}
+                onWalletUpdate={refetch}
+                onGoBack={() => setSelectedWallet(null)}
+              />
             )}
           </Row>
         </Container>
