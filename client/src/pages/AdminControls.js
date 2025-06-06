@@ -1,8 +1,6 @@
 // Import hooks from React for managing component lifecycle and state.
-import { useEffect, useState } from "react";
 import { AdminContextProvider } from "../context/AdminContext";
 // Import components for displaying coin details and administrative controls.
-import CoinDetails from "../components/CoinDetails";
 import AdminControls from "../components/AdminControls";
 
 /**

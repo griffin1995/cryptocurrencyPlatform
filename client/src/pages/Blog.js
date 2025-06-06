@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Blog.scss";
 import { Col, Row, Card, Button } from "react-bootstrap";
 import img1 from "../media/img1.jpg";
