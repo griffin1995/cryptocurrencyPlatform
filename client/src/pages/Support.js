@@ -46,6 +46,15 @@ const FAQ = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Handle form submission here
+    console.log("Form submitted:", formData);
+    // Reset form after submission
+    setFormData({
+      name: "",
+      surname: "",
+      email: "",
+      message: "",
+    });
+    alert("Thank you for your message! We'll get back to you soon.");
   };
 
   return (
@@ -67,13 +76,16 @@ const FAQ = () => {
           <Row className="mt-5">
             <Col sm={12}>
               <h1 className="get-in-touch text-center">
-                Get In <span class="highlight">Touch.</span>
+                Get In <span className="highlight">Touch.</span>
               </h1>
             </Col>
           </Row>
           <Row>
             <Col sm={12}>
-              <Form className="d-column text-light justify-content-center align-items-center">
+              <Form
+                className="d-column text-light justify-content-center align-items-center"
+                onSubmit={handleSubmit}
+              >
                 <Form.Group
                   className="mb-4 d-flex"
                   controlId="formBasicFullName"
@@ -82,18 +94,34 @@ const FAQ = () => {
                     className="me-2"
                     size="lg"
                     type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     placeholder="Name"
+                    required
                   />
                   <Form.Control
                     className="ms-2"
                     size="lg"
                     type="text"
+                    name="surname"
+                    value={formData.surname}
+                    onChange={handleChange}
                     placeholder="Surname"
+                    required
                   />
                 </Form.Group>
 
                 <Form.Group className="mb-4" controlId="formBasicEmail">
-                  <Form.Control size="lg" type="email" placeholder="Email" />
+                  <Form.Control
+                    size="lg"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Email"
+                    required
+                  />
                   <Form.Text className="text-white">
                     We'll never share your email with anyone else.
                   </Form.Text>
@@ -103,12 +131,21 @@ const FAQ = () => {
                   <Form.Control
                     size="lg"
                     as="textarea"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     placeholder="Ask a question..."
                     rows={3}
+                    required
                   />
                 </Form.Group>
                 <div className="h-100 d-flex justify-content-center">
-                  <Button className="px-5" size="lg" variant="primary" type="submit">
+                  <Button
+                    className="px-5"
+                    size="lg"
+                    variant="primary"
+                    type="submit"
+                  >
                     Submit
                   </Button>
                 </div>
