@@ -9,31 +9,76 @@ export const useLogin = () => {
 
   // Function to perform user login
   const login = async (email, password) => {
+    console.log("🔑 LOGIN ATTEMPT STARTED");
+    console.log("📧 Email:", email);
+    console.log("🔒 Password length:", password?.length);
+    console.log("🌐 Current URL:", window.location.href);
+
     setIsLoading(true); // Indicate that loading has started
     setError(null); // Reset any previous errors
 
-    // Sending POST request to login endpoint with email and password
-    const response = await fetch("/api/user/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const json = await response.json(); // Parsing JSON response from the server
+    try {
+      console.log("📡 Making fetch request to /api/user/login");
 
-    if (!response.ok) {
-      setIsLoading(false); // Loading is complete, set loading state to false
-      setError(json.error); // Set error state to the error returned from the server
-    }
+      // Sending POST request to login endpoint with email and password
+      const response = await fetch("http://localhost:4000/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (response.ok) {
-      localStorage.setItem("user", JSON.stringify(json)); // Persist logged-in user data to local storage
+      console.log("📋 Response status:", response.status);
+      console.log("📋 Response ok:", response.ok);
+      console.log(
+        "📋 Response headers:",
+        Object.fromEntries(response.headers.entries())
+      );
 
-      dispatch({ type: "LOGIN", payload: json }); // Update authentication context with logged-in user data
+      // Parse JSON response from the server
+      const json = await response.json();
+      console.log("📦 Response JSON:", json);
 
-      setIsLoading(false); // Loading is complete, set loading state to false
+      if (!response.ok) {
+        console.error("❌ Login failed with status:", response.status);
+        console.error("❌ Error message:", json.error);
+        setIsLoading(false); // Loading is complete, set loading state to false
+        setError(
+          json.error || `HTTP ${response.status}: ${response.statusText}`
+        ); // Set error state
+        return;
+      }
+
+      if (response.ok) {
+        console.log("✅ Login successful!");
+        console.log("👤 User data received:", json);
+        console.log("🎫 Token received:", json.token ? "YES" : "NO");
+        console.log("📧 User ID:", json._id);
+        console.log("📧 User email:", json.email);
+
+        // Store user data in localStorage
+        localStorage.setItem("user", JSON.stringify(json));
+        console.log("💾 User data stored in localStorage");
+
+        // Update authentication context with logged-in user data
+        dispatch({ type: "LOGIN", payload: json });
+        console.log("🔄 Context updated with LOGIN action");
+
+        setIsLoading(false); // Loading is complete
+        console.log("🎉 Login process completed successfully!");
+      }
+    } catch (fetchError) {
+      console.error("🚨 FETCH ERROR:", fetchError);
+      console.error("🚨 Error name:", fetchError.name);
+      console.error("🚨 Error message:", fetchError.message);
+      console.error("🚨 Error stack:", fetchError.stack);
+
+      setIsLoading(false);
+      setError(`Network error: ${fetchError.message}`);
     }
   };
 
-  // Return the login function so it can be used by components
+  // Return the login function and states so they can be used by components
   return { login, isLoading, error };
 };
