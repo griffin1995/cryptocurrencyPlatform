@@ -4,14 +4,13 @@ const User = require("../models/userModel");
 const mongoose = require("mongoose");
 
 /**
- * Creates a new user document in the database.
+ * Creates a new user document in the database using the User.signup method for proper password hashing.
  *
  * @param {Object} request - The HTTP request object, containing user data in the body.
  * @param {Object} response - The HTTP response object used to return data or errors.
  */
 const createUser = async (request, response) => {
-  const { firstName, lastName, email, phoneNumber, password } =
-    request.body;
+  const { firstName, lastName, email, phoneNumber, password } = request.body;
   let emptyFields = [];
 
   if (!firstName) {
@@ -30,21 +29,22 @@ const createUser = async (request, response) => {
     emptyFields.push("password");
   }
 
-
   if (emptyFields.length > 0) {
     return response.status(400).json({
       error:
         "(ADMINCONTROLLER) Please fill in all of the fields: " + emptyFields,
     });
   }
+
   try {
-    const user = await User.create({
+    // FIXED: Use User.signup method instead of User.create to ensure password hashing
+    const user = await User.signup(
       firstName,
       lastName,
       email,
       phoneNumber,
-      password,
-    });
+      password
+    );
     response.status(200).json(user);
   } catch (error) {
     response.status(400).json({ error: error.message });
@@ -58,8 +58,12 @@ const createUser = async (request, response) => {
  * @param {Object} response - The HTTP response object for returning data or errors.
  */
 const getAllUsers = async (request, response) => {
-  const users = await User.find({}).sort({ createdAt: -1 });
-  response.status(200).json(users);
+  try {
+    const users = await User.find({}).sort({ createdAt: -1 });
+    response.status(200).json(users);
+  } catch (error) {
+    response.status(500).json({ error: error.message });
+  }
 };
 
 /**
@@ -75,31 +79,39 @@ const getUser = async (request, response) => {
     return response.status(404).json({ error: "Invalid id check for user" });
   }
 
-  const user = await User.findById(id);
+  try {
+    const user = await User.findById(id);
 
-  if (!user) {
-    return response.status(404).json({ error: "Can't find the user" });
+    if (!user) {
+      return response.status(404).json({ error: "Can't find the user" });
+    }
+
+    response.status(200).json(user);
+  } catch (error) {
+    response.status(500).json({ error: error.message });
   }
-
-  response.status(200).json(user);
 };
 
 /**
- * Retrieves a single user document by its unique ID.
+ * Retrieves a single user document by its email.
  *
- * @param {Object} request - The HTTP request object, including the user ID in the params.
+ * @param {Object} request - The HTTP request object, including the email in the params.
  * @param {Object} response - The HTTP response object for returning the user document or errors.
  */
 const getUserEmail = async (request, response) => {
   const { email } = request.params;
 
-  const user = await User.findOne({ email });
+  try {
+    const user = await User.findOne({ email });
 
-  if (!user) {
-    return response.status(404).json({ error: "Can't find the user" });
+    if (!user) {
+      return response.status(404).json({ error: "Can't find the user" });
+    }
+
+    response.status(200).json(user);
+  } catch (error) {
+    response.status(500).json({ error: error.message });
   }
-
-  response.status(200).json(user);
 };
 
 /**
@@ -115,13 +127,17 @@ const deleteUser = async (request, response) => {
     return response.status(404).json({ error: "Invalid ID for user (Delete)" });
   }
 
-  const user = await User.findOneAndDelete({ _id: id });
+  try {
+    const user = await User.findOneAndDelete({ _id: id });
 
-  if (!user) {
-    return response.status(404).json({ error: "Couldn't find the user" });
+    if (!user) {
+      return response.status(404).json({ error: "Couldn't find the user" });
+    }
+
+    response.status(200).json(user);
+  } catch (error) {
+    response.status(500).json({ error: error.message });
   }
-
-  response.status(200).json(user);
 };
 
 /**
@@ -137,17 +153,21 @@ const updateUser = async (request, response) => {
     return response.status(404).json({ error: "Invalid ID for user (Update)" });
   }
 
-  const user = await User.findOneAndUpdate(
-    { _id: id },
-    { ...request.body },
-    { new: true } // Option to return the document after update.
-  );
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { ...request.body },
+      { new: true } // Option to return the document after update.
+    );
 
-  if (!user) {
-    return response.status(404).json({ error: "Couldn't find the user" });
+    if (!user) {
+      return response.status(404).json({ error: "Couldn't find the user" });
+    }
+
+    response.status(200).json(user);
+  } catch (error) {
+    response.status(500).json({ error: error.message });
   }
-
-  response.status(200).json(user);
 };
 
 // Export the controller functions to be used in Express route definitions.

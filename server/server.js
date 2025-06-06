@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 const adminRoutes = require("./routes/admin");
 const userRoutes = require("./routes/user");
 const coinRoutes = require("./routes/coin");
-const walletRoutes = require("./routes/wallet")
+const walletRoutes = require("./routes/wallet");
 
 // Initialize the Express app to configure middleware and routes.
 const app = express();
@@ -27,7 +27,7 @@ app.use((request, response, next) => {
 app.use("/api/admin", adminRoutes); // For administrative actions.
 app.use("/api/user", userRoutes);
 app.use("/api/coins", coinRoutes);
-app.use("api/wallet", walletRoutes);
+app.use("/api/wallet", walletRoutes); // FIXED: Added missing forward slash
 
 // Connect to the MongoDB database using a URI stored in environment variables for security.
 mongoose
