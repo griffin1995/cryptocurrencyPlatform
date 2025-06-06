@@ -25,7 +25,10 @@ export const adminReducer = (state, action) => {
 
     case "DELETE_USER":
       // Filters out the user to be deleted from the users array
-      return { ...state, users: state.users.filter((user) => user._id !== action.payload._id) };
+      return {
+        ...state,
+        users: state.users.filter((user) => user._id !== action.payload._id),
+      };
 
     case "SET_COINS":
       // Sets the coins array to the payload provided with the action, analogous to setting users
@@ -34,6 +37,13 @@ export const adminReducer = (state, action) => {
     case "CREATE_COIN":
       // Adds a new coin to the beginning of the coins array
       return { ...state, coins: [action.payload, ...state.coins] };
+
+    case "DELETE_COIN":
+      // FIXED: Added missing DELETE_COIN case
+      return {
+        ...state,
+        coins: state.coins.filter((coin) => coin._id !== action.payload._id),
+      };
 
     default:
       // Returns the current state unchanged if the action type is unrecognized
