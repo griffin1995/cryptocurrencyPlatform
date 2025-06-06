@@ -69,7 +69,7 @@ userSchema.statics.signup = async function (
     password: hash,
   });
   await Wallet.create({
-    id: user._id,
+    userId: user._id,
     assets: [],
     depositMoney: 0,
   });
