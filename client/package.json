@@ -1,5 +1,4 @@
 {
-  "proxy": "http://localhost:4000",
   "name": "client",
   "version": "0.1.0",
   "private": true,
@@ -10,6 +9,7 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "chart.js": "^4.4.2",
+    "http-proxy-middleware": "^3.0.5",
     "money": "^0.2.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.1",
