@@ -2,13 +2,17 @@
 const express = require("express");
 
 // Import functions from the walletController module that handle wallet actions.
-// These actions include creating, listing wallets, fetching a wallet by user ID, updating, and deleting wallet information.
 const {
-  createWallet, // Function to create a new wallet
-  getAllWallets, // Function to retrieve all wallets
-  getWalletByUserId, // Function to retrieve a wallet by the user's ID
-  updateWallet, // Function to update a specific wallet by ID
-  deleteWallet, // Function to delete a specific wallet by ID
+  createWallet,
+  getAllWallets,
+  getWalletByUserId,
+  updateWallet,
+  deleteWallet,
+  depositMoney,
+  withdrawMoney,
+  buyAsset,
+  sellAsset,
+  getPortfolioValue,
 } = require("../controllers/walletController");
 const requireAuth = require("../middleware/requireAuth");
 
@@ -18,26 +22,38 @@ const router = express.Router();
 // Apply the authentication middleware to all routes in this router to ensure only authorized access.
 router.use(requireAuth);
 
+// BASIC WALLET OPERATIONS
 // Define a GET route for fetching a list of all wallets.
-// When accessed, this route invokes the getAllWallets function from the controller.
 router.get("/", getAllWallets);
 
 // Define a GET route for fetching a single wallet by the associated user ID.
-router.get("/:userId", getWalletByUserId);
+router.get("/user/:userId", getWalletByUserId);
+
+// Define a GET route for getting portfolio value and summary
+router.get("/portfolio/:userId", getPortfolioValue);
 
 // Define a POST route for creating a new wallet.
-// This endpoint expects wallet data in the request body, which the createWallet function from the controller processes.
 router.post("/", createWallet);
 
 // Define a DELETE route for removing a wallet by its ID.
-// This route utilizes the ':id' parameter to identify the wallet to be deleted.
 router.delete("/:id", deleteWallet);
 
 // Define a PATCH route for updating partial information of a wallet's record.
-// The route identifies the wallet by its ID and applies updates to specific fields as per the request body.
 router.patch("/:id", updateWallet);
 
+// MONEY MANAGEMENT OPERATIONS
+// Define a POST route for depositing money into a wallet
+router.post("/deposit", depositMoney);
+
+// Define a POST route for withdrawing money from a wallet
+router.post("/withdraw", withdrawMoney);
+
+// TRADING OPERATIONS
+// Define a POST route for buying cryptocurrency assets
+router.post("/buy", buyAsset);
+
+// Define a POST route for selling cryptocurrency assets
+router.post("/sell", sellAsset);
+
 // Export the router object.
-// This makes the defined routes available for integration into the application's main server configuration,
-// thereby becoming part of the application's API.
 module.exports = router;
