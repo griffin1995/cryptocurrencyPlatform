@@ -45,7 +45,10 @@ const createUser = async (request, response) => {
       phoneNumber,
       password
     );
-    response.status(200).json(user);
+    // Remove password from response for security
+    const userResponse = user.toObject();
+    delete userResponse.password;
+    response.status(200).json(userResponse);
   } catch (error) {
     response.status(400).json({ error: error.message });
   }
@@ -59,7 +62,7 @@ const createUser = async (request, response) => {
  */
 const getAllUsers = async (request, response) => {
   try {
-    const users = await User.find({}).sort({ createdAt: -1 });
+    const users = await User.find({}).sort({ createdAt: -1 }).select('-password');
     response.status(200).json(users);
   } catch (error) {
     response.status(500).json({ error: error.message });
@@ -80,7 +83,7 @@ const getUser = async (request, response) => {
   }
 
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).select('-password');
 
     if (!user) {
       return response.status(404).json({ error: "Can't find the user" });
@@ -102,7 +105,7 @@ const getUserEmail = async (request, response) => {
   const { email } = request.params;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select('-password');
 
     if (!user) {
       return response.status(404).json({ error: "Can't find the user" });
@@ -153,12 +156,26 @@ const updateUser = async (request, response) => {
     return response.status(404).json({ error: "Invalid ID for user (Update)" });
   }
 
+  // Whitelist allowed fields to prevent unauthorized updates
+  const allowedFields = ['firstName', 'lastName', 'email', 'phoneNumber'];
+  const updateData = {};
+  
+  for (const field in request.body) {
+    if (allowedFields.includes(field)) {
+      updateData[field] = request.body[field];
+    }
+  }
+
+  if (Object.keys(updateData).length === 0) {
+    return response.status(400).json({ error: "No valid fields provided for update" });
+  }
+
   try {
     const user = await User.findOneAndUpdate(
       { _id: id },
-      { ...request.body },
+      updateData,
       { new: true } // Option to return the document after update.
-    );
+    ).select('-password');
 
     if (!user) {
       return response.status(404).json({ error: "Couldn't find the user" });

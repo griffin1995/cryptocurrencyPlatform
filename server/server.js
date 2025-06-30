@@ -5,6 +5,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path"); // Add this import
+const mongoSanitize = require("express-mongo-sanitize");
 
 // Import route handlers to manage requests for different entities within the application.
 const adminRoutes = require("./routes/admin");
@@ -32,11 +33,11 @@ app.use((req, res, next) => {
   ];
 
   const origin = req.headers.origin;
-  if (
-    allowedOrigins.includes(origin) ||
-    process.env.NODE_ENV === "production"
-  ) {
-    res.header("Access-Control-Allow-Origin", origin || "*");
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  } else if (process.env.NODE_ENV === "production") {
+    // In production, only allow the specific domain
+    res.header("Access-Control-Allow-Origin", "https://cryptocurrency.jackgriffin.dev");
   }
 
   res.header(
@@ -60,6 +61,9 @@ app.use((req, res, next) => {
 
 // Middleware to parse JSON bodies of incoming requests, enabling easy access to request data.
 app.use(express.json());
+
+// Sanitize user input to prevent NoSQL injection attacks
+app.use(mongoSanitize());
 
 // Enhanced middleware for logging request details
 app.use((request, response, next) => {
